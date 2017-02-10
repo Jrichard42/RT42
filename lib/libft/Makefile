@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/13 16:20:38 by jrichard          #+#    #+#              #
-#    Updated: 2017/01/27 02:39:03 by jrichard         ###   ########.fr        #
+#    Updated: 2017/02/10 19:39:07 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRC = ft_atoi.c ft_lstadd_end.c	ft_memchr.c	ft_putnbr.c	ft_strctrim.c ft_strmapi
 	  ft_isprint.c ft_lstsearch.c ft_putchar.c ft_strchr.c ft_strjoin.c ft_strnstr.c ft_isspace.c ft_lstsize.c \
 	  ft_putchar_fd.c ft_strclr.c ft_strlcat.c ft_strrchr.c ft_itoa.c ft_memalloc.c ft_putendl.c ft_strcmp.c \
 	  ft_strlen.c ft_strsplit.c ft_lstadd.c ft_memccpy.c ft_putendl_fd.c ft_strcpy.c ft_strmap.c ft_strstr.c \
-	  get_next_line.c get_next_line2.c ft_lstcheck.c ft_isblank.c ft_kvlexer.c ft_atof.c
+	  get_next_line.c get_next_line2.c ft_lstcheck.c ft_isblank.c ft_kvlexer.c ft_kvlexer2.c ft_atof.c \
+	  ft_error.c
 
 OBJ = $(SRC:.c=.o)
 

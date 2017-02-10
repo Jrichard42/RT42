@@ -1,52 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_kvlexer.c                                       :+:      :+:    :+:   */
+/*   ft_kvlexer2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/17 18:12:12 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 14:22:19 by hpachy           ###   ########.fr       */
+/*   Created: 2017/02/10 19:34:01 by jrichard          #+#    #+#             */
+/*   Updated: 2017/02/10 19:43:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <unistd.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 #include "libft.h"
 #include "get_next_line.h"
 #include "ft_kvlexer.h"
-
-static void		*error(char *to_print)
-{
-	ft_putendl(to_print);
-	return (0);
-}
-
-void		free_node(void *data, size_t size)
-{
-	t_kvlexer	*tmp;
-
-	(void)size;
-	if (data)
-	{
-		tmp = (t_kvlexer*)data;
-		ft_strdel(&(tmp->key));
-		ft_strdel(&(tmp->value));
-		tmp->father = NULL;
-		ft_lstdel(&(tmp->children), &free_node);
-		free(data);
-	}
-}
-
-void		*free_kvlexer(t_kvlexer *kvlexer)
-{
-	if (kvlexer)
-		free_node(kvlexer, sizeof(t_kvlexer));
-	return (NULL);
-}
 
 static int		check_indent(char *line, int current_nb)
 {
@@ -76,7 +45,8 @@ static int		check_indent(char *line, int current_nb)
 	return (-1);
 }
 
-static int		fill_node(char *line, int nb, t_kvlexer *node, t_kvlexer *father)
+static int		fill_node(char *line, int nb, t_kvlexer *node,
+		t_kvlexer *father)
 {
 	char		*trimmed;
 	char		*value;
@@ -97,7 +67,7 @@ static int		fill_node(char *line, int nb, t_kvlexer *node, t_kvlexer *father)
 		size = ft_strlen(trimmed) - ft_strlen(value);
 	}
 	node->key = ft_strnew(size);
-	ft_strncpy(node->key, trimmed, size);	
+	ft_strncpy(node->key, trimmed, size);
 	node->father = father;
 	node->children = NULL;
 	ft_strdel(&trimmed);
@@ -119,11 +89,11 @@ static int		create_node(char *line, t_kvlexer **current, t_kvlexer *node)
 			*current = (*current)->father;
 	}
 	if (!(fill_node(line, nb, node, *current)))
-		return (-1);	
+		return (-1);
 	return (1);
 }
 
-static int	create_root(t_kvlexer **root, char *line, t_kvlexer **current)
+static int		create_root(t_kvlexer **root, char *line, t_kvlexer **current)
 {
 	if (!(*root = ft_memalloc(sizeof(**root))))
 		return (-1);
@@ -137,30 +107,28 @@ static int	create_root(t_kvlexer **root, char *line, t_kvlexer **current)
 
 t_kvlexer		*ft_kvlexer(char *name)
 {
-	int		fd;
-	char	*line;
+	int			fd;
+	char		*line;
 	t_kvlexer	node;
 	t_kvlexer	*current;
 	t_kvlexer	*root;
 
 	if ((fd = open(name, O_RDONLY)) == -1)
-		return (error("Unable to open the file"));
+		return (ft_error("Unable to open the file"));
 	root = NULL;
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (!root)
-		{
-			if (create_root(&root, line, &current) == -1)
-				return (free_kvlexer(root)); //close fd
-		}
-		else
+		if (root)
 		{
 			if (create_node(line, &current, &node) == -1)
-				return (free_kvlexer(root));
-			if (!(ft_lstadd_end(&(current->children), ft_lstnew(&node, sizeof(t_kvlexer)))))
-				return (free_kvlexer(root));
+				return (fail_kvlexer(root, fd));
+			if (!(ft_lstadd_end(&(current->children),
+							ft_lstnew(&node, sizeof(t_kvlexer)))))
+				return (fail_kvlexer(root, fd));
 			current = (t_kvlexer *)current->children->tail->content;
 		}
+		else if (create_root(&root, line, &current) == -1)
+			return (fail_kvlexer(root, fd));
 	}
 	close(fd);
 	return (root);

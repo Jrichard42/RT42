@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/03 10:45:33 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/27 02:40:20 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:42:43 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ t_dlist			*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 t_list			*ft_lstsearch(t_list *lst, int (*f)(t_list *elem, void *data),
 								void *data);
 int				ft_lstsize(t_list *lst);
+void			*ft_error(char *s);
 
 #endif

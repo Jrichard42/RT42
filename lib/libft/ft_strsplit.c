@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 09:20:05 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/17 02:46:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:15:53 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,6 @@ char		**ft_strsplit(char const *s, char c)
 	while (tmp[start])
 	{
 		count = count_letters(tmp, c, start);
-		//if (!(tab[i] = (char *)ft_memalloc((count + 1) * sizeof(**tab))))
-		//	return (free_all(tab, &tmp, &i));
 		if (!(tab[i] = ft_strsub(tmp, start, count)))
 			return (free_all(tab, &tmp, &i));
 		++i;
