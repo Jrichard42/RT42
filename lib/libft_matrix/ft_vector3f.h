@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/30 13:10:49 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:04:06 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include "ft_matrix.h"
 
-typedef struct	s_matrix t_matrix;
+typedef struct s_matrix	t_matrix;
 
 typedef struct	s_vector3f
 {
-  float		x;
-  float		y;
-  float		z;
+	float		x;
+	float		y;
+	float		z;
 }				t_vector3f;
 
 t_vector3f		create_vector3f(float x, float y, float z);

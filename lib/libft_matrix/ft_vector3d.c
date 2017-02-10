@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:31:42 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/12 19:25:39 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:06:53 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_vector3d		sub_vector3d(t_vector3d v1, t_vector3d v2)
 
 t_vector3d		mult_vector3d(t_vector3d v1, float nb)
 {
-	t_vector3d  new;
+	t_vector3d	new;
 
 	new.x = v1.x * nb;
 	new.y = v1.y * nb;
@@ -55,42 +55,10 @@ t_vector3d		mult_vector3d(t_vector3d v1, float nb)
 
 t_vector3d		div_vector3d(t_vector3d v1, float nb)
 {
-	t_vector3d  new;
+	t_vector3d	new;
 
 	new.x = v1.x / nb;
 	new.y = v1.y / nb;
 	new.z = v1.z / nb;
 	return (new);
-}
-
-double			dot_vector3d(t_vector3d v1, t_vector3d v2)
-{
-	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
-}
-
-t_vector3d		cross_vector3d(t_vector3d v1, t_vector3d v2)
-{
-	t_vector3d	new;
-
-	new.x = v1.y * v2.z - v1.z * v2.y;
-	new.y = v1.z * v2.x - v1.x * v2.z;
-	new.z = v1.x * v2.y - v1.y * v2.x;
-	return (new);
-}
-
-t_vector3d		normalize_vector3d(t_vector3d v1)
-{
-	t_vector3d	new;
-	float		length;
-
-	length = length_vector3d(v1);
-	new.x = v1.x / length;
-	new.y = v1.y / length;
-	new.z = v1.z / length;
-	return (new);
-}
-
-float			length_vector3d(t_vector3d v1)
-{
-	return (sqrtf(v1.x * v1.x + v1.y * v1.y + v1.z * v1.z));
 }

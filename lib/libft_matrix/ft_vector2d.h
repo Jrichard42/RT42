@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/12 19:24:58 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:01:04 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 typedef struct	s_vector2d
 {
-  double		x;
-  double		y;
+	double		x;
+	double		y;
 }				t_vector2d;
 
 t_vector2d		create_vector2d(double x, double y);

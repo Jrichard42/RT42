@@ -6,14 +6,14 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/12/02 15:12:59 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/06 12:39:33 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:03:03 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "ft_matrix.h"
 
-t_matrix				rotation_x_matrix(t_matrix *transf, float angle)
+t_matrix		rotation_x_matrix(t_matrix *transf, float angle)
 {
 	t_matrix	rotate;
 	float		angle_rad;
@@ -27,7 +27,7 @@ t_matrix				rotation_x_matrix(t_matrix *transf, float angle)
 	return (mult_matrix(&rotate, transf));
 }
 
-t_matrix				rotation_y_matrix(t_matrix *transf, float angle)
+t_matrix		rotation_y_matrix(t_matrix *transf, float angle)
 {
 	t_matrix	rotate;
 	float		angle_rad;

@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/12 19:25:21 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:04:31 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 typedef struct	s_vector2f
 {
-  float		x;
-  float		y;
+	float		x;
+	float		y;
 }				t_vector2f;
 
 t_vector2f		create_vector2f(float x, float y);

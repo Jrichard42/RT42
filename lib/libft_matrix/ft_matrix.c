@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/29 12:35:37 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/30 15:06:09 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:05:11 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 void			init_identity(t_matrix *matrix)
 {
 	ft_bzero(matrix, sizeof(*matrix));
-	matrix->tab[0][0] = 1.0;	
-	matrix->tab[1][1] = 1.0;	
-	matrix->tab[2][2] = 1.0;	
-	matrix->tab[3][3] = 1.0;	
+	matrix->tab[0][0] = 1.0;
+	matrix->tab[1][1] = 1.0;
+	matrix->tab[2][2] = 1.0;
+	matrix->tab[3][3] = 1.0;
 }
 
 t_matrix		mult_matrix(t_matrix *m1, t_matrix *m2)

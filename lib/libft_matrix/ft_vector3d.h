@@ -6,18 +6,18 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/12 19:26:40 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/10 19:03:35 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_VECTOR2D_H
-# define FT_VECTOR2D_H
+#ifndef FT_VECTOR3D_H
+# define FT_VECTOR3D_H
 
 typedef struct	s_vector3d
 {
-  double		x;
-  double		y;
-  double		z;
+	double		x;
+	double		y;
+	double		z;
 }				t_vector3d;
 
 t_vector3d		create_vector3d(double x, double y, double z);
