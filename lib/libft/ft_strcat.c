@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/03 19:14:59 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:31:11 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+char		*ft_strcat(char	*restrict s1, const char *restrict s2)
 {
-	int			angle;
-}				t_cone;
+	char	*save;
 
-t_object		create_cone();
-
-#endif
+	save = s1;
+	while (*s1)
+		++s1;
+	while (*s2)
+		*s1++ = *s2++;
+	*s1 = '\0';
+	return (save);
+}

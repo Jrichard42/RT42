@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/03 12:26:14 by jrichard          #+#    #+#             */
+/*   Updated: 2016/11/04 17:06:05 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
-
-# include "obj.h"
-
-typedef struct	s_cone
+int		ft_isprint(int c)
 {
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
-
-#endif
+	return ((c >= 040 && c <= 0176) ? 1 : 0);
+}

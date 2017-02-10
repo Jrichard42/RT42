@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_lstcheck.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/25 20:27:22 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/19 01:11:17 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+int	ft_lstcheck(t_list *lst, int (*f)(t_list *elem))
 {
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
-
-#endif
+	while (lst)
+	{
+		if (!f(lst))
+			return (0);
+		lst = lst->next;
+	}
+	return (1);
+}

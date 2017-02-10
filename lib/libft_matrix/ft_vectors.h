@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_vectors.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2017/01/10 15:15:14 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/12 17:44:59 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#ifndef FT_VECTORS_H
+# define FT_VECTORS_H
 
-# include "obj.h"
-
-typedef struct	s_cone
-{
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
+# include "ft_vector2f.h"
+# include "ft_vector2d.h"
+# include "ft_vector3f.h"
+# include "ft_vector3d.h"
 
 #endif

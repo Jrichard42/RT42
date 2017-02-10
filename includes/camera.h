@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/09 13:20:47 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/10 13:44:26 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,6 @@ typedef	struct	s_camera
 }				t_camera;
 
 t_camera		create_camera(machin de dans);	// initialise la camera
-t_vector3f		get_viewplanepoint(t_camera *, int, int); // point 2d (pixel) a point 3d (viewplane || le monde)
+t_vector3f		get_viewplanepoint(t_camera *, t_vector2f *); // point 2d (pixel) a point 3d (viewplane || le monde)
 
 #endif

@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/03 11:54:51 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:21:31 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
-
-# include "obj.h"
-
-typedef struct	s_cone
+int		ft_isalpha(int c)
 {
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
-
-#endif
+	return (((c >= 65 && c <= 90) || (c >= 97 && c <= 122)) ? 1 : 0);
+}

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_memalloc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/04 18:51:46 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:23:13 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <stdlib.h>
+#include <string.h>
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+void		*ft_memalloc(size_t size)
 {
-	int			angle;
-}				t_cone;
+	void	*tab;
 
-t_object		create_cone();
-
-#endif
+	if (!(tab = malloc(size)))
+		return (NULL);
+	ft_memset(tab, 0, size);
+	return (tab);
+}

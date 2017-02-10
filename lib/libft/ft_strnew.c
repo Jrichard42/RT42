@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/05 10:20:17 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/18 21:31:33 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <string.h>
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+char		*ft_strnew(size_t size)
 {
-	int			angle;
-}				t_cone;
+	char	*tab;
 
-t_object		create_cone();
-
-#endif
+	tab = (char *)ft_memalloc((size + 1) * sizeof(*tab));
+	return (tab);
+}

@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/04 09:43:27 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:25:59 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <string.h>
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+void		*ft_memset(void *b, int c, size_t len)
 {
-	int			angle;
-}				t_cone;
+	void	*save;
 
-t_object		create_cone();
-
-#endif
+	save = b;
+	while ((int)len)
+	{
+		*((char*)b) = (unsigned char)c;
+		++b;
+		--len;
+	}
+	return (save);
+}

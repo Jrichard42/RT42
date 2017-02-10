@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/08/09 14:57:08 by jrichard          #+#    #+#             */
+/*   Updated: 2016/11/07 18:50:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+void		ft_putnbr(int nb)
 {
-	int			angle;
-}				t_cone;
+	long	tmp;
 
-t_object		create_cone();
-
-#endif
+	tmp = (long)nb;
+	if (tmp < 0)
+	{
+		ft_putchar('-');
+		tmp *= -1;
+	}
+	if (tmp >= 10)
+	{
+		ft_putnbr(tmp / 10);
+		ft_putnbr(tmp % 10);
+	}
+	else
+		ft_putchar(tmp + '0');
+}

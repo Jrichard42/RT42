@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   libft_matrix.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2017/01/10 15:51:01 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/11 03:12:34 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#ifndef LIBFT_MATRIX_H
+# define LIBFT_MATRIX_H
 
-# include "obj.h"
-
-typedef struct	s_cone
-{
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
+# include "ft_vectors.h"
+# include "ft_matrix.h"
 
 #endif

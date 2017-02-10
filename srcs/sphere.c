@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/09 18:59:33 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:04:37 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_vector3f	normal_sphere(struct s_obj *obj, t_vector3f *coll)
 
 }
 
-t_obj				*create_sphere(char **tmp)
+t_obj				*create_sphere(t_kvlexer *token)
 {
 	t_ob			*obj;
 

@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2017/01/18 00:42:00 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/27 02:41:48 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+int	main(int argc, char **argv)
 {
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
-
-#endif
+	printf("%f, %f\n", atof(argv[1]), ft_atof(argv[1]));
+}

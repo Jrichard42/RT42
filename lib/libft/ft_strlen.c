@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/02 15:47:57 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:38:32 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <string.h>
 
-# include "obj.h"
-
-typedef struct	s_cone
+size_t	ft_strlen(const char *s)
 {
-	int			angle;
-}				t_cone;
+	int i;
 
-t_object		create_cone();
-
-#endif
+	i = 0;
+	while (s[i])
+		++i;
+	return ((size_t)i);
+}

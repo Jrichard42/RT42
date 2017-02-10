@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/04 18:25:00 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:42:01 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <string.h>
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+char	*ft_strrchr(const char *s, int c)
 {
-	int			angle;
-}				t_cone;
+	int	i;
 
-t_object		create_cone();
-
-#endif
+	i = ft_strlen(s);
+	while (i && s[i] != (char)c)
+		--i;
+	if (s[i] != (char)c)
+		return (NULL);
+	return ((char *)(&(s[i])));
+}

@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/04 10:11:31 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:20:55 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include <string.h>
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+void	ft_bzero(void *s, size_t n)
 {
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
-
-#endif
+	while (n > 0)
+	{
+		*((char *)s) = '\0';
+		++s;
+		--n;
+	}
+}

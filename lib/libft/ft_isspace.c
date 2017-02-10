@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/08 09:05:57 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/17 01:21:45 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+int	ft_isspace(int c)
 {
-	int			angle;
-}				t_cone;
-
-t_object		create_cone();
-
-#endif
+	return (((unsigned char)c == ' ' ||
+		(unsigned char)c == '\f' ||
+		(unsigned char)c == '\n' ||
+		(unsigned char)c == '\r' ||
+		(unsigned char)c == '\t' ||
+		(unsigned char)c == '\v') ? 1 : 0);
+}

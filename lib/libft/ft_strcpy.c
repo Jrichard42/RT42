@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cone.h                                             :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 13:46:34 by hpachy           ###   ########.fr       */
+/*   Created: 2016/11/03 16:56:15 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/18 07:57:11 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define cone_H
+#include "libft.h"
 
-# include "obj.h"
-
-typedef struct	s_cone
+char		*ft_strcpy(char *dst, const char *src)
 {
-	int			angle;
-}				t_cone;
+	char	*save;
 
-t_object		create_cone();
-
-#endif
+	save = dst;
+	while (*src)
+	{
+		*dst = *src;
+		++dst;
+		++src;
+	}
+	*dst = '\0';
+	return (save);
+}

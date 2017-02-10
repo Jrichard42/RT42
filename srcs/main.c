@@ -10,7 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int 	main(int argc, char **argv)
+#include "rt.h"
+
+int		main(int argc, char **argv)
 {
-	
+	t_rt		rt;
+
+	if (argc != 2)
+		return (-1);
+	rt.env.size.x = 1300;
+	rt.env.size.y = 1300;
+	if (parser(argv[1], &rt) == -1)	// fonction parser TODO
+		return (-1);
+	win_init(&rt);
+	loop(&rt);
+	// fontion destruction en attente
+	return (0);
 }
