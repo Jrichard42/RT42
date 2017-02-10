@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/09 18:59:33 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/10 15:48:22 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,23 @@ static t_vector3f	normal_sphere(struct s_obj *obj, t_vector3f *coll)
 
 }
 
-t_obj				*create_sphere(char **tmp)
+void				create_sphere(t_kvlexer *token, t_rt *rt)
 {
 	t_ob			*obj;
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
 		return (NULL);
-	if (!(obj->data = ft_memalloc(sizeof(t_sphere))))
+	if (!(obj->data = ft_memalloc(sizeof(t_plane))))
 		return (NULL);
-	obj->normal = &normal_sphere;
-	obj->inter = &inter_sphere;
+	obj->normal = &normal_plane;
+	obj->inter = &inter_plane;
 
-	obj->id = ft_atoi(tmp[0]);
-	obj->mat = 0; //TODO
-	obj->pos = create_vector3f(ft_atoi(tmp[2]), ft_atoi(tmp[3]), ft_atoi(tmp[4]));
-	obj->id = ft_atoi(tmp[0]);
-	obj->is_src = 0;
-	obj->is_visible = 1;
-	SPHERE->radius = ft_atoi(tmp[8]);
-	/*obj->mat.kd = ft_atoi(tmp[10]) / 100.0f;
-	obj.mat.ks = ft_atoi(tmp[11]) / 100.0f;
-	obj.mat.psh = ft_atoi(tmp[12]);*/
-	
-	return (obj);
+	obj->pos = get_as_vector3f(token, "POSITION");
+	obj->mat = get_material(token);
+	obj->id = get_as_float(token, "ID");
+	obj->is_src = get_as_float(token, "IS_SRC");
+	obj->is_visible = get_as_float(token, "IS_VISIBLE");
+	SPHERE->radius = get_as_float(token, "RADIUS");
+	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
+	ft_memdel((void **)&obj);
 }
