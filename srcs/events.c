@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   events.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 13:38:06 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/12 18:47:19 by jrichard         ###   ########.fr       */
+/*   Created: 2017/01/11 01:44:16 by jrichard          #+#    #+#             */
+/*   Updated: 2017/02/12 18:45:27 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include <SDL2/SDL.h>
 
-typedef	struct	s_ray 
+int				check_events(void)
 {
-	t_vector3f	start;
-	t_vector3f	dir;
-}				t_ray;
+	SDL_Event	event;
 
-#endif
-
+	while (SDL_PollEvent(&event))
+	{
+		if (event.type == SDL_QUIT)
+			return (0);
+	}
+	return (1);
+}
