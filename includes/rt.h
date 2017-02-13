@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 17:10:47 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/12 18:47:10 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef struct		s_env
 	SDL_Texture		*text;
 	SDL_Renderer	*rend;
 	t_vector2f		size;
-	int				need_refresh;
 	int				pitch;
 	int				wh[2];
 	Uint32			*pixels;
