@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 16:42:08 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/13 11:34:18 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/13 17:07:07 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@
 
 void	toto(void *data)
 {
-	printf("doing stuff\n");
+	printf("bla\n");
 }
 
 int main(int argc, char **argv)
 {
 	t_thpool *pool;
 
-	pool = create_thpool(2, 10, 0);
-	usleep(100);
-	push_job(pool, &toto, NULL);
-	usleep(100);
+	pool = create_thpool(1, 100000, sizeof(char *) * 5);
+	for(int i = 0;i < 10;++i)
+	{
+		push_job(pool, &toto, NULL);
+	}
 }
