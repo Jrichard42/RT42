@@ -6,12 +6,16 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 17:14:10 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/15 20:27:06 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
+
+# include <SDL2/SDL.h>
+# include "camera.h"
+# include "libft_matrix.h"
 
 typedef struct		s_env
 {
@@ -33,7 +37,7 @@ typedef	struct		s_rt
 }					t_rt;
 
 t_rt				*create_rt(int x, int y, char *name);
-void				refresh(t_rt *rt);
-void				render(t_rt *rt);
+void				refresh_rt(t_rt *rt);
+void				render_rt(t_rt *rt);
 
 #endif

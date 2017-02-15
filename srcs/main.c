@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:26:17 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 17:17:12 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/15 21:22:49 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 
 static int		loop(t_rt *rt)
 {
-	refresh(rt);
+	refresh_rt(rt);
 	while (1)
 	{
 		if (!check_events())
 			return (0);
-		render(rt);
+		render_rt(rt);
 	}
 	return (0);
 }

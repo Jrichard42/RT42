@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 17:09:59 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/15 17:43:59 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void        render_pic(t_rt *rt)
 	int        j;
 	t_color      tmp;
 	t_vector3f    v;
+
 	j = 0;
 	while (j < (size->y + 1))
 	{

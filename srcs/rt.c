@@ -6,13 +6,66 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/15 17:17:04 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/15 21:22:54 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void			refresh(t_rt *rt)
+static void				put_in_image(t_rt *rt, int x, int y, t_color *color)
+{
+	unsigned int		pixel_pos;
+
+	if ((x < rt->env.wh[0]) && y < (rt->env.wh[1]))
+	{
+		pixel_pos = y * (rt->env.pitch / sizeof(unsigned int)) + x;
+		rt->env.pixels[pixel_pos] = get_color_value(color);
+	}
+}
+
+static t_color			get_inters(t_rt *rt, t_vector3f *vp_point)
+{
+	t_list				*node;
+	t_inter				inter;
+	t_color				color;
+
+	closest = NULL;
+	node = rt->objs->head;
+	while (node)
+	{
+		//call function pointer inter check distances
+		//fill inter
+		node = node->next;
+	}
+	//calculate color from inter
+	return (color);
+}
+
+static void		render_pic(t_rt *rt)
+{
+	int			i;
+	int			j;
+	t_color		color;
+	t_vector3f	vp_point;
+	t_vector2f	pixel;
+
+	j = 0;
+	while (j < (rt->env.size.y + 1))
+	{
+		i = 0;
+		while (i < (rt->env.size.x + 1))
+		{
+			pixel = create_vector2f(i, j);
+			vp_point = get_viewplanepoint(rt->camera, pixel);
+			color = get_inters(rt, &vp_point);
+			put_in_image(s, i, j, tmp);// a changer
+			++i;
+		}
+		++j;
+	}
+}
+
+void			refresh_rt(t_rt *rt)
 {
 		SDL_QueryTexture(rt.env->win, &rt.env->size, NULL, &rt.env->wh[0], &rt.env->wh[1]);
 		SDL_LockTexture(rt.env->text, NULL, (void**)&rt.env->pixels, &rt.env->pitch);
@@ -20,7 +73,7 @@ void			refresh(t_rt *rt)
 		SDL_UnlockTexture(rt.env->text);
 }
 
-void			render(t_rt *rt)
+void			render_rt(t_rt *rt)
 {
 		SDL_RenderClear(rt->env->rend);
 		SDL_RenderCopy(rt->env->rend, rt->env->text, NULL, NULL);
