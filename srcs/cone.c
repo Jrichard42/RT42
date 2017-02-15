@@ -35,17 +35,6 @@ static float			inter_cone(t_obj *obj, t_ray *ray)
 	else
 		var.result = var.sol_1;
 	return (var.result);
-	// t_inter new;
-
-	// if (if_hit_cone(ray, &new->distance, obj) != -1)
-	// {
-	// 	new.impact = add_vector3f(ray->start, mult_vector3f(ray->dir, new->distance));
-	// 	new.normal = normal_cone(obj, &new.impact);
-	// 	inter.obj = obj;
-	// }
-	// else
-	// 	new.distance = -1;
-	// return (new);
 }
 
 static t_vector3f	normal_cone(struct s_obj *obj, t_vector3f *impact)

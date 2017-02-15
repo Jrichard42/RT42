@@ -12,6 +12,24 @@
 
 #include "rt.h"
 
+static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
+{
+	static	float		dist = nan;
+	float 				tmp;
+
+	tmp = obj->inter(obj, ray);
+	if (dist == nan)
+		dist = tmp;
+	if (tmp != nan && tmp < dist)
+	{
+		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
+		inter->normal = obj->normal(obj, &inter->impact);
+		inter->distance = tmp;
+		inter->obj = obj;
+		dist = tmp;
+	}
+}
+
 static void				put_in_image(t_rt *rt, int x, int y, t_color *color)
 {
 	unsigned int		pixel_pos;
@@ -28,16 +46,23 @@ static t_color			get_inters(t_rt *rt, t_vector3f *vp_point)
 	t_list				*node;
 	t_inter				inter;
 	t_color				color;
+	t_ray				ray;
 
 	closest = NULL;
+	inter.obj = NULL;
 	node = rt->objs->head;
+	//initialiser la couleur pour le return de fin.
 	while (node)
 	{
-		//call function pointer inter check distances
-		//fill inter
+		ray.start = rt->camera.eyepoint;
+		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
+		calcul_inter(&ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
-	//calculate color from inter
+	if (inter.obj != NULL)
+	{
+		//calculate color from inter
+	}
 	return (color);
 }
 
