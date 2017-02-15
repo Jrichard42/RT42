@@ -14,12 +14,13 @@
 # define SPHERE_H
 
 # include "obj.h"
+# include "quadratic.h"
 
 typedef struct	s_sphere
 {
 	int			radius;
 }				t_sphere;
 
-t_obj			*create_sphere(/*?*/);
+t_obj			*create_sphere(t_kvlexer *token, t_rt *rt);
 
 #endif

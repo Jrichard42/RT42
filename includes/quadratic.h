@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   plane.h                                            :+:      :+:    :+:   */
+/*   quadratic.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/09 14:19:05 by hpachy           ###   ########.fr       */
+/*   Created: 2017/02/15 17:56:22 by abitoun           #+#    #+#             */
+/*   Updated: 2017/02/15 17:56:23 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPEHRE_H
-# define plane_H
+#ifndef QUADRATIC_H
+# define	QUADRATIC_H
 
-# include "obj.h"
-
-typedef struct	s_plane
+typedef struct	s_quadratic
 {
-	t_vector3f	dir;
-}				t_plane;
-
-t_obj			*create_plane(t_kvlexer *token, t_rt *rt);
+	float		a;
+	float		b;
+	float		c;
+	float		result;
+	float		delta;
+	float		sol_1;
+	float		sol_2;
+	t_vector	tmp;
+}				t_quadratic
 
 #endif

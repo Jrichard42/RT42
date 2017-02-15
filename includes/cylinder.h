@@ -10,16 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPEHRE_H
-# define cylinder_H
+#ifndef CYLINDER_H
+# define CYLINDER_H
 
 # include "obj.h"
+# include "quadratic.h"
 
 typedef struct	s_cylinder
 {
 	int			radius;
+	t_vector3f 	dir;
 }				t_cylinder;
 
-t_object		create_cylinder();
+t_obj			*create_cylinder(t_kvlexer *token, t_rt *rt);
 
 #endif

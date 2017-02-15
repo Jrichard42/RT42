@@ -6,22 +6,43 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 17:06:48 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/15 15:47:29 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "sphere.h"
 
 #define	SPHERE ((t_sphere *)obj->data)
 
-t_inter				inter_sphere(t_obj *obj, t_ray *ray)
+static float		inter_sphere(t_obj *obj, t_ray *ray)
 {
+	t_quadratic var;
 
+	var.tmp = obj->pos;
+	sub_vector3f(ray->start, var.tmp);
+	var.a = dot_vector3f(var.tmp, ray->dir);
+	var.b = var.a * var.a - dot_vector3f(var.tmp, var.tmp) + SPHERE->radius * SPHERE->radius;
+	if (var.b < 0)
+		return (nan);
+	var.b = sqrt(var.b)
+	var.sol_1 = var.a - var.b;
+	var.sol_2 = var.a + var.b;
+	if (var.sol_1 > sol_2)
+		var.result = var.sol_2;
+	else
+		var.result = var.sol_1;
+	return (var.result);
 }
 
-static t_vector3f	normal_sphere(struct s_obj *obj, t_vector3f *coll)
+static t_vector3f	normal_sphere(struct s_obj *obj, t_vector3f *impact)
 {
+	t_vector3f tmp;
 
+	tmp = sub_vector3f(*impact, obj->pos);
+	tmp = normalize_vector3f(tmp);
+
+	return (tmp);
 }
 
 void				create_sphere(t_kvlexer *token, t_rt *rt)
@@ -30,10 +51,10 @@ void				create_sphere(t_kvlexer *token, t_rt *rt)
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
 		return (NULL);
-	if (!(obj->data = ft_memalloc(sizeof(t_plane))))
+	if (!(obj->data = ft_memalloc(sizeof(t_sphere))))
 		return (NULL);
-	obj->normal = &normal_plane;
-	obj->inter = &inter_plane;
+	obj->normal = &normal_sphere;
+	obj->inter = &inter_sphere;
 
 	obj->pos = get_as_vector3f(token, "POSITION");
 	obj->mat = get_material(token);

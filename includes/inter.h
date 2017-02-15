@@ -16,9 +16,9 @@
 typedef	struct	s_inter
 {
 	t_vector3f	impact;
-	t_vector3f	normale;
-	double		distance;
-	// object
+	t_vector3f	normal;
+	float		distance;
+	t_obj		*obj;
 }				t_inter;
 
 #endif
