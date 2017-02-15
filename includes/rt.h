@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/12 18:47:10 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/15 17:14:10 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ typedef	struct		s_rt
 	t_dlist			*objs;
 }					t_rt;
 
-t_rt				create_rt();
-void				loop(t_rt *rt); // en att
+t_rt				*create_rt(int x, int y, char *name);
+void				refresh(t_rt *rt);
+void				render(t_rt *rt);
 
 #endif
