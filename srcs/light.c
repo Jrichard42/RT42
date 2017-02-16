@@ -48,24 +48,24 @@ static float		normal_light(struct s_obj *obj, t_inter *inter)
 	return (norme);
 }
 
-t_vector3f			inter_light(t_obj *obj, t_inter *inter, t_ray *ray)
+t_vector3f			inter_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f color)
 {
 	t_vector3f		normal;
 	t_vector3f		speculaire_angle;
-	t_vector3f		color;
+	t_vector3f		color_return;
 
 	normal = normal_light(obj, &inter->impact);
 	speculaire_angle = spec_light(obj, inter, ray);
-	color.x = LIGHT->color.x * normal + LIGHT->color.x * inter->obj.mat.ka + 100.0 * speculaire_angle;
-	color.y = LIGHT->color.y * normal + LIGHT->color.y * inter->obj.mat.ka + 100.0 * speculaire_angle;
-	color.z = LIGHT->color.z * normal + LIGHT->color.z * inter->obj.mat.ka + 100.0 * speculaire_angle;
-	if (color.x > 255)
-		color.x = 255;
-	if (color.y > 255)
-		color.y = 255;
-	if (color.z > 255)
-		color.z = 255;
-	return (color);
+	color_return.x = LIGHT->color.x * normal + LIGHT->color.x * inter->obj.mat.ka + 100.0 * speculaire_angle + color.x;
+	color_return.y = LIGHT->color.y * normal + LIGHT->color.y * inter->obj.mat.ka + 100.0 * speculaire_angle + color.y;
+	color_return.z = LIGHT->color.z * normal + LIGHT->color.z * inter->obj.mat.ka + 100.0 * speculaire_angle + color.z;
+	if (color_return.x > 255)
+		color_return.x = 255;
+	if (color_return.y > 255)
+		color_return.y = 255;
+	if (color_return.z > 255)
+		color_return.z = 255;
+	return (color_return);
 }
 
 void				create_light(t_kvlexer *token, t_rt *rt)
@@ -76,8 +76,6 @@ void				create_light(t_kvlexer *token, t_rt *rt)
 		return (NULL);
 	if (!(obj->data = ft_memalloc(sizeof(t_light))))
 		return (NULL);
-	obj->normal = &normal_light;
-	obj->inter = &inter_light;
 
 	obj->pos = get_as_vector3f(token, "POSITION");
 	obj->mat = get_material(token);

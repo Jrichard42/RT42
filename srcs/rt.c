@@ -51,16 +51,24 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	closest = NULL;
 	inter.obj = NULL;
 	node = rt->objs->head;
+
 	//initialiser la couleur pour le return de fin.
 	while (node)
 	{
 		ray.start = rt->camera.eyepoint;
 		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
-		calcul_inter(&ray, ((t_obj *)node->content), &inter);
+		if (((t_obj *)node->content)->is_src != 1)
+			calcul_inter(&ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
+	node = rt->objs->head;
 	if (inter.obj != NULL)
-		color = inter_light("mettre la l'object lumiere ici", &inter, &ray); // ajouter l'object lumiere;
+	while (node)
+	{
+		if (((t_obj *)node->content)->is_src == 1)
+			color = inter_light(((t_obj *)node->content), &inter, &ray, color);
+		node = node->next;
+	}
 	return (color);
 }
 
