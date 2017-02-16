@@ -6,29 +6,24 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 15:15:57 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/13 17:38:40 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/16 16:12:07 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "thpool.h"
 
 int				push_job(t_thpool *pool, void (*func)(void *), void *data)
 {
-	pthread_mutex_lock(&pool->mutex);
-	if (pool->filled == pool->nb_jobs)
+	if (pool->jobs[pool->tail].filled == 0)
 	{
-		printf("FAIL\n");
-		return (-1);
+		pool->jobs[pool->tail].do_job = func;
+		pool->jobs[pool->tail].data = data;
+		pool->jobs[pool->tail].filled = 1;
+		if (pool->tail == pool->nb_jobs - 1)
+			pool->tail = 0;
+		else
+			++pool->tail;
 	}
-	pool->jobs[pool->tail].do_job = func;
-	pool->jobs[pool->tail].data = data;
-	if (pool->tail == pool->nb_jobs - 1)
-		pool->tail = 0;
-	else
-		++pool->tail;
-	++pool->filled;
-	pthread_mutex_unlock(&pool->mutex);
 	return (1);
 }
 
@@ -38,29 +33,23 @@ static void			*do_job(void *data)
 	void (*func)(void *);
 	void		*param;
 
-
 	pool = (t_thpool *)data;
 	while (1)
 	{
 		func = NULL;
 		param = NULL;
-		pthread_mutex_lock(&pool->mutex);
-		if (pool->filled)
+		if (pool->jobs[pool->head].filled == 1)
 		{
-			--pool->filled;
-			pthread_mutex_unlock(&pool->mutex);
 			func = pool->jobs[pool->head].do_job;
 			param = pool->jobs[pool->head].data;
+			pool->jobs[pool->head].filled = 0;
 			if (pool->head == pool->nb_jobs - 1)
 				pool->head = 0;
 			else
 				++pool->head;
-			--pool->filled;
 			if (func)
 				func(param);
 		}
-		else
-			pthread_mutex_unlock(&pool->mutex);
 	}
 	return (NULL);
 }

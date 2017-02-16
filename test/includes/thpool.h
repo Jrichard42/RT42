@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 15:16:10 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/13 17:38:42 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/16 16:12:12 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ typedef struct		s_job
 {
 	void			(*do_job)(void *data);
 	void			*data;
+	int				filled; //bool
 }					t_job;
 
 typedef struct		s_thpool
 {
 	pthread_mutex_t	mutex;
 	int				nb_jobs;
-	int				filled;
 	int				head;
 	int				tail;
 	t_job			*jobs;

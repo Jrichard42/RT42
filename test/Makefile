@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/02/12 16:57:06 by jrichard         ###   ########.fr        #
+#    Updated: 2017/02/16 16:12:53 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ $(LIBFT_MATRIX):
 	@$(MAKE) -C $@
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFT_MATRIX) -lft -lft_matrix -lmlx -framework OpenGL -framework AppKit
+	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFT_MATRIX) -lft -lft_matrix -lpthread
 
 %.o: $(SRCDIR)%.c
 	gcc -o $@ -c $< $(CFLAGS) -I$(INCDIR) -I$(LIBFT) -I$(LIBFT_MATRIX)
