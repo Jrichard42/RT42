@@ -14,11 +14,25 @@
 
 #define	LIGHT ((t_light *)obj->data)
 
-t_inter				inter_light(t_obj *obj, t_inter *inter)
+static float		speculaire_light(struct s_obj *obj, t_inter *inter, t_ray *ray)
 {
-	t_vector3f	normal;
+	t_vector3f		pos_cam;
+	t_vector3f		incidence;
+	t_vector3f		tmp;
+	float			angle;
 
-	normal = normal_light(obj, &inter->impact);
+	pos_cam = sub_vector3f(ray->start, inter->impact);
+	incidence = sub_vector3f(inter->impact, obj->pos);
+	tmp = mult_vector3f(inter->normal, 2.0);
+	tmp = mult_vector3f(tmp, dot_vector3f(inter->normal, incidence));
+	tmp = sub_vector3f(incidence, tmp);
+	tmp = normalize_vector3f(tmp);
+	pos_cam = normalize_vector3f(pos_cam);
+	angle = dot_vector3f(pos_cam, tmp);
+	angle = powf(angle, inter->obj.mat.ks);
+	if (angle < 0)
+		angle = 0;
+	return (angle);
 }
 
 static float		normal_light(struct s_obj *obj, t_inter *inter)
@@ -32,6 +46,26 @@ static float		normal_light(struct s_obj *obj, t_inter *inter)
 	if (norme < 0)
 		norme = 0;
 	return (norme);
+}
+
+t_vector3f			inter_light(t_obj *obj, t_inter *inter, t_ray *ray)
+{
+	t_vector3f		normal;
+	t_vector3f		speculaire_angle;
+	t_vector3f		color;
+
+	normal = normal_light(obj, &inter->impact);
+	speculaire_angle = spec_light(obj, inter, ray);
+	color.x = LIGHT->color.x * normal + LIGHT->color.x * inter->obj.mat.ka + 100.0 * speculaire_angle;
+	color.y = LIGHT->color.y * normal + LIGHT->color.y * inter->obj.mat.ka + 100.0 * speculaire_angle;
+	color.z = LIGHT->color.z * normal + LIGHT->color.z * inter->obj.mat.ka + 100.0 * speculaire_angle;
+	if (color.x > 255)
+		color.x = 255;
+	if (color.y > 255)
+		color.y = 255;
+	if (color.z > 255)
+		color.z = 255;
+	return (color);
 }
 
 void				create_light(t_kvlexer *token, t_rt *rt)

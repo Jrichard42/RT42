@@ -60,9 +60,7 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 		node = node->next;
 	}
 	if (inter.obj != NULL)
-	{
-		//calculate color from inter
-	}
+		color = inter_light("mettre la l'object lumiere ici", &inter, &ray); // ajouter l'object lumiere;
 	return (color);
 }
 
