@@ -20,7 +20,7 @@ static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 	tmp = obj->inter(obj, ray);
 	if (dist == nan)
 		dist = tmp;
-	if (tmp != nan && tmp < dist)
+	if (tmp != nan && tmp < dist && tmp > 0.01)
 	{
 		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
@@ -41,11 +41,11 @@ static void				put_in_image(t_rt *rt, int x, int y, t_color *color)
 	}
 }
 
-static t_color			get_inters(t_rt *rt, t_vector3f *vp_point)
+static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 {
 	t_list				*node;
 	t_inter				inter;
-	t_color				color;
+	t_vector3f			color;
 	t_ray				ray;
 
 	closest = NULL;

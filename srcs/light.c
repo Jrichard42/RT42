@@ -14,14 +14,24 @@
 
 #define	LIGHT ((t_light *)obj->data)
 
-t_inter				inter_light(t_obj *obj, t_ray *ray)
+t_inter				inter_light(t_obj *obj, t_inter *inter)
 {
+	t_vector3f	normal;
 
+	normal = normal_light(obj, &inter->impact);
 }
 
-static t_vector3f	normal_light(struct s_obj *obj, t_vector3f *coll)
+static float		normal_light(struct s_obj *obj, t_inter *inter)
 {
+	t_vector3f		ray_light;
+	float			norme;
 
+	ray_light = sub_vector3f(obj->pos, inter->impact);
+	ray_light = normalize_vector3f(ray_light);
+	norme = dot_vector3f(ray_light, inter->normal);
+	if (norme < 0)
+		norme = 0;
+	return (norme);
 }
 
 void				create_light(t_kvlexer *token, t_rt *rt)
@@ -30,7 +40,7 @@ void				create_light(t_kvlexer *token, t_rt *rt)
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
 		return (NULL);
-	if (!(obj->data = ft_memalloc(sizeof(t_plane))))
+	if (!(obj->data = ft_memalloc(sizeof(t_light))))
 		return (NULL);
 	obj->normal = &normal_light;
 	obj->inter = &inter_light;

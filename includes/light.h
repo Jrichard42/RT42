@@ -19,6 +19,6 @@ typedef struct	s_light
 {
 }				t_light;
 
-t_object		create_light(/*?*/);
+t_obj			*create_light(t_kvlexer *token, t_rt *rt);
 
 #endif
