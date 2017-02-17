@@ -66,7 +66,7 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	while (node)
 	{
 		if (((t_obj *)node->content)->is_src == 1)
-			color = inter_light(((t_obj *)node->content), &inter, &ray, color);
+			color = calcul_light(((t_obj *)node->content), &inter, &ray, color);
 		node = node->next;
 	}
 	return (color);

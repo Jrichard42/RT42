@@ -35,7 +35,7 @@ static float		speculaire_light(struct s_obj *obj, t_inter *inter, t_ray *ray)
 	return (angle);
 }
 
-static float		normal_light(struct s_obj *obj, t_inter *inter)
+static float		diffuse_light(struct s_obj *obj, t_inter *inter)
 {
 	t_vector3f		ray_light;
 	float			norme;
@@ -48,7 +48,7 @@ static float		normal_light(struct s_obj *obj, t_inter *inter)
 	return (norme);
 }
 
-t_vector3f			inter_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f color)
+t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f color)
 {
 	t_vector3f		normal;
 	t_vector3f		speculaire_angle;
