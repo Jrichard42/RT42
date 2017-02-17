@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 17:08:55 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/17 17:57:37 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,42 @@ static float			inter_cone(t_obj *obj, t_ray *ray)
 	return (var.result);
 }
 
-static t_vector3f	normal_cone(struct s_obj *obj, t_vector3f *impact)
+static char			validate_direction(t_vector3f *io,
+		t_vector3f *norm,
+		t_obj *obj, t_vector3f *piv)
 {
-	t_vector3f	tmp;
+	float			est_tan;
+	float			exp_tan;
 
-	tmp = sub_vector3f(*impact, obj->pos);
-	tmp = mult_vector3f(CONE->dir, dot_vector3f(tmp, CONE->dir));
-	tmp = add_vector3f(tmp, obj->pos);
-	tmp = sub_vector3f(*impact, tmp);
-	tmp = normalize_vector3f(tmp);
+	est_tan = norm->length / io->length;
+	exp_tan = tan(CONE.angle);
+	if (!almost_equal_relative(est_tan, exp_tan))
+	{
+		*piv = mult_vector3f(self->dir,
+				-1.0f * length_vector3f(io) / cos(self->radius));
+		piv = add_vector3f(piv, obj->pos);
+		return (0);
+	}
+	return (1);
+}
 
-	return (tmp);
+static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
+{
+	t_vector3f		io;
+	t_vector3f		piv;
+	double			pi;
+	t_vector3f		norm;
+
+	io = sub_vector3f(*impact, obj->pos);
+	pi = length_vector3f(io) / cos(CONE.dir);
+	piv = mult_vec_double(CONE.dir, pi);
+	piv = add_vector3f(piv, obj->pos);
+	norm = sub_vector3f(*impact, piv);
+	io.length = length_vector3f(io);
+	norm.length = length_vector3f(norm);
+	if (!validate_direction(&io, &norm, obj, &piv))
+		norm = sub_vector3f(*impact, piv);
+	return (normalize_vector3f(norm));
 }
 
 void				create_cone(t_kvlexer *token, t_rt *rt)
