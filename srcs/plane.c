@@ -6,10 +6,11 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 15:47:56 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:13:32 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "rt.h"
 #include "plane.h"
 #include "quadratic.h"
 
@@ -19,11 +20,11 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
 
-	if (scalaire_prod_vector(&ray.d, &plan->normale) != 0.0)
+	if (scalaire_prod_vector(&ray->dir, &plan->normale) != 0.0)
 	{
-		sub_vector(&ray.o, &plan->point_plane, &tmp);
+		sub_vector(&ray->start, &plan->point_plane, &tmp);
 		a = scalaire_prod_vector(&tmp, &plan->normale);
-		a = a / scalaire_prod_vector(&ray.d, &plan->normale);
+		a = a / scalaire_prod_vector(&ray->dir, &plan->normale);
 		result = a;
 	}
 	else

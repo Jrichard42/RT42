@@ -6,11 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 15:31:15 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:59:28 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
+#include "obj.h"
 #include "cylinder.h"
+#include "libft.h"
 
 #define	CYLINDER ((t_cylinder *)obj->data)
 
@@ -23,13 +26,13 @@ static 	float		inter_cylinder(t_obj *obj, t_ray *ray)
 	var.b = 2.0 * (dot_vector3f(ray->dir, var.tmp) - (dot_vector3f(ray->dir, CYLINDER->dir) * dot_vector3f(var.tmp, CYLINDER->dir)));
 	var.c = dot_vector3f(var.tmp, var.tmp) - powf(dot_vector3f(var.tmp, CYLINDER->dir), 2.0) - powf(CYLINDER->radius, 2.0);
 	if (var.a < 0)
-		return (nan);
+		return (NAN);
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);
 	var.delta = sqrt(var.delta);
 	var.a = 2.0 * var.a;
 	var.sol_1 = (-var.b - var.delta) / var.a;
 	var.sol_2 = (-var.b + var.delta) / var.a;
-	if (var.sol_1 > sol_2)
+	if (var.sol_1 > var.sol_2)
 		var.result = var.sol_2;
 	else
 		var.result = var.sol_1;
@@ -49,17 +52,16 @@ static t_vector3f	normal_cylinder(struct s_obj *obj, t_vector3f *impact)
 	return (tmp);
 }
 
-void				create_cylinder(t_kvlexer *token, t_rt *rt)
+int					create_cylinder(t_kvlexer *token, t_rt *rt)
 {
 	t_obj			*obj;
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (NULL);
+		return (-1);
 	if (!(obj->data = ft_memalloc(sizeof(t_cylinder))))
-		return (NULL);
+		return (-1);
 	obj->normal = &normal_cylinder;
 	obj->inter = &inter_cylinder;
-
 	obj->pos = get_as_vector3f(token, "POSITION");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
@@ -67,7 +69,8 @@ void				create_cylinder(t_kvlexer *token, t_rt *rt)
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	CYLINDER->radius = get_as_float(token, "RADIUS");
 	CYLINDER->dir = get_as_vector3f(token, "DIR");
-	CYLINDER->dir = normalize_vector3f(PLANE->dir);
+	CYLINDER->dir = normalize_vector3f(CYLINDER->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
+	return (0);
 }

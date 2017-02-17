@@ -6,11 +6,15 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/17 15:21:32 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:12:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-static void				check_type(t_kvlexer *token, t_raytracer *raytracer)
+#include "rt.h"
+#include "ft_kvlexer.h"
+#include "libft.h"
+
+static void				check_type(t_kvlexer *token, t_rt *rt)
 {
 	static t_ptr_type	ptr_type[6] = {{"SPHERE\0", &create_sphere},
 										{"LIGHT\0", &create_light},
@@ -26,13 +30,13 @@ static void				check_type(t_kvlexer *token, t_raytracer *raytracer)
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
 			if (!(ptr_type[i].create(token, rt)))
-				error_sdl("Unable to create the obj ", token->key);
+				error_sdl("Unable to create the obj ", token->key); // check
 			break ;
 		}
 		++i;
 	}
 	if (i == 6)
-		error_sdl("Unknown obj ", token->key);
+		error_sdl("Unknown obj ", token->key); // check
 }
 
 int						parser(char *name, t_rt *rt)
@@ -41,7 +45,7 @@ int						parser(char *name, t_rt *rt)
 	t_list				*current_child;
 
 	if (!(kvlexer = ft_kvlexer(name)))
-		return ((int)error("Wrong format"));
+		return ((int)error("Wrong format")); //check 
 	current_child = kvlexer->children->head;
 	while (current_child)
 	{

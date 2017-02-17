@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/15 17:56:22 by abitoun           #+#    #+#             */
-/*   Updated: 2017/02/17 15:24:47 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:50:15 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,6 @@ typedef struct	s_quadratic
 	float		sol_1;
 	float		sol_2;
 	t_vector3f	tmp;
-}				t_quadratic
+}				t_quadratic;
 
 #endif
