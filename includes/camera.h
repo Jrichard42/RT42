@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 20:27:22 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:35:51 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ typedef	struct	s_camera
 	t_vector3f	up;
 	t_vector3f	light;
 	t_vector3f	viewdir;
-	t_vector3f	u;
-	t_vector3f	v;
-	t_vector3f	vpbottomleftpoint;
+	t_vector3f	vu;
+	t_vector3f	vv;
+	t_vector3f	vp;
 	t_vector3f	viewplanepoint;
 	t_vector3f	castray;
-	t_vector3f	x_inc_vec;
-	t_vector3f	y_inc_vec;
-	float		vphalfwidth;
-	float		vphalfheight;
+	t_vector3f	vix;
+	t_vector3f	viy;
+	float		vhw;
+	float		vhh;
 	int			fov;
-	float		aspectratio;
+	float		aspect;
 	float		n;
 }				t_camera;
 
