@@ -6,13 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 19:35:53 by dbreton          ###   ########.fr       */
+/*   Updated: 2017/02/17 19:38:05 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "camera.h"
 
-static void      cam_vector_compute(t_camera *camera, t_vector2f *size, t_vector3f view_dir)
+static void		cam_vector_compute(t_camera *camera, t_vector2f *size, t_vector3f view_dir)
 {
 	t_vector3f    up;
 
@@ -37,8 +38,8 @@ static void      cam_vector_compute(t_camera *camera, t_vector2f *si
 
 t_vector3f	get_viewplanepoint(t_camera *camera, int x, int y)// nom des fonction a changer
 {
-	t_vector3f    v;
-	t_vector3f    vpp;
+	t_vector3f	v;
+	t_vector3f	vpp;
 	vpp = add_vector3f(camera->vp, add_vector3f(
 		mult_vector3f(camera->vix, (double)x),
 		mult_vector3f(camera->viy, (double)y)));
