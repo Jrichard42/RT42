@@ -6,12 +6,15 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 19:56:38 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 20:24:18 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cone.h"
 #include <math.h>
+#include "rt.h"
+#include "cone.h"
+#include "ft_kvlexer.h"
+#include "libft_matrix.h"
 
 #define	CONE ((t_cone *)obj->data)
 
@@ -24,33 +27,32 @@ static float			inter_cone(t_obj *obj, t_ray *ray)
 	var.b = 2.0 * (dot_vector3f(ray->dir, var.tmp) - ((1.0 + CONE->angle * CONE->angle) * (dot_vector3f(ray->dir, CONE->dir) * dot_vector3f(var.tmp, CONE->dir))));
 	var.c = dot_vector3f(var.tmp, var.tmp) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(var.tmp, CONE->dir), 2.0) - powf(CONE->radius, 2.0));
 	if (var.a < 0)
-		return (nan);
+		return (NAN);
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);
 	var.delta = sqrt(var.delta);
 	var.a = 2.0 * var.a;
 	var.sol_1 = (-var.b - var.delta) / var.a;
 	var.sol_2 = (-var.b + var.delta) / var.a;
-	if (var.sol_1 > sol_2)
+	if (var.sol_1 > var.sol_2)
 		var.result = var.sol_2;
 	else
 		var.result = var.sol_1;
 	return (var.result);
 }
 
-static char			validate_direction(t_vector3f *io,
-		t_vector3f *norm,
-		t_obj *obj, t_vector3f *piv)
+static char			validate_direction(t_obj *obj, t_vector3f *io,
+		t_vector3f *norm, t_vector3f *piv)
 {
 	float			est_tan;
 	float			exp_tan;
 
 	est_tan = norm->length / io->length;
-	exp_tan = tan(CONE.angle);
+	exp_tan = tan(CONE->angle);
 	if (!almost_equal_relative(est_tan, exp_tan))
 	{
-		*piv = mult_vector3f(self->dir,
-				-1.0f * length_vector3f(io) / cos(self->radius));
-		piv = add_vector3f(piv, obj->pos);
+		*piv = mult_vector3f(CONE->dir,
+				-1.0f * length_vector3f(*io) / cos(CONE->radius)); // RADIUS?????? WTF
+		*piv = add_vector3f(*piv, obj->pos);
 		return (0);
 	}
 	return (1);
@@ -64,25 +66,25 @@ static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
 	t_vector3f		norm;
 
 	io = sub_vector3f(*impact, obj->pos);
-	pi = length_vector3f(io) / cos(CONE.dir);
-	piv = mult_vec_double(CONE.dir, pi);
+	pi = length_vector3f(io) / cos(CONE->dir);
+	piv = mult_vector3f(CONE->dir, pi);
 	piv = add_vector3f(piv, obj->pos);
 	norm = sub_vector3f(*impact, piv);
 	io.length = length_vector3f(io);
 	norm.length = length_vector3f(norm);
-	if (!validate_direction(&io, &norm, obj, &piv))
+	if (!validate_direction(obj, &io, &norm, &piv))
 		norm = sub_vector3f(*impact, piv);
 	return (normalize_vector3f(norm));
 }
 
-void				create_cone(t_kvlexer *token, t_rt *rt)
+int					create_cone(t_kvlexer *token, t_rt *rt)
 {
-	t_ob			*obj;
+	t_obj			*obj;
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (NULL);
+		return (-1);
 	if (!(obj->data = ft_memalloc(sizeof(t_cone))))
-		return (NULL);
+		return (-1);
 	obj->normal = &normal_cone;
 	obj->inter = &inter_cone;
 
@@ -96,5 +98,6 @@ void				create_cone(t_kvlexer *token, t_rt *rt)
 	CONE->dir = get_as_vector3f(token, "DIR");
 	CONE->dir = normalize_vector3f(PLANE->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);	
+	ft_memdel((void **)&obj);
+	return (0);
 }
