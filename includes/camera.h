@@ -6,13 +6,15 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 20:27:22 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:11:43 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
+# include "rt.h"
+# include "ft_kvlexer.h"
 # include "libft_matrix.h"
 
 typedef	struct	s_camera 

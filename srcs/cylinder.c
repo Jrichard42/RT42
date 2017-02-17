@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 16:15:23 by abitoun          ###   ########.fr       */
+/*   Updated: 2017/02/17 15:31:15 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static t_vector3f	normal_cylinder(struct s_obj *obj, t_vector3f *impact)
 
 void				create_cylinder(t_kvlexer *token, t_rt *rt)
 {
-	t_ob			*obj;
+	t_obj			*obj;
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
 		return (NULL);

@@ -6,15 +6,17 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 17:43:59 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:18:18 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <math.h>
 #include "camera.h"
 
-static void      cam_vector_compute(t_camera *camera, t_vector2f *size, t_vector3f view_dir)
+static void		cam_vector_compute(t_camera *camera, t_vector2f *size, t_vector3f view_dir)
 {
-	t_vector3f    up;
+	t_vector3f	up;
+
 	up.x = 0.0f;
 	up.y = -1.0f;
 	up.z = 0.0f;
@@ -23,8 +25,8 @@ static void      cam_vector_compute(t_camera *camera, t_vector2f *si
 	camera->vhh = camera->vhw * camera->aspect;
 	camera->vu = mult_vec_by_vec(view_dir, up);
 	camera->vv = mult_vec_by_vec(s->cam.vu, view_dir);
-	normalize_vector(&s->cam.vu);
-	normalize_vector(&s->cam.vv);
+	normalize_vector3f(&s->cam.vu);
+	normalize_vector3f(&s->cam.vv);
 	camera->vp = sub_vec_by_vec(s->cam.lp, add_vector(
 		mult_vec_double(camera->vu, camera->vhw),
 		mult_vec_double(camera->vv, camera->vhh)));
@@ -34,38 +36,15 @@ static void      cam_vector_compute(t_camera *camera, t_vector2f *si
 	camera->vu, (2.0f * camera->vhw) / (double)size->x);
 }
 
-void        render_pic(t_rt *rt)
-{
-	int        i;
-	int        j;
-	t_color      tmp;
-	t_vector3f    v;
-
-	j = 0;
-	while (j < (size->y + 1))
-	{
-		i = 0;
-		while (i < (size->x + 1))
-		{
-			v = get_viewplanepoint(rt->camera, i, j);
-			tmp = get_inters(s, &v);// a changer
-			put_in_image(s, i, j, tmp);// a changer
-			++i;
-		}
-		++j;
-	}
-}
-
-
-t_camera	create_camera()
+t_camera		create_camera()
 {
 
 }
 
-t_vector3f	get_viewplanepoint(t_camera *camera, int x, int y)// nom des fonction a changer
+t_vector3f		get_viewplanepoint(t_camera *camera, int x, int y)// nom des fonction a changer
 {
-	t_vector3f    v;
-	t_vector3f    vpp;
+	t_vector3f	v;
+	t_vector3f	vpp;
 	vpp = add_vector3f(camera->vp, add_vector3f(
 		mult_vec_double(camera->vix, (double)x),
 		mult_vec_double(camera->viy, (double)y)));

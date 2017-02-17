@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 15:52:12 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:17:45 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define	LIGHT ((t_light *)obj->data)
 
-static float		speculaire_light(struct s_obj *obj, t_inter *inter, t_ray *ray)
+static float		specular_light(t_obj *obj, t_inter *inter, t_ray *ray)
 {
 	t_vector3f		pos_cam;
 	t_vector3f		incidence;
@@ -29,36 +29,36 @@ static float		speculaire_light(struct s_obj *obj, t_inter *inter, t_ray *ray)
 	tmp = normalize_vector3f(tmp);
 	pos_cam = normalize_vector3f(pos_cam);
 	angle = dot_vector3f(pos_cam, tmp);
-	angle = powf(angle, inter->obj.mat.ks);
+	angle = powf(angle, inter->obj->sh);
 	if (angle < 0)
 		angle = 0;
 	return (angle);
 }
 
-static float		diffuse_light(struct s_obj *obj, t_inter *inter)
+static float		diffuse_light(t_obj *obj, t_inter *inter)
 {
 	t_vector3f		ray_light;
 	float			norme;
 
-	ray_light = sub_vector3f(obj->pos, inter->impact);
-	ray_light = normalize_vector3f(ray_light);
+	ray_light = normalize_vector3f(sub_vector3f(obj->pos, inter->impact));
 	norme = dot_vector3f(ray_light, inter->normal);
 	if (norme < 0)
 		norme = 0;
 	return (norme);
 }
 
-t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f color)
+t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *color)
 {
-	t_vector3f		normal;
-	t_vector3f		speculaire_angle;
+	t_vector3f		diffuse;
+	t_vector3f		specular;
 	t_vector3f		color_return;
+	float			coeffs;
 
-	normal = normal_light(obj, &inter->impact);
-	speculaire_angle = spec_light(obj, inter, ray);
-	color_return.x = LIGHT->color.x * normal + LIGHT->color.x * inter->obj.mat.ka + 100.0 * speculaire_angle + color.x;
-	color_return.y = LIGHT->color.y * normal + LIGHT->color.y * inter->obj.mat.ka + 100.0 * speculaire_angle + color.y;
-	color_return.z = LIGHT->color.z * normal + LIGHT->color.z * inter->obj.mat.ka + 100.0 * speculaire_angle + color.z;
+	diffuse = diffuse_light(obj, &inter->impact) * inter->obj.mat.kd;
+	specular = specular_light(obj, inter, ray) * inter->obj.mat.ks;
+	coeffs = (diffuse + specular + inter->obj.mat.ka);
+	color_return = mult_vector3f(LIGHT->color, coeffs); //TODO intensity
+	color_return = add_vector3f(color_return, color);
 	if (color_return.x > 255)
 		color_return.x = 255;
 	if (color_return.y > 255)

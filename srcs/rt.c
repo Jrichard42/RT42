@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/15 21:22:54 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 19:04:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,9 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	t_vector3f			color;
 	t_ray				ray;
 
-	closest = NULL;
 	inter.obj = NULL;
+	color = create_vector3f(0, 0, 0);
 	node = rt->objs->head;
-
-	//initialiser la couleur pour le return de fin.
 	while (node)
 	{
 		ray.start = rt->camera.eyepoint;
@@ -61,6 +59,11 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 			calcul_inter(&ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
+
+
+
+
+
 	node = rt->objs->head;
 	if (inter.obj != NULL)
 	while (node)

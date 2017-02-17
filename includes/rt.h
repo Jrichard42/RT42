@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/15 20:27:06 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 15:19:22 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <SDL2/SDL.h>
 # include "camera.h"
+# include "libft.h"
 # include "libft_matrix.h"
 
 typedef struct		s_env
