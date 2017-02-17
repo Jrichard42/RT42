@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:04:06 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/17 18:14:29 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct	s_vector3f
 	float		x;
 	float		y;
 	float		z;
+	float		length;
 }				t_vector3f;
 
 t_vector3f		create_vector3f(float x, float y, float z);
