@@ -6,18 +6,17 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:20:27 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 19:16:10 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
-# include "rt.h"
 # include "ft_kvlexer.h"
 # include "libft_matrix.h"
 
-typedef struct s_rt	t_rt;
+typedef struct s_rt t_rt;
 
 typedef	struct	s_camera 
 {
@@ -40,7 +39,7 @@ typedef	struct	s_camera
 	float		n;
 }				t_camera;
 
-void			create_camera(t_kvlexer *token, t_rt *rt);	// initialise la camera
-t_vector3f		get_viewplanepoint(t_camera *, t_vector2f *); // point 2d (pixel) a point 3d (viewplane || le monde)
+void			create_camera(t_kvlexer *token, t_rt *rt);
+t_vector3f		get_viewplanepoint(t_camera *camera, t_vector2f *pixel);
 
 #endif
