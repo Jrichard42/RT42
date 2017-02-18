@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 19:46:12 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 17:47:04 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "rt.h"
 # include "ft_kvlexer.h"
 # include "libft_matrix.h"
+
+typedef struct s_rt	t_rt;
 
 typedef	struct	s_camera 
 {

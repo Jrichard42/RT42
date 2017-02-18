@@ -6,11 +6,10 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/14 01:04:05 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 17:07:48 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/18 18:00:02 by jrichard         ###   ########.fr       */
 /*                                                                           */
 /* ************************************************************************** */
 
-#include "obj_types.h"
 #include "parser.h"
 
 static int			search_key(t_list *node, void *data)
@@ -20,7 +19,7 @@ static int			search_key(t_list *node, void *data)
 	return (0);
 }
 
-static t_vector3f	get_as_vector3f(t_kvlexer *token, char *str)
+t_vector3f			get_as_vector3f(t_kvlexer *token, char *str)
 {
 	t_list			*node;
 	t_kvlexer		*field;
@@ -45,7 +44,7 @@ static t_vector3f	get_as_vector3f(t_kvlexer *token, char *str)
 	return (vector);
 }
 
-static int			get_as_float(t_kvlexer *token, char *str)
+int					get_as_float(t_kvlexer *token, char *str)
 {
 	t_list			*node;
 	t_kvlexer		*field;
@@ -61,28 +60,28 @@ static int			get_as_float(t_kvlexer *token, char *str)
 	return (ret_float);
 }
 
-static t_material	get_material(t_kvlexer *token)
+t_material			get_material(t_kvlexer *token)
 {
 	t_list			*node;
 	t_material		material;
 	t_kvlexer		*mat_token;
 
-	material.ambient = create_vector3f(0.33, 0.33, 0.33);
-	material.diffuse = create_vector3f(0.33, 0.33, 0.33);
-	material.specular = create_vector3f(0.33, 0.33, 0.33);
-	material.shininess = 10;
+	material.ka = 0.33;
+	material.kd = 0.33;
+	material.ks = 0.33;
+	material.sh = 10;
 	if ((node = ft_lstsearch(token->children->head, &search_key, "MATERIAL")))
 	{
 		mat_token = (t_kvlexer *)node->content;
-		material.ambient = get_as_vector3f(mat_token, "AMBIENT");
-		material.diffuse = get_as_vector3f(mat_token, "DIFFUSE");
-		material.specular = get_as_vector3f(mat_token, "SPECULAR");
-		material.shininess = get_as_float(mat_token, "SHININESS");
+		material.ka = get_as_float(mat_token, "AMBIENT");
+		material.kd = get_as_float(mat_token, "DIFFUSE");
+		material.ks = get_as_float(mat_token, "SPECULAR");
+		material.sh = get_as_float(mat_token, "SHININESS");
 	}
 	return (material);
 }
 
-static t_trans		get_trans(t_kvlexer *token)
+/*t_trans				get_trans(t_kvlexer *token)
 {
 	t_trans			trans;
 	t_vector3f		translation;
@@ -120,4 +119,4 @@ static t_trans		get_trans(t_kvlexer *token)
 	trans.trans_normal = rotation_x_matrix(&trans.trans_normal, rotation.x);
 	
 	return (trans);
-}
+}*/
