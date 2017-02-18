@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:24:38 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 20:09:24 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int					create_light(t_kvlexer *token, t_rt *rt)
 		return (-1);
 	if (!(obj->data = ft_memalloc(sizeof(t_light))))
 		return (-1);
-	obj->pos = get_as_vector3f(token, "POSITION");
+	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");

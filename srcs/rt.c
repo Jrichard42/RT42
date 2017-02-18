@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/18 19:39:43 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 20:15:54 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,24 +67,22 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	node = rt->objs->head;
 	while (node)
 	{
-		ray.start = rt->camera->eyepoint;
+		ray.start = rt->camera->pos; //eyepoint
 		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 		if (((t_obj *)node->content)->is_src != 1)
 			calcul_inter(&ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
-
-
-
-
-
 	node = rt->objs->head;
 	if (inter.obj != NULL)
-	while (node)
 	{
-		if (((t_obj *)node->content)->is_src == 1)
-			color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
-		node = node->next;
+		printf("found\n");
+	//	while (node)
+	//	{
+	//		if (((t_obj *)node->content)->is_src == 1)
+	//			color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
+	//		node = node->next;
+	//	}
 	}
 	return (color);
 }
@@ -129,9 +127,9 @@ void			refresh_rt(t_rt *rt)
 
 void			render_rt(t_rt *rt)
 {
-		SDL_RenderClear(rt->env.rend);
-		SDL_RenderCopy(rt->env.rend, rt->env.text, NULL, NULL);
-		SDL_RenderPresent(rt->env.rend);
+	SDL_RenderClear(rt->env.rend);
+	SDL_RenderCopy(rt->env.rend, rt->env.text, NULL, NULL);
+	SDL_RenderPresent(rt->env.rend);
 }
 
 t_rt			*create_rt(int x, int y, char *name)
