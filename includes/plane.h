@@ -6,14 +6,16 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/09 14:19:05 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/18 18:29:38 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SPEHRE_H
-# define plane_H
+#ifndef PLANE_H
+# define PLANE_H
 
 # include "obj.h"
+# include "rt.h"
+# include "ft_kvlexer.h"
 
 typedef struct	s_plane
 {

@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 20:13:32 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:30:29 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 	if (scalaire_prod_vector(&ray->dir, &plan->normale) != 0.0)
 	{
 		sub_vector(&ray->start, &plan->point_plane, &tmp);
-		a = scalaire_prod_vector(&tmp, &plan->normale);
-		a = a / scalaire_prod_vector(&ray->dir, &plan->normale);
+		a = scalaire_prod_vector(&tmp, &plan->normal);
+		a = a / scalaire_prod_vector(&ray->dir, &plan->normal);
 		result = a;
 	}
 	else
 		return (nan);
-	return(result);
+	return (result);
 }
 
 static t_vector3f	normal_plane(struct s_obj *obj, t_vector3f *impact)
@@ -37,17 +37,16 @@ static t_vector3f	normal_plane(struct s_obj *obj, t_vector3f *impact)
 	return(PLANE->dir);
 }
 
-void				create_plane(t_kvlexer *token, t_rt *rt)
+int					create_plane(t_kvlexer *token, t_rt *rt)
 {
-	t_ob			*obj;
+	t_obj			*obj;
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (NULL);
+		return (-1);
 	if (!(obj->data = ft_memalloc(sizeof(t_plane))))
-		return (NULL);
+		return (-1);
 	obj->normal = &normal_plane;
 	obj->inter = &inter_plane;
-
 	obj->pos = get_as_vector3f(token, "POSITION");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
@@ -57,4 +56,5 @@ void				create_plane(t_kvlexer *token, t_rt *rt)
 	PLANE->dir = normalize_vector3f(PLANE->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
+	return (0);
 }

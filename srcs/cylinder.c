@@ -6,13 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 19:59:28 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:23:49 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
-#include "obj.h"
 #include "cylinder.h"
+#include "obj.h"
+#include "parser.h"
 #include "libft.h"
 
 #define	CYLINDER ((t_cylinder *)obj->data)

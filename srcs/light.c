@@ -6,13 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:08:12 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:24:38 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "light.h"
 #include "inter.h"
 #include "libft.h"
+#include "parser.h"
 
 #define	LIGHT ((t_light *)obj->data)
 
