@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/02/18 18:35:26 by jrichard         ###   ########.fr        #
+#    Updated: 2017/02/18 18:45:22 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,7 @@ SRCDIR			= srcs/
 INCDIR			= includes/
 SDLINCDIR		= sdl/SDL/include
 
-SRC 			= light.c parser.c sphere.c \
-				  events.c main.c parser_add_objs.c rt.c utils.c
+SRC 			= cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -Ofast
 

@@ -6,13 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:30:29 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:44:45 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "plane.h"
 #include "quadratic.h"
+#include "parser.h"
 
 #define	PLANE ((t_plane *)obj->data)
 
@@ -23,7 +24,7 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 	if (dot_vector3f(ray->dir, PLANE->dir) != 0.0)
 	{
 		var.tmp = sub_vector3f(ray->start, obj->pos);
-		var.a = dot_vector3f(tmp, PLANE->dir);
+		var.a = dot_vector3f(var.tmp, PLANE->dir);
 		var.a = var.a / dot_vector3f(ray->dir, PLANE->dir);
 		var.result = var.a;
 	}
@@ -34,7 +35,8 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 
 static t_vector3f	normal_plane(struct s_obj *obj, t_vector3f *impact)
 {
-	return(PLANE->dir);
+	(void)impact;
+	return (PLANE->dir);
 }
 
 int					create_plane(t_kvlexer *token, t_rt *rt)
