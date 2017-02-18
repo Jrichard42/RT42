@@ -18,6 +18,14 @@
 #include "ray.h"
 #include "parser.h"
 
+static int			get_color_value(t_vector3f *color)
+{
+	int 			color;
+
+	color = 65536 * color->x + 256 * color->y + color->z;
+	return (color);
+}		
+
 static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 {
 	static	float		dist = NAN;
@@ -36,7 +44,7 @@ static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 	}
 }
 
-static void				put_in_image(t_rt *rt, int x, int y, t_color *color)
+static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
 	unsigned int		pixel_pos;
 
@@ -85,7 +93,7 @@ static void		render_pic(t_rt *rt)
 {
 	int			i;
 	int			j;
-	t_color		color;
+	t_vector3f	color;
 	t_vector3f	vp_point;
 	t_vector2f	pixel;
 
@@ -98,7 +106,7 @@ static void		render_pic(t_rt *rt)
 			pixel = create_vector2f(i, j);
 			vp_point = get_viewplanepoint(&rt->camera, &pixel);
 			color = get_inters(rt, &vp_point);
-			put_in_image(s, i, j, tmp);// a changer
+			put_in_image(rt, i, j, color);
 			++i;
 		}
 		++j;
