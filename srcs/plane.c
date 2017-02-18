@@ -20,16 +20,16 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
 
-	if (scalaire_prod_vector(&ray->dir, &plan->normale) != 0.0)
+	if (dot_vector3f(ray->dir, PLANE->dir) != 0.0)
 	{
-		sub_vector(&ray->start, &plan->point_plane, &tmp);
-		a = scalaire_prod_vector(&tmp, &plan->normal);
-		a = a / scalaire_prod_vector(&ray->dir, &plan->normal);
-		result = a;
+		var.tmp = sub_vector3f(ray->start, obj->pos);
+		var.a = dot_vector3f(tmp, PLANE->dir);
+		var.a = var.a / dot_vector3f(ray->dir, PLANE->dir);
+		var.result = var.a;
 	}
 	else
-		return (nan);
-	return (result);
+		return (NAN);
+	return (var.result);
 }
 
 static t_vector3f	normal_plane(struct s_obj *obj, t_vector3f *impact)
