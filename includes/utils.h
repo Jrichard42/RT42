@@ -12,6 +12,7 @@
 
 #ifndef UTILS_H
 # define UTILS_H
+
 # include <float.h>
 
 char		almost_equal_relative(float a, float b);
