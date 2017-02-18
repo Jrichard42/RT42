@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:34:08 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 19:32:51 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "rt.h"
 #include "cone.h"
 #include "parser.h"
+#include "utils.h"
 #include "libft_matrix.h"
 
 #define	CONE ((t_cone *)obj->data)
@@ -26,7 +27,7 @@ static float			inter_cone(t_obj *obj, t_ray *ray)
 	tmp = sub_vector3f(ray->start, obj->pos);
 	var.a = dot_vector3f(ray->dir, ray->dir) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(ray->dir, CONE->dir), 2.0));
 	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - ((1.0 + CONE->angle * CONE->angle) * (dot_vector3f(ray->dir, CONE->dir) * dot_vector3f(tmp, CONE->dir))));
-	var.c = dot_vector3f(tmp, tmp) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(tmp, CONE->dir), 2.0) - powf(CONE->radius, 2.0));
+	var.c = dot_vector3f(tmp, tmp) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(tmp, CONE->dir), 2.0) - powf(CONE->angle, 2.0));
 	if (var.a < 0)
 		return (NAN);
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);
@@ -52,7 +53,7 @@ static char			validate_direction(t_obj *obj, t_vector3f *io,
 	if (!almost_equal_relative(est_tan, exp_tan))
 	{
 		*piv = mult_vector3f(CONE->dir,
-				-1.0f * length_vector3f(*io) / cos(CONE->radius)); // RADIUS?????? WTF
+				-1.0f * length_vector3f(*io) / cos(CONE->angle)); // RADIUS?????? WTF
 		*piv = add_vector3f(*piv, obj->pos);
 		return (0);
 	}
@@ -67,7 +68,7 @@ static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
 	t_vector3f		norm;
 
 	io = sub_vector3f(*impact, obj->pos);
-	pi = length_vector3f(io) / cos(CONE->dir);
+	pi = length_vector3f(io) / cos(CONE->angle);
 	piv = mult_vector3f(CONE->dir, pi);
 	piv = add_vector3f(piv, obj->pos);
 	norm = sub_vector3f(*impact, piv);

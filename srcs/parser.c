@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/18 18:26:58 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 19:39:19 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,14 @@ static void				check_type(t_kvlexer *token, t_rt *rt)
 	{
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
-			if (!(ptr_type[i].create(token, rt)))
-				error_sdl("Unable to create the obj ", token->key); // check
+			if (ptr_type[i].create(token, rt) == -1)
+				printf("Unable to create the obj %s", token->key); // check
 			break ;
 		}
 		++i;
 	}
 	if (i == 6)
-		error_sdl("Unknown obj ", token->key); // check
+		printf("Unknown obj %s", token->key); // check
 }
 
 int						parser(char *name, t_rt *rt)
@@ -47,7 +47,7 @@ int						parser(char *name, t_rt *rt)
 	t_list				*current_child;
 
 	if (!(kvlexer = ft_kvlexer(name)))
-		return ((int)error("Wrong format")); //check 
+		return (0);//((int)error("Wrong format")); //check 
 	current_child = kvlexer->children->head;
 	while (current_child)
 	{

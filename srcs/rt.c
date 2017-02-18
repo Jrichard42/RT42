@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/18 18:37:19 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 19:39:43 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	node = rt->objs->head;
 	while (node)
 	{
-		ray.start = rt->camera.eyepoint;
+		ray.start = rt->camera->eyepoint;
 		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 		if (((t_obj *)node->content)->is_src != 1)
 			calcul_inter(&ray, ((t_obj *)node->content), &inter);
@@ -104,7 +104,7 @@ static void		render_pic(t_rt *rt)
 		while (i < (rt->env.size.x + 1))
 		{
 			pixel = create_vector2f(i, j);
-			vp_point = get_viewplanepoint(&rt->camera, &pixel);
+			vp_point = get_viewplanepoint(rt->camera, &pixel);
 			color = get_inters(rt, &vp_point);
 			put_in_image(rt, i, j, &color);
 			++i;

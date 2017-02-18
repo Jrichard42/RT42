@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 19:16:10 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 19:30:27 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef	struct	s_camera
 	float		n;
 }				t_camera;
 
-void			create_camera(t_kvlexer *token, t_rt *rt);
+int				create_camera(t_kvlexer *token, t_rt *rt);
 t_vector3f		get_viewplanepoint(t_camera *camera, t_vector2f *pixel);
 
 #endif
