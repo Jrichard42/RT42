@@ -24,7 +24,7 @@ static float		inter_sphere(t_obj *obj, t_ray *ray)
 	t_quadratic var;
 	t_vector3f	tmp;
 
-	tmp = sub_vector3f(ray->start, tmp);
+	tmp = sub_vector3f(ray->start, obj->pos);
 	var.a = dot_vector3f(tmp, ray->dir);
 	var.b = var.a * var.a - dot_vector3f(tmp, tmp) + SPHERE->radius * SPHERE->radius;
 	if (var.b < 0)
