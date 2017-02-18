@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/18 18:11:55 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:37:19 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 static int			get_color_value(t_vector3f *color)
 {
-	int 			color;
+	int 			int_color;
 
-	color = 65536 * color->x + 256 * color->y + color->z;
-	return (color);
+	int_color = 65536 * color->x + 256 * color->y + color->z;
+	return (int_color);
 }		
 
 static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
@@ -106,7 +106,7 @@ static void		render_pic(t_rt *rt)
 			pixel = create_vector2f(i, j);
 			vp_point = get_viewplanepoint(&rt->camera, &pixel);
 			color = get_inters(rt, &vp_point);
-			put_in_image(rt, i, j, color);
+			put_in_image(rt, i, j, &color);
 			++i;
 		}
 		++j;

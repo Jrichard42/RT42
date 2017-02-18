@@ -6,14 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:24:23 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:34:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <math.h>
 #include "rt.h"
 #include "cone.h"
-#include "ft_kvlexer.h"
+#include "parser.h"
 #include "libft_matrix.h"
 
 #define	CONE ((t_cone *)obj->data)
@@ -87,7 +87,6 @@ int					create_cone(t_kvlexer *token, t_rt *rt)
 		return (-1);
 	obj->normal = &normal_cone;
 	obj->inter = &inter_cone;
-
 	obj->pos = get_as_vector3f(token, "POSITION");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
@@ -96,7 +95,7 @@ int					create_cone(t_kvlexer *token, t_rt *rt)
 	CONE->angle = get_as_float(token, "ANGLE");
 	CONE->angle = tan(CONE->angle * M_PI / 180.0);
 	CONE->dir = get_as_vector3f(token, "DIR");
-	CONE->dir = normalize_vector3f(PLANE->dir);
+	CONE->dir = normalize_vector3f(CONE->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (0);

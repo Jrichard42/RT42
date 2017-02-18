@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 20:17:51 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:33:19 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "rt.h"
 #include "sphere.h"
 #include "quadratic.h"
+#include "parser.h"
 #include "libft.h"
 
 #define	SPHERE ((t_sphere *)obj->data)
