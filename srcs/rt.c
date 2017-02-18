@@ -115,10 +115,16 @@ static void		render_pic(t_rt *rt)
 
 void			refresh_rt(t_rt *rt)
 {
-		SDL_QueryTexture(rt->env.text, &rt->env.size, NULL, &rt->env.wh[0], &rt->env.wh[1]);
-		SDL_LockTexture(rt->env.text, NULL, (void**)&rt->env.pixels, &rt->env.pitch);
-		render_pic(rt);
-		SDL_UnlockTexture(rt->env.text);
+	Uint32	*size_pic;
+
+	if ((size_pic = ft_memalloc(sizeof(size_pic) * 2)) == NULL)
+		exit (-1);
+	size_pic[0] = rt->env.size.x;
+	size_pic[1] = rt->env.size.y;
+	SDL_QueryTexture(rt->env.text, size_pic, NULL, &rt->env.wh[0], &rt->env.wh[1]);
+	SDL_LockTexture(rt->env.text, NULL, (void**)&rt->env.pixels, &rt->env.pitch);
+	render_pic(rt);
+	SDL_UnlockTexture(rt->env.text);
 }
 
 void			render_rt(t_rt *rt)
@@ -139,7 +145,10 @@ t_rt			*create_rt(int x, int y, char *name)
 	if (parser(name, rt) == -1)
 		return (NULL);
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-		ft_exit(3, "sdl init failed"); // check
+	{
+		exit (-1);
+		//ft_exit(3, "sdl init failed"); // check
+	}
 	rt->env.win = SDL_CreateWindow("RT", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			x, y,
@@ -149,6 +158,9 @@ t_rt			*create_rt(int x, int y, char *name)
 			SDL_TEXTUREACCESS_STREAMING,
 			x + 1, y + 1);
 	if (!(rt->env.win && rt->env.text && rt->env.rend))
-		ft_exit(3, "renderer init failed"); // check
+	{	
+		exit(-1);
+		//ft_exit(3, "renderer init failed"); // check
+	}
 	return (rt);
 }
