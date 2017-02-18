@@ -21,11 +21,12 @@
 static 	float		inter_cylinder(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
+	t_vector3f	tmp;
 
-	var.tmp = sub_vector3f(ray->start, obj->pos);
+	tmp = sub_vector3f(ray->start, obj->pos);
 	var.a = dot_vector3f(ray->dir, ray->dir) - powf(dot_vector3f(ray->dir, CYLINDER->dir), 2.0);
-	var.b = 2.0 * (dot_vector3f(ray->dir, var.tmp) - (dot_vector3f(ray->dir, CYLINDER->dir) * dot_vector3f(var.tmp, CYLINDER->dir)));
-	var.c = dot_vector3f(var.tmp, var.tmp) - powf(dot_vector3f(var.tmp, CYLINDER->dir), 2.0) - powf(CYLINDER->radius, 2.0);
+	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - (dot_vector3f(ray->dir, CYLINDER->dir) * dot_vector3f(tmp, CYLINDER->dir)));
+	var.c = dot_vector3f(tmp, tmp) - powf(dot_vector3f(tmp, CYLINDER->dir), 2.0) - powf(CYLINDER->radius, 2.0);
 	if (var.a < 0)
 		return (NAN);
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);

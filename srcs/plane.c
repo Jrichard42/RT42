@@ -20,11 +20,12 @@
 static 	float		inter_plane(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
+	t_vector3f	tmp;
 
 	if (dot_vector3f(ray->dir, PLANE->dir) != 0.0)
 	{
-		var.tmp = sub_vector3f(ray->start, obj->pos);
-		var.a = dot_vector3f(var.tmp, PLANE->dir);
+		tmp = sub_vector3f(ray->start, obj->pos);
+		var.a = dot_vector3f(tmp, PLANE->dir);
 		var.a = var.a / dot_vector3f(ray->dir, PLANE->dir);
 		var.result = var.a;
 	}

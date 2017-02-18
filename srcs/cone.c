@@ -21,11 +21,12 @@
 static float			inter_cone(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
+	t_vector3f	tmp;
 
-	var.tmp = sub_vector3f(ray->start, obj->pos);
+	tmp = sub_vector3f(ray->start, obj->pos);
 	var.a = dot_vector3f(ray->dir, ray->dir) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(ray->dir, CONE->dir), 2.0));
-	var.b = 2.0 * (dot_vector3f(ray->dir, var.tmp) - ((1.0 + CONE->angle * CONE->angle) * (dot_vector3f(ray->dir, CONE->dir) * dot_vector3f(var.tmp, CONE->dir))));
-	var.c = dot_vector3f(var.tmp, var.tmp) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(var.tmp, CONE->dir), 2.0) - powf(CONE->radius, 2.0));
+	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - ((1.0 + CONE->angle * CONE->angle) * (dot_vector3f(ray->dir, CONE->dir) * dot_vector3f(tmp, CONE->dir))));
+	var.c = dot_vector3f(tmp, tmp) - ((1.0 + CONE->angle * CONE->angle) * powf(dot_vector3f(tmp, CONE->dir), 2.0) - powf(CONE->radius, 2.0));
 	if (var.a < 0)
 		return (NAN);
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);

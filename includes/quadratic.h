@@ -24,7 +24,6 @@ typedef struct	s_quadratic
 	float		delta;
 	float		sol_1;
 	float		sol_2;
-	t_vector3f	tmp;
 }				t_quadratic;
 
 #endif
