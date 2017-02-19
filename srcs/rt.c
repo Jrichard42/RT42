@@ -23,11 +23,12 @@ static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 	float 			tmp;
 
 	tmp = obj->inter(obj, ray);
+	//printf("tmp = %f\n", tmp);
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
+		inter->distance = tmp;
 		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
-		inter->distance = tmp;
 		inter->obj = obj;
 	}
 }
@@ -37,7 +38,7 @@ static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 	unsigned int		pixel_pos;
 	int					int_color;
 
-	int_color = 65536 * color->x + 256 * color->y + color->z;
+	int_color = 65536 * color->z + 256 * color->y + color->x;
 	if ((x < rt->env.wh[0]) && y < (rt->env.wh[1]))
 	{
 		pixel_pos = y * (rt->env.pitch / sizeof(unsigned int)) + x;
@@ -67,14 +68,14 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	node = rt->objs->head;
 	if (inter.obj != NULL)
 	{
-		printf("found\n");
-		color = create_vector3f(255, 255, 255);
-	//	while (node)
-	//	{
-	//		if (((t_obj *)node->content)->is_src == 1)
-	//			color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
-	//		node = node->next;
-	//	}
+		//printf("inter->impact.x = %f, inter->impact.y = %f, inter->impact.z = %f \n", inter.impact.x, inter.impact.y, inter.impact.z);
+		//printf("inter->normal.x = %f, inter->normal.y = %f, inter->normal.z = %f \n", inter.normal.x, inter.impact.y, inter.impact.z);
+		while (node)
+		{
+			if (((t_obj *)node->content)->is_src == 1)
+				color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
+			node = node->next;
+		}
 	}
 	return (color);
 }
@@ -130,8 +131,8 @@ t_rt			*create_rt(int x, int y, char *name)
 
 	if (!(rt = ft_memalloc(sizeof(*rt))))
 		return (NULL);  //TODO check
-	rt->env.size.x = 1300;
-	rt->env.size.y = 1300;
+	rt->env.size.x = x;
+	rt->env.size.y = y;
 	if (parser(name, rt) == -1)
 		return (NULL);
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
