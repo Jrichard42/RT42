@@ -24,14 +24,13 @@ static float		inter_sphere(t_obj *obj, t_ray *ray)
 	t_quadratic var;
 	t_vector3f	tmp;
 
-	tmp = sub_vector3f(ray->start, obj->pos);
+	tmp = sub_vector3f(obj->pos, ray->start);
 	var.a = dot_vector3f(tmp, ray->dir);
 	var.b = var.a * var.a - dot_vector3f(tmp, tmp) + SPHERE->radius * SPHERE->radius;
 	if (var.b < 0)
 		return (NAN);
-	var.b = sqrt(var.b);
-	var.sol_1 = var.a - var.b;
-	var.sol_2 = var.a + var.b;
+	var.sol_1 = var.a - sqrt(var.b);
+	var.sol_2 = var.a + sqrt(var.b);
 	if (var.sol_1 > var.sol_2)
 		var.result = var.sol_2;
 	else
