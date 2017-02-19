@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 19:37:50 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 20:11:24 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,13 @@ static float		inter_sphere(t_obj *obj, t_ray *ray)
 	t_quadratic var;
 	t_vector3f	tmp;
 
-	tmp = sub_vector3f(ray->start, obj->pos);
+	tmp = sub_vector3f(obj->pos, ray->start);
 	var.a = dot_vector3f(tmp, ray->dir);
 	var.b = var.a * var.a - dot_vector3f(tmp, tmp) + SPHERE->radius * SPHERE->radius;
 	if (var.b < 0)
 		return (NAN);
-	var.b = sqrt(var.b);
-	var.sol_1 = var.a - var.b;
-	var.sol_2 = var.a + var.b;
+	var.sol_1 = var.a - sqrt(var.b);
+	var.sol_2 = var.a + sqrt(var.b);
 	if (var.sol_1 > var.sol_2)
 		var.result = var.sol_2;
 	else
@@ -59,7 +58,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 		return (-1);
 	obj->normal = &normal_sphere;
 	obj->inter = &inter_sphere;
-	obj->pos = get_as_vector3f(token, "POSITION");
+	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");

@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/18 19:39:43 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 20:15:54 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,42 +16,32 @@
 #include "obj.h"
 #include "inter.h"
 #include "ray.h"
-#include "parser.h"
-
-static int			get_color_value(t_vector3f *color)
-{
-	int 			int_color;
-
-	int_color = 65536 * color->x + 256 * color->y + color->z;
-	return (int_color);
-}		
+#include "parser.h"	
 
 static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 {
-	static	float		dist = NAN;
-	float 				tmp;
+	float 			tmp;
 
 	tmp = obj->inter(obj, ray);
-	if (dist == NAN)
-		dist = tmp;
-	if (tmp != NAN && tmp < dist && tmp > 0.01)
+	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
 		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
 		inter->distance = tmp;
 		inter->obj = obj;
-		dist = tmp;
 	}
 }
 
 static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
 	unsigned int		pixel_pos;
+	int					int_color;
 
+	int_color = 65536 * color->x + 256 * color->y + color->z;
 	if ((x < rt->env.wh[0]) && y < (rt->env.wh[1]))
 	{
 		pixel_pos = y * (rt->env.pitch / sizeof(unsigned int)) + x;
-		rt->env.pixels[pixel_pos] = get_color_value(color);
+		rt->env.pixels[pixel_pos] = int_color;
 	}
 }
 
@@ -63,28 +53,28 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	t_ray				ray;
 
 	inter.obj = NULL;
+	inter.distance = NAN;
 	color = create_vector3f(0, 0, 0);
 	node = rt->objs->head;
 	while (node)
 	{
-		ray.start = rt->camera->eyepoint;
+		ray.start = rt->camera->pos; //eyepoint
 		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 		if (((t_obj *)node->content)->is_src != 1)
 			calcul_inter(&ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
-
-
-
-
-
 	node = rt->objs->head;
 	if (inter.obj != NULL)
-	while (node)
 	{
-		if (((t_obj *)node->content)->is_src == 1)
-			color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
-		node = node->next;
+		printf("found\n");
+		color = create_vector3f(255, 255, 255);
+	//	while (node)
+	//	{
+	//		if (((t_obj *)node->content)->is_src == 1)
+	//			color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
+	//		node = node->next;
+	//	}
 	}
 	return (color);
 }
@@ -129,9 +119,9 @@ void			refresh_rt(t_rt *rt)
 
 void			render_rt(t_rt *rt)
 {
-		SDL_RenderClear(rt->env.rend);
-		SDL_RenderCopy(rt->env.rend, rt->env.text, NULL, NULL);
-		SDL_RenderPresent(rt->env.rend);
+	SDL_RenderClear(rt->env.rend);
+	SDL_RenderCopy(rt->env.rend, rt->env.text, NULL, NULL);
+	SDL_RenderPresent(rt->env.rend);
 }
 
 t_rt			*create_rt(int x, int y, char *name)
