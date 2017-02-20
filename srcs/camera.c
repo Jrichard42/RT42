@@ -54,7 +54,7 @@ t_vector3f		get_viewplanepoint(t_camera *camera, t_vector2f *pixel)
 	vpp = add_vector3f(camera->vp, add_vector3f(
 		mult_vector3f(camera->vix, pixel->x),
 		mult_vector3f(camera->viy, pixel->y)));
-	v = sub_vector3f(vpp, camera->eyepoint);
+	v = sub_vector3f(vpp, camera->pos);
 	normalize_vector3f(v);
 	return (v);
 }

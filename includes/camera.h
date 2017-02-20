@@ -20,7 +20,7 @@ typedef struct s_rt t_rt;
 
 typedef	struct	s_camera 
 {
-	t_vector3f	eyepoint;
+	t_vector3f	pos;
 	t_vector3f	lookatpoint;
 	t_vector3f	up;
 	t_vector3f	light;
