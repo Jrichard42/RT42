@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/02/18 19:44:14 by jrichard         ###   ########.fr        #
+#    Updated: 2017/02/20 14:42:43 by dbreton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME			= rtv1
 LIBFT			= lib/libft/
 LIBFTMATRIX		= lib/libft_matrix/
 SDL				= sdl/SDL/lib
+SDL_PATH		=$(shell pwd)/SDL
 
 SRCDIR			= srcs/
 INCDIR			= includes/
@@ -49,6 +50,13 @@ fclean: clean
 
 re: fclean all
 
+sdl :
+	echo $(SDL_PATH)
+	cd sdl/SDL2-2.0.5; \
+		./configure --prefix=$(SDL_PATH) &&	make && make install
+
 .PHONY: $(LIBFT)
 
 .PHONY: $(LIBFTMATRIX)
+
+.PHONY: sdl
