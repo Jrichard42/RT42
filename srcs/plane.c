@@ -24,7 +24,7 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 
 	if (dot_vector3f(ray->dir, PLANE->dir) != 0.0)
 	{
-		tmp = sub_vector3f(ray->start, obj->pos);
+		tmp = sub_vector3f(obj->pos, ray->start);
 		var.a = dot_vector3f(tmp, PLANE->dir);
 		var.a = var.a / dot_vector3f(ray->dir, PLANE->dir);
 		var.result = var.a;

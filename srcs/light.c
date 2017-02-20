@@ -57,10 +57,12 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	t_vector3f		color_return;
 	float			coeffs;
 
+	specular = 0.0;
 	diffuse = diffuse_light(obj, inter) * inter->obj->mat.kd;
-	specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
+	if (dot_vector3f(inter->normal, sub_vector3f(obj->pos, inter->impact)) > 0)
+		specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
 	//printf("diffuse = %f\n", diffuse);
-	coeffs = (diffuse);
+	coeffs = (diffuse + specular + inter->obj->mat.ka);
 	//printf("impact.x = %f impact.y = %f impact.z = %f\n", inter->impact.x, inter->impact.y, inter->impact.z);
 	//printf("coef = %f\n", diffuse);
 	//printf("LIGHT->color.x = %f\n", LIGHT->color.x);
