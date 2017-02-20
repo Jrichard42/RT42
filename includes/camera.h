@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 19:30:27 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 19:57:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_rt t_rt;
 
-typedef	struct	s_camera 
+/*typedef	struct	s_camera 
 {
 	t_vector3f	eyepoint;
 	t_vector3f	lookatpoint;
@@ -37,6 +37,19 @@ typedef	struct	s_camera
 	int			fov;
 	float		aspect;
 	float		n;
+}				t_camera;*/
+
+typedef struct	s_camera
+{
+	t_vector3f	pos;
+	t_vector2f	size;
+	t_vector3f	look_at;
+	t_vector3f	up;
+	t_vector3f	side;
+	t_vector3f	res;
+	t_vector3f	top_left;
+	float		distance;
+	float		fov;
 }				t_camera;
 
 int				create_camera(t_kvlexer *token, t_rt *rt);

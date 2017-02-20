@@ -44,7 +44,7 @@ t_vector3f			get_as_vector3f(t_kvlexer *token, char *str)
 	return (vector);
 }
 
-int					get_as_float(t_kvlexer *token, char *str)
+float				get_as_float(t_kvlexer *token, char *str)
 {
 	t_list			*node;
 	t_kvlexer		*field;

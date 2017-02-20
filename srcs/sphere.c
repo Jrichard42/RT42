@@ -40,12 +40,7 @@ static float		inter_sphere(t_obj *obj, t_ray *ray)
 
 static t_vector3f	normal_sphere(struct s_obj *obj, t_vector3f *impact)
 {
-	t_vector3f tmp;
-
-	tmp = sub_vector3f(*impact, obj->pos);
-	tmp = normalize_vector3f(tmp);
-
-	return (tmp);
+	return (normalize_vector3f(sub_vector3f(*impact, obj->pos)));
 }
 
 int					create_sphere(t_kvlexer *token, t_rt *rt)

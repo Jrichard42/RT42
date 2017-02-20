@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/18 20:15:54 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/20 14:35:37 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,16 @@
 #include "ray.h"
 #include "parser.h"	
 
+int                get_color_value(t_vector3f c)
+{
+    int            res;
+
+    res = (unsigned char)(c.x) & 0xFF;
+    res += ((unsigned char)(c.y) & 0x00FF) << 8;
+    res += ((unsigned char)(c.z) & 0x0000FF) << 16;
+    return (res);
+}
+
 static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 {
 	float 			tmp;
@@ -25,9 +35,9 @@ static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 	tmp = obj->inter(obj, ray);
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
+		inter->distance = tmp;
 		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
-		inter->distance = tmp;
 		inter->obj = obj;
 	}
 }
@@ -37,7 +47,7 @@ static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 	unsigned int		pixel_pos;
 	int					int_color;
 
-	int_color = 65536 * color->x + 256 * color->y + color->z;
+	int_color = get_color_value(*color);
 	if ((x < rt->env.wh[0]) && y < (rt->env.wh[1]))
 	{
 		pixel_pos = y * (rt->env.pitch / sizeof(unsigned int)) + x;
@@ -67,14 +77,12 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	node = rt->objs->head;
 	if (inter.obj != NULL)
 	{
-		printf("found\n");
-		color = create_vector3f(255, 255, 255);
-	//	while (node)
-	//	{
-	//		if (((t_obj *)node->content)->is_src == 1)
-	//			color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
-	//		node = node->next;
-	//	}
+		while (node)
+		{
+			if (((t_obj *)node->content)->is_src == 1)
+				color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
+			node = node->next;
+		}
 	}
 	return (color);
 }
@@ -105,13 +113,9 @@ static void		render_pic(t_rt *rt)
 
 void			refresh_rt(t_rt *rt)
 {
-	Uint32	*size_pic;
+	Uint32	size_pic;
 
-	if ((size_pic = ft_memalloc(sizeof(size_pic) * 2)) == NULL)
-		exit (-1);
-	size_pic[0] = rt->env.size.x;
-	size_pic[1] = rt->env.size.y;
-	SDL_QueryTexture(rt->env.text, size_pic, NULL, &rt->env.wh[0], &rt->env.wh[1]);
+	SDL_QueryTexture(rt->env.text, &size_pic, NULL, &rt->env.wh[0], &rt->env.wh[1]);
 	SDL_LockTexture(rt->env.text, NULL, (void**)&rt->env.pixels, &rt->env.pitch);
 	render_pic(rt);
 	SDL_UnlockTexture(rt->env.text);
@@ -130,8 +134,8 @@ t_rt			*create_rt(int x, int y, char *name)
 
 	if (!(rt = ft_memalloc(sizeof(*rt))))
 		return (NULL);  //TODO check
-	rt->env.size.x = 1300;
-	rt->env.size.y = 1300;
+	rt->env.size.x = x;
+	rt->env.size.y = y;
 	if (parser(name, rt) == -1)
 		return (NULL);
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)

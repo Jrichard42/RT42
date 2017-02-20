@@ -26,7 +26,7 @@ typedef struct	s_ptr_type
 
 int				parser(char *name, t_rt *rt);
 t_vector3f		get_as_vector3f(t_kvlexer *token, char *str);
-int				get_as_float(t_kvlexer *token, char *str);
+float			get_as_float(t_kvlexer *token, char *str);
 t_material		get_material(t_kvlexer *token);
 //t_trans			get_trans(t_kvlexer *token);
 

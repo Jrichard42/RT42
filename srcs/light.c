@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:24:38 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 20:09:24 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static float		specular_light(t_obj *obj, t_inter *inter, t_ray *ray)
 static float		diffuse_light(t_obj *obj, t_inter *inter)
 {
 	t_vector3f		ray_light;
-	float			norme;
+	float			angle;
 
 	ray_light = normalize_vector3f(sub_vector3f(obj->pos, inter->impact));
-	norme = dot_vector3f(ray_light, inter->normal);
-	if (norme < 0)
-		norme = 0;
-	return (norme);
+	angle = dot_vector3f(ray_light, inter->normal);
+	if (angle < 0)
+		angle = 0;
+	return (angle);
 }
 
 t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *color)
@@ -59,15 +59,21 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 
 	diffuse = diffuse_light(obj, inter) * inter->obj->mat.kd;
 	specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
-	coeffs = (diffuse + specular + inter->obj->mat.ka);
+	//printf("diffuse = %f\n", diffuse);
+	coeffs = (diffuse);
+	//printf("impact.x = %f impact.y = %f impact.z = %f\n", inter->impact.x, inter->impact.y, inter->impact.z);
+	//printf("coef = %f\n", diffuse);
+	//printf("LIGHT->color.x = %f\n", LIGHT->color.x);
 	color_return = mult_vector3f(LIGHT->color, coeffs); //TODO intensity
 	color_return = add_vector3f(color_return, *color);
-	if (color_return.x > 255)
+	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
+	if (color_return.x > 255.0)
 		color_return.x = 255;
-	if (color_return.y > 255)
+	if (color_return.y > 255.0)
 		color_return.y = 255;
-	if (color_return.z > 255)
+	if (color_return.z > 255.0)
 		color_return.z = 255;
+	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
 	return (color_return);
 }
 
@@ -79,11 +85,12 @@ int					create_light(t_kvlexer *token, t_rt *rt)
 		return (-1);
 	if (!(obj->data = ft_memalloc(sizeof(t_light))))
 		return (-1);
-	obj->pos = get_as_vector3f(token, "POSITION");
+	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
+	LIGHT->color = get_as_vector3f(token, "COLOR");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (0);
