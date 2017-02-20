@@ -1,10 +1,10 @@
 # sdl2 cmake project-config input for ./configure scripts
 
-set(prefix "/Users/abitoun/rt42/sdl/SDL") 
+set(prefix "/Users/dbreton/ClionProjects/rt42/SDL") 
 set(exec_prefix "${prefix}")
 set(libdir "${exec_prefix}/lib")
-set(SDL2_PREFIX "/Users/abitoun/rt42/sdl/SDL")
-set(SDL2_EXEC_PREFIX "/Users/abitoun/rt42/sdl/SDL")
+set(SDL2_PREFIX "/Users/dbreton/ClionProjects/rt42/SDL")
+set(SDL2_EXEC_PREFIX "/Users/dbreton/ClionProjects/rt42/SDL")
 set(SDL2_LIBDIR "${exec_prefix}/lib")
 set(SDL2_INCLUDE_DIRS "${prefix}/include/SDL2")
 set(SDL2_LIBRARIES "-L${SDL2_LIBDIR}  -lSDL2 ")
