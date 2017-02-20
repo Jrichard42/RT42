@@ -21,7 +21,7 @@
 
 typedef struct	s_cone
 {
-	int			angle;
+	float		angle;
 	t_vector3f	dir;
 }				t_cone;
 
