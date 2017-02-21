@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 19:57:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/21 13:49:51 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "ft_kvlexer.h"
 # include "libft_matrix.h"
-# define WIN_X 1920
-# define WIN_Y 1080
+# define WIN_X 1300
+# define WIN_Y 1300
 
 typedef struct s_rt t_rt;
 
@@ -40,7 +40,6 @@ typedef	struct	s_camera
 	float		aspectratio;
 	float		n;
 }				t_camera;
-
 // typedef struct	s_camera
 // {
 // 	t_vector3f	pos;
