@@ -1,6 +1,6 @@
 #!/bin/sh
 
-prefix=/Users/dbreton/ClionProjects/rt42/SDL
+prefix=/Users/hpachy/42/projet/rt42/sdl/SDL
 exec_prefix=${prefix}
 exec_prefix_set=no
 libdir=${exec_prefix}/lib
