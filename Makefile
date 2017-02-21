@@ -33,7 +33,7 @@ $(LIBFTMATRIX):
 	@$(MAKE) -C $@
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm
+	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm -framework opencl
 
 %.o: $(SRCDIR)%.c
 	gcc -o $@ -c $< $(CFLAGS) -I$(INCDIR) -I$(LIBFT) -I$(LIBFTMATRIX) -I$(SDLINCDIR)
