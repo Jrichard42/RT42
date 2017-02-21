@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/20 14:35:37 by abitoun          ###   ########.fr       */
+/*   Updated: 2017/02/21 13:50:28 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "inter.h"
 #include "ray.h"
 #include "parser.h"	
+#include "camera.h"
 
 int                get_color_value(t_vector3f c)
 {
@@ -103,6 +104,7 @@ static void		render_pic(t_rt *rt)
 		{
 			pixel = create_vector2f(i, j);
 			vp_point = get_viewplanepoint(rt->camera, &pixel);
+			//printf("x = %f y = %f z = %f\n",vp_point.x, vp_point.y, vp_point.z );
 			color = get_inters(rt, &vp_point);
 			put_in_image(rt, i, j, &color);
 			++i;
