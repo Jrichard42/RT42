@@ -15,8 +15,8 @@
 
 # include "ft_kvlexer.h"
 # include "libft_matrix.h"
-# define WIN_X 1300
-# define WIN_Y 1300
+# define WIN_X 1920
+# define WIN_Y 1080
 
 typedef struct s_rt t_rt;
 
