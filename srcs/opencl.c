@@ -9,6 +9,29 @@
 //TODO get proper kernel numbers
 #define	NUM_KERNEL 256
 
+t_kernel		*kernel_realloc(t_kernel *ptr, size_t size)
+{
+	t_kernel	*new;
+	int 		i;
+
+	if (!(new = (t_kernel *)malloc(sizeof(t_kernel) * size)))
+		return (NULL);
+	i = 0;
+	if (ptr)
+	{
+		while (ptr[i].kernel)
+		{
+			new[i].name = ptr[i].name;
+			new[i].kernel = ptr[i].kernel;
+			++i;
+		}
+		ft_memdel((void **)&ptr);
+		//new[i] = NULL;
+	}
+	return (new);
+}
+
+
 int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env)
 {
 	int 		fd;
@@ -39,8 +62,8 @@ int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env)
 		free(tmp);
 		free(line);
 	}
-	printf("%s\n", fileName);
 	close(fd);
+	//TODO handle errors
 	src_len= ft_strlen(src_str);
 	program = clCreateProgramWithSource(env->ctx, 1, (const char **)&src_str, (const size_t *)&src_len, &ret);
 	ret = clBuildProgram(program, 1, &env->device_id, NULL, NULL, NULL);
@@ -52,16 +75,17 @@ int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env)
 	j = 0;
 	while (kernel[j])
 		++j;
-	*kernel = (t_kernel *)ft_realloc((void *)*kernel, sizeof(t_kernel) * (i + kern_num) + 1);
-	while (tmp_kers[i])
+	*kernel = kernel_realloc(*kernel, sizeof(t_kernel) * (j + kern_num + 1));
+	//*kernel = (t_kernel *)ft_realloc(*kernel, sizeof(t_kernel) * (j + kern_num + 1));
+	while (i < kern_num)
 	{
 		clGetKernelInfo(tmp_kers[i], CL_KERNEL_FUNCTION_NAME, 256, (void *)ker_name, NULL);
 		kernel[j]->name = ft_strdup(ker_name);
-		kernel[j]->kernel = tmp_kers[i];
+		kernel[j]->kernel = &tmp_kers[i];
 		++j;
 		++i;
-		//kernel[j] = NULL;
 	}
+	kernel[j] = NULL;
 	return (1);
 }
 //use absolute or relative path to directory
@@ -86,20 +110,17 @@ t_cl			cl_init(const char *manifest_dir)
 	res.env.ctx = clCreateContext(NULL, 1, &res.env.device_id, NULL, NULL, &ret);
 	res.queue = clCreateCommandQueue(res.env.ctx, res.env.device_id, 0, &ret);
 	res.kernels = NULL;
-	//res.kernels = (t_kernel *)malloc(sizeof(t_kernel));
-	//res.kernels[0] = 0;
 	while (get_next_line(fd, &line) > 0)
 	{
-		printf("%s\n", line);
 		if (ft_strlen(line) > 0)
 		{
 			tmp = ft_strjoin("/", line);
 			file_name = ft_strjoin(manifest_dir, tmp);
-			printf("%s\n", file_name);
 			read_kernel(&res.kernels, file_name, &res.env);
 			//-----------------------------------------------------------------
 
 			//-----------------------------------------------------------------
+			free(tmp);
 			free(file_name);
 		}
 	}

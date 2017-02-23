@@ -24,7 +24,7 @@ typedef struct	s_cl_env
 typedef struct 	s_kernel
 {
 	char 		*name;
-	cl_kernel 	kernel;
+	cl_kernel 	*kernel;
 }				t_kernel;
 typedef struct 	s_cl
 {

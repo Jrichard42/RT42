@@ -34,7 +34,7 @@ int				main(int argc, char **argv)
 	if (argc != 2)
 		return (-1);
 	cl = cl_init("./kernels");
-	printf("%s\n", cl.kernels[0].name);
+	printf("%s\n", cl.kernels[1].name);
 
 	rt = create_rt(1920, 1080, argv[1]);
 	loop(rt);
