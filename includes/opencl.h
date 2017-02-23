@@ -26,7 +26,14 @@ typedef struct 	s_kernel
 	char 		*name;
 	cl_kernel 	kernel;
 }				t_kernel;
+typedef struct 	s_cl
+{
+	t_cl_env	env;
+	t_kernel	*kernels;
+	cl_command_queue queue;
+}				t_cl;
 
-int 			read_kernel(cl_program *program, const char *fileName, t_cl_env *env);
+int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env);
+t_cl			cl_init(const char *manifest_dir);
 
 #endif

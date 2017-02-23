@@ -12,6 +12,7 @@
 
 #include "events.h"
 #include "rt.h"
+#include "opencl.h"
 
 static int		loop(t_rt *rt)
 {
@@ -28,9 +29,13 @@ static int		loop(t_rt *rt)
 int				main(int argc, char **argv)
 {
 	t_rt		*rt;
+	t_cl		cl;
 
 	if (argc != 2)
 		return (-1);
+	cl = cl_init("./kernels");
+	printf("%s\n", cl.kernels[0].name);
+
 	rt = create_rt(1920, 1080, argv[1]);
 	loop(rt);
 	// fontion destruction en attente
