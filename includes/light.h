@@ -27,4 +27,5 @@ int				create_light(t_kvlexer *token, t_rt *rt);
 t_vector3f		calcul_light(t_obj *obj, t_inter *inter, t_ray *ray,
 		t_vector3f *color);
 
+float			diffuse_light(t_obj *obj, t_inter *inter);
 #endif

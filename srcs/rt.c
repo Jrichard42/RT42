@@ -55,6 +55,60 @@ static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 	}
 }
 
+static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *ray_obj)
+{
+	int					shadow;
+	float				tmp;
+
+	shadow = 0;
+	while (node_obj)
+	{
+		if (((t_obj *)node_obj->content)->is_src != 1)
+		{
+			if(!isnan(tmp = ((t_obj *)node_obj->content)
+				->inter(((t_obj *)node_obj->content), ray_obj))
+				&& tmp > 0.01 && tmp <
+				length_vector3f(sub_vector3f(((t_obj *)node->content)->pos
+					, inter->impact)) && diffuse_light(((t_obj *)node->content)
+				, inter) > 0)
+			{
+				shadow = 1;
+				break;
+			}
+		}
+		node_obj = node_obj->next;
+	}
+	return (shadow);
+}
+
+static	void			apply_light(t_list *node, t_ray *ray, t_vector3f *color, t_inter *inter)
+{
+	int 				shadow;
+	t_list				*save;
+	t_list				*node_obj;
+	t_ray				ray_obj;
+
+	shadow = 0;
+	save = node;
+	if (inter->obj != NULL)
+	{
+		while (node)
+		{
+			if (((t_obj *)node->content)->is_src == 1)
+			{
+				node_obj = save;
+				ray_obj.start = inter->impact;
+				ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)node->content)->pos, inter->impact));
+				shadow = if_shadow(node_obj, inter, node, &ray_obj);
+				if (shadow != 1)
+					*color = calcul_light(((t_obj *)node->content), inter, ray, color);
+				shadow = 0;
+			}
+			node = node->next;
+		}
+	}
+}
+
 static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 {
 	t_list				*node;
@@ -75,15 +129,7 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 		node = node->next;
 	}
 	node = rt->objs->head;
-	if (inter.obj != NULL)
-	{
-		while (node)
-		{
-			if (((t_obj *)node->content)->is_src == 1)
-				color = calcul_light(((t_obj *)node->content), &inter, &ray, &color);
-			node = node->next;
-		}
-	}
+	apply_light(node, &ray, &color, &inter);
 	return (color);
 }
 
@@ -103,6 +149,7 @@ static void		render_pic(t_rt *rt)
 		{
 			pixel = create_vector2f(i, j);
 			vp_point = get_viewplanepoint(rt->camera, &pixel);
+			//printf("x = %f y = %f z = %f\n",vp_point.x, vp_point.y, vp_point.z );
 			color = get_inters(rt, &vp_point);
 			put_in_image(rt, i, j, &color);
 			++i;

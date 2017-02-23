@@ -30,6 +30,7 @@ typedef	struct	s_obj
 	int			id;
 	char		is_src;
 	char		is_visible;
+	t_vector3f	color;
 	void		*data;
 	float		(*inter)(struct s_obj *, t_ray *);
 	t_vector3f	(*normal)(struct s_obj *, t_vector3f *);
