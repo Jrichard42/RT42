@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 20:09:24 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/24 17:38:37 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,13 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	float			specular;
 	t_vector3f		color_return;
 	float			coeffs;
+	t_vector3f		parite;
+	t_vector3f		color1;
+	t_vector3f		color2;
 
 	specular = 0.0;
+	color1 = create_vector3f(0,0,0);
+	color2 = create_vector3f(255,255,255);
 	diffuse = diffuse_light(obj, inter) * inter->obj->mat.kd;
 	if (dot_vector3f(inter->normal, sub_vector3f(obj->pos, inter->impact)) > 0)
 		specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
@@ -66,9 +71,39 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	//printf("impact.x = %f impact.y = %f impact.z = %f\n", inter->impact.x, inter->impact.y, inter->impact.z);
 	//printf("coef = %f\n", diffuse);
 	//printf("light.x = %f\n", LIGHT->color.x);
-	//color_return = mult_vector3f(div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, coeffs), mult_vector3f(LIGHT->color, coeffs)), 2.0), LIGHT->intensity);
+	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, coeffs), mult_vector3f(LIGHT->color, coeffs)), 2.0); //TODO intensity
 	color_return = mult_vector3f(mult_vector3f(inter->obj->color, coeffs), LIGHT->intensity);
 	color_return = add_vector3f(color_return, *color);
+	if (inter->obj->id == 4)
+	{
+		parite = div_vector3f(inter->impact, 12.0);
+		if ((int)parite.z % 2 == 0)
+		{
+			if (((int)parite.x % 2 == 0 && (int)parite.y % 2 == 0) || ((int)parite.x % 2 != 0 && (int)parite.y % 2 != 0))
+			{
+				color_return = mult_vector3f(mult_vector3f(color1, coeffs), LIGHT->intensity);
+				color_return = add_vector3f(color_return, *color);
+			}
+			else
+			{
+				color_return = mult_vector3f(mult_vector3f(color2, coeffs), LIGHT->intensity);
+				color_return = add_vector3f(color_return, *color);
+			}
+		}
+		else
+		{
+			if (((int)parite.x % 2 == 0 && (int)parite.y % 2 == 0) || ((int)parite.x % 2 != 0 && (int)parite.y % 2 != 0))
+			{
+				color_return = mult_vector3f(mult_vector3f(color2, coeffs), LIGHT->intensity);
+				color_return = add_vector3f(color_return, *color);
+			}
+			else
+			{
+				color_return = mult_vector3f(mult_vector3f(color1, coeffs), LIGHT->intensity);
+				color_return = add_vector3f(color_return, *color);
+			}
+		}
+	}
 	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
 	if (color_return.x > 255.0)
 		color_return.x = 255;
