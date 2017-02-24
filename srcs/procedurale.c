@@ -14,37 +14,30 @@
 #include "obj.h"
 #include "libft.h"
 #include "rt.h"
+#include "plane.h"
 #include "inter.h"
 
-static t_vector3f	procedure_calcul_light_sup(float impact, float *coeffs, float *intensity)
+static t_vector3f	procedure_calcul_light_sup(float impact, float *coeffs, float *intensity, t_inter *inter)
 {
-	t_vector3f		color1;
-	t_vector3f		color2;
 	t_vector3f		color_return;
 
-	color1 = create_vector3f(0,0,0);
-	color2 = create_vector3f(255,255,255);
 	color_return = create_vector3f(0,0,0);
 	if (sin(M_PI / 10.0) * sin((M_PI / 10.0) * impact) >= 0)
-		color_return = mult_vector3f(mult_vector3f(color1, *coeffs), *intensity);
+		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color1, *coeffs), *intensity);
 	else
-		color_return = mult_vector3f(mult_vector3f(color2, *coeffs), *intensity);
+		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color2, *coeffs), *intensity);
 	return (color_return);
 }
 
-static t_vector3f	procedure_calcul_light_inf(float impact, float *coeffs, float *intensity)
+static t_vector3f	procedure_calcul_light_inf(float impact, float *coeffs, float *intensity, t_inter *inter)
 {
-	t_vector3f		color1;
-	t_vector3f		color2;
 	t_vector3f		color_return;
 
-	color1 = create_vector3f(0,0,0);
-	color2 = create_vector3f(255,255,255);
 	color_return = create_vector3f(0,0,0);
 	if (sin(M_PI / 10.0) * sin((M_PI / 10.0) * impact) >= 0)
-		color_return = mult_vector3f(mult_vector3f(color2, *coeffs), *intensity);
+		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color2, *coeffs), *intensity);
 	else
-		color_return = mult_vector3f(mult_vector3f(color1, *coeffs), *intensity);
+		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color1, *coeffs), *intensity);
 	return (color_return);
 }
 
@@ -54,11 +47,11 @@ static t_vector3f	procedurale_inf_zero(t_inter *inter, float *coeffs, float *int
 
 	color_return = create_vector3f(0,0,0);
 	if (inter->normal.y != 0)
-		color_return = procedure_calcul_light_inf(inter->impact.x, coeffs, intensity);
+		color_return = procedure_calcul_light_inf(inter->impact.x, coeffs, intensity, inter);
 	else if ((inter->normal.y == 0) && (inter->normal.z == 0))
-		color_return = procedure_calcul_light_inf(inter->impact.y, coeffs, intensity);
+		color_return = procedure_calcul_light_inf(inter->impact.y, coeffs, intensity, inter);
 	else if (((inter->normal.y == 0) && (inter->normal.x == 0)))
-		color_return = procedure_calcul_light_inf(inter->impact.y, coeffs, intensity);
+		color_return = procedure_calcul_light_inf(inter->impact.y, coeffs, intensity, inter);
 	return (color_return);
 }
 
@@ -68,11 +61,11 @@ static t_vector3f	procedurale_sup_zero(t_inter *inter, float *coeffs, float *int
 
 	color_return = create_vector3f(0,0,0);
 	if (inter->normal.y != 0)
-		color_return = procedure_calcul_light_sup(inter->impact.x, coeffs, intensity);
+		color_return = procedure_calcul_light_sup(inter->impact.x, coeffs, intensity, inter);
 	else if ((inter->normal.y == 0) && (inter->normal.z == 0))
-		color_return = procedure_calcul_light_sup(inter->impact.y, coeffs, intensity);
+		color_return = procedure_calcul_light_sup(inter->impact.y, coeffs, intensity, inter);
 	else if (((inter->normal.y == 0) && (inter->normal.x == 0)))
-		color_return = procedure_calcul_light_sup(inter->impact.y, coeffs, intensity);
+		color_return = procedure_calcul_light_sup(inter->impact.y, coeffs, intensity, inter);
 	return (color_return);
 }
 
