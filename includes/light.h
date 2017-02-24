@@ -21,6 +21,7 @@
 typedef struct	s_light
 {
 	t_vector3f	color;
+	float		intensity;
 }				t_light;
 
 int				create_light(t_kvlexer *token, t_rt *rt);

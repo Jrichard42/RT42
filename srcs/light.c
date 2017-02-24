@@ -67,7 +67,7 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	//printf("coef = %f\n", diffuse);
 	//printf("light.x = %f\n", LIGHT->color.x);
 	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, coeffs), mult_vector3f(LIGHT->color, coeffs)), 2.0); //TODO intensity
-	color_return = mult_vector3f(inter->obj->color, coeffs);
+	color_return = mult_vector3f(mult_vector3f(inter->obj->color, coeffs), LIGHT->intensity);
 	color_return = add_vector3f(color_return, *color);
 	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
 	if (color_return.x > 255.0)
@@ -94,6 +94,7 @@ int					create_light(t_kvlexer *token, t_rt *rt)
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	LIGHT->color = get_as_vector3f(token, "COLOR");
+	LIGHT->intensity = get_as_float(token, "INTENSITY");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (0);
