@@ -70,7 +70,7 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	color_return = mult_vector3f(mult_vector3f(inter->obj->color, coeffs), LIGHT->intensity);
 	color_return = add_vector3f(color_return, *color);
 	if (inter->obj->id == 4 || inter->obj->id == 5)
-		color_return = procedurale(inter, coeffs, LIGHT->intensity, *color);
+		color_return = procedurale(inter, coeffs, LIGHT->intensity, color);
 	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
 	if (color_return.x > 255.0)
 		color_return.x = 255;
