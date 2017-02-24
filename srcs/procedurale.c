@@ -16,7 +16,7 @@
 #include "rt.h"
 #include "inter.h"
 
-static t_vector3f	procedurale_inf_zero(float nbr, float coeffs, float intensity, t_vector3f *color)
+static t_vector3f	procedure_calcul_light_sup(float impact, float *coeffs, float *intensity)
 {
 	t_vector3f		color1;
 	t_vector3f		color2;
@@ -24,20 +24,15 @@ static t_vector3f	procedurale_inf_zero(float nbr, float coeffs, float intensity,
 
 	color1 = create_vector3f(0,0,0);
 	color2 = create_vector3f(255,255,255);
-	if (nbr >= 0)
-	{
-		color_return = mult_vector3f(mult_vector3f(color2, coeffs), intensity);
-		color_return = add_vector3f(color_return, *color);
-	}
+	color_return = create_vector3f(0,0,0);
+	if (sin(M_PI / 10.0) * sin((M_PI / 10.0) * impact) >= 0)
+		color_return = mult_vector3f(mult_vector3f(color1, *coeffs), *intensity);
 	else
-	{
-		color_return = mult_vector3f(mult_vector3f(color1, coeffs), intensity);
-		color_return = add_vector3f(color_return, *color);
-	}
+		color_return = mult_vector3f(mult_vector3f(color2, *coeffs), *intensity);
 	return (color_return);
 }
 
-static t_vector3f	procedurale_sup_zero(float nbr, float coeffs, float intensity, t_vector3f *color)
+static t_vector3f	procedure_calcul_light_inf(float impact, float *coeffs, float *intensity)
 {
 	t_vector3f		color1;
 	t_vector3f		color2;
@@ -45,26 +40,59 @@ static t_vector3f	procedurale_sup_zero(float nbr, float coeffs, float intensity,
 
 	color1 = create_vector3f(0,0,0);
 	color2 = create_vector3f(255,255,255);
-	if (nbr >= 0)
-	{
-		color_return = mult_vector3f(mult_vector3f(color1, coeffs), intensity);
-		color_return = add_vector3f(color_return, *color);
-	}
+	color_return = create_vector3f(0,0,0);
+	if (sin(M_PI / 10.0) * sin((M_PI / 10.0) * impact) >= 0)
+		color_return = mult_vector3f(mult_vector3f(color2, *coeffs), *intensity);
 	else
-	{
-		color_return = mult_vector3f(mult_vector3f(color2, coeffs), intensity);
-		color_return = add_vector3f(color_return, *color);
-	}
+		color_return = mult_vector3f(mult_vector3f(color1, *coeffs), *intensity);
 	return (color_return);
 }
 
-t_vector3f			procedurale(t_inter *inter, float coeffs, float intensity, t_vector3f *color)
+static t_vector3f	procedurale_inf_zero(t_inter *inter, float *coeffs, float *intensity)
+{
+	t_vector3f color_return;
+
+	color_return = create_vector3f(0,0,0);
+	if (inter->normal.y != 0)
+		color_return = procedure_calcul_light_inf(inter->impact.x, coeffs, intensity);
+	else if ((inter->normal.y == 0) && (inter->normal.z == 0))
+		color_return = procedure_calcul_light_inf(inter->impact.y, coeffs, intensity);
+	else if (((inter->normal.y == 0) && (inter->normal.x == 0)))
+		color_return = procedure_calcul_light_inf(inter->impact.y, coeffs, intensity);
+	return (color_return);
+}
+
+static t_vector3f	procedurale_sup_zero(t_inter *inter, float *coeffs, float *intensity)
+{
+	t_vector3f color_return;
+
+	color_return = create_vector3f(0,0,0);
+	if (inter->normal.y != 0)
+		color_return = procedure_calcul_light_sup(inter->impact.x, coeffs, intensity);
+	else if ((inter->normal.y == 0) && (inter->normal.z == 0))
+		color_return = procedure_calcul_light_sup(inter->impact.y, coeffs, intensity);
+	else if (((inter->normal.y == 0) && (inter->normal.x == 0)))
+		color_return = procedure_calcul_light_sup(inter->impact.y, coeffs, intensity);
+	return (color_return);
+}
+
+t_vector3f			procedurale(t_inter *inter, float *coeffs, float *intensity)
 {
 	t_vector3f		color_return;
 
-	if ((sin(M_PI / 20.0) * sin((M_PI / 20.0) * inter->impact.z)) >= 0)
-		color_return = procedurale_sup_zero(sin(M_PI / 10.0) * sin((M_PI / 10.0) * inter->impact.x), coeffs, intensity, color);
-	else
-		color_return = procedurale_inf_zero(sin(M_PI / 10.0) * sin((M_PI / 10.0) * inter->impact.x), coeffs, intensity, color);
+	if (((inter->normal.y != 0) || (inter->normal.x != 0)))
+	{
+		if ((sin(M_PI / 10.0) * sin((M_PI / 10.0) * inter->impact.z)) >= 0)
+			color_return = procedurale_sup_zero(inter, coeffs, intensity);
+		else
+			color_return = procedurale_inf_zero(inter, coeffs, intensity);
+	}
+	if (((inter->normal.y == 0) && (inter->normal.x == 0)))
+	{
+		if ((sin(M_PI / 10.0) * sin((M_PI / 10.0) * inter->impact.x)) >= 0)
+			color_return = procedurale_sup_zero(inter, coeffs, intensity);
+		else
+			color_return = procedurale_inf_zero(inter, coeffs, intensity);
+	}
 	return (color_return);
 }
