@@ -98,6 +98,7 @@ int					create_cone(t_kvlexer *token, t_rt *rt)
 	CONE->angle = get_as_float(token, "ANGLE");
 	CONE->angle = CONE->angle * M_PI / 180.0;
 	CONE->dir = get_as_vector3f(token, "DIR");
+	obj->color = get_as_vector3f(token, "COLOR");
 	CONE->dir = normalize_vector3f(CONE->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);

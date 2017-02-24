@@ -56,6 +56,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	PLANE->dir = get_as_vector3f(token, "DIR");
+	obj->color = get_as_vector3f(token, "COLOR");
 	PLANE->dir = normalize_vector3f(PLANE->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);

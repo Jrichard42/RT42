@@ -22,7 +22,7 @@ SDLINCDIR		= sdl/SDL/include
 
 SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -Ofast
+CFLAGS			= -Wall -Wextra -g
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 

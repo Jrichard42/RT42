@@ -31,7 +31,7 @@ int				main(int argc, char **argv)
 
 	if (argc != 2)
 		return (-1);
-	rt = create_rt(1920, 1080, argv[1]);
+	rt = create_rt(WIN_X, WIN_X, argv[1]);
 	loop(rt);
 	// fontion destruction en attente
 	return (0);

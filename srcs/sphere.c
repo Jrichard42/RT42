@@ -59,6 +59,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	SPHERE->radius = get_as_float(token, "RADIUS");
+	obj->color = get_as_vector3f(token, "COLOR");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (0);

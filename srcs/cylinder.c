@@ -71,6 +71,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	CYLINDER->radius = get_as_float(token, "RADIUS");
 	CYLINDER->dir = get_as_vector3f(token, "DIR");
+	obj->color = get_as_vector3f(token, "COLOR");
 	CYLINDER->dir = normalize_vector3f(CYLINDER->dir);
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
