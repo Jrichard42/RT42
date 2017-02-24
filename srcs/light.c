@@ -13,6 +13,7 @@
 #include "light.h"
 #include "inter.h"
 #include "libft.h"
+#include "plane.h"
 #include "parser.h"
 
 #define	LIGHT ((t_light *)obj->data)
@@ -69,8 +70,9 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, coeffs), mult_vector3f(LIGHT->color, coeffs)), 2.0); //TODO intensity
 	color_return = mult_vector3f(mult_vector3f(inter->obj->color, coeffs), LIGHT->intensity);
 	color_return = add_vector3f(color_return, *color);
-	if (inter->obj->id == 4 || inter->obj->id == 5)
-		color_return = procedurale(inter, coeffs, LIGHT->intensity, color);
+	if (((t_plane *)inter->obj->data)->damier)
+		if (((t_plane *)inter->obj->data)->damier == 1)
+			color_return = procedurale(inter, coeffs, LIGHT->intensity, color);
 	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
 	if (color_return.x > 255.0)
 		color_return.x = 255;

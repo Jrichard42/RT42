@@ -20,6 +20,7 @@
 typedef struct	s_plane
 {
 	t_vector3f	dir;
+	float		damier;
 }				t_plane;
 
 int				create_plane(t_kvlexer *token, t_rt *rt);
