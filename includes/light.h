@@ -29,4 +29,5 @@ t_vector3f		calcul_light(t_obj *obj, t_inter *inter, t_ray *ray,
 		t_vector3f *color);
 
 float			diffuse_light(t_obj *obj, t_inter *inter);
+t_vector3f		procedurale(t_inter *inter, float coeffs, float intensity, t_vector3f color); //create procedurale.h ->put into it
 #endif
