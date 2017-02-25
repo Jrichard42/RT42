@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 19:34:01 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:43:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 15:03:41 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ static int		check_indent(char *line, int current_nb)
 	}
 	if (ret == 0 && current_nb != -1)
 	{
-		ft_putendl("Only one root allowed");
+		ft_putendl("Input file error : Only one root allowed");
 		return (-1);
 	}
 	if (ret > current_nb + 1)
 	{
-		ft_putendl("Wrong indentation");
+		ft_putendl("Input file error : Wrong indentation");
 		return (-1);
 	}
 	if (ft_isprint(line[i]) && !ft_isspace(line[i]))
 		return (ret);
-	ft_putendl("Invalid characters");
+	ft_putendl("Input file error : Invalid characters");
 	return (-1);
 }
 
@@ -114,7 +114,7 @@ t_kvlexer		*ft_kvlexer(char *name)
 	t_kvlexer	*root;
 
 	if ((fd = open(name, O_RDONLY)) == -1)
-		return (ft_error("Unable to open the file"));
+		return (ft_error("Input file error : Unable to open the file"));
 	root = NULL;
 	while (get_next_line(fd, &line) == 1)
 	{

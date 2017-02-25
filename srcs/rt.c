@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/21 13:50:28 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/25 14:52:31 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@
 
 int                get_color_value(t_vector3f c)
 {
-    int            res;
+	int            res;
 
-    res = (unsigned char)(c.x) & 0xFF;
-    res += ((unsigned char)(c.y) & 0x00FF) << 8;
-    res += ((unsigned char)(c.z) & 0x0000FF) << 16;
-    return (res);
+	res = (unsigned char)(c.x) & 0xFF;
+	res += ((unsigned char)(c.y) & 0x00FF) << 8;
+	res += ((unsigned char)(c.z) & 0x0000FF) << 16;
+	return (res);
 }
 
 static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
@@ -67,10 +67,10 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 	inter.distance = NAN;
 	color = create_vector3f(0, 0, 0);
 	node = rt->objs->head;
+	ray.start = rt->camera->pos; //eyepoint
+	ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 	while (node)
 	{
-		ray.start = rt->camera->pos; //eyepoint
-		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 		if (((t_obj *)node->content)->is_src != 1)
 			calcul_inter(&ray, ((t_obj *)node->content), &inter);
 		node = node->next;
@@ -104,7 +104,6 @@ static void		render_pic(t_rt *rt)
 		{
 			pixel = create_vector2f(i, j);
 			vp_point = get_viewplanepoint(rt->camera, &pixel);
-			//printf("x = %f y = %f z = %f\n",vp_point.x, vp_point.y, vp_point.z );
 			color = get_inters(rt, &vp_point);
 			put_in_image(rt, i, j, &color);
 			++i;
@@ -130,21 +129,30 @@ void			render_rt(t_rt *rt)
 	SDL_RenderPresent(rt->env.rend);
 }
 
+void			destroy_rt(t_rt *rt)
+{
+	if (rt)
+	{
+		rt->env.text ? SDL_DestroyTexture(rt->env.text) : 0;
+		rt->env.rend ? SDL_DestroyRenderer(rt->env.rend) : 0;
+		rt->env.win ? SDL_DestroyWindow(rt->env.win) : 0;
+		SDL_Quit();
+		rt->camera ? free(rt->camera) : 0;
+		// free the data structure
+	}
+}
+
 t_rt			*create_rt(int x, int y, char *name)
 {
 	t_rt		*rt;
 
 	if (!(rt = ft_memalloc(sizeof(*rt))))
-		return (NULL);  //TODO check
-	rt->env.size.x = x;
-	rt->env.size.y = y;
-	if (parser(name, rt) == -1)
+		return (ft_error("Failed to create main structure"));
+	rt->env.size = create_vector2f(x, y);
+	if (!parser(name, rt))
 		return (NULL);
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		exit (-1);
-		//ft_exit(3, "sdl init failed"); // check
-	}
+		return (ft_error("Failed to launch sdl"));
 	rt->env.win = SDL_CreateWindow("RT", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			x, y,
@@ -154,9 +162,6 @@ t_rt			*create_rt(int x, int y, char *name)
 			SDL_TEXTUREACCESS_STREAMING,
 			x + 1, y + 1);
 	if (!(rt->env.win && rt->env.text && rt->env.rend))
-	{	
-		exit(-1);
-		//ft_exit(3, "renderer init failed"); // check
-	}
+		return (ft_error("Failed to initialize sdl environment"));
 	return (rt);
 }

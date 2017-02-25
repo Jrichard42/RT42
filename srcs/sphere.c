@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 20:11:24 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 14:51:51 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	t_obj			*obj;
 
 	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (-1);
+		return (0);
 	if (!(obj->data = ft_memalloc(sizeof(t_sphere))))
-		return (-1);
+		return (0);
 	obj->normal = &normal_sphere;
 	obj->inter = &inter_sphere;
 	obj->pos = get_as_vector3f(token, "POS");
@@ -61,5 +61,5 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	SPHERE->radius = get_as_float(token, "RADIUS");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
-	return (0);
+	return (1);
 }

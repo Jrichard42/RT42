@@ -6,11 +6,11 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/02/20 16:18:57 by dbreton          ###   ########.fr        #
+#    Updated: 2017/02/25 14:18:12 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			= rtv1
+NAME			= rt
 LIBFT			= lib/libft/
 LIBFTMATRIX		= lib/libft_matrix/
 SDL				= sdl/SDL/lib

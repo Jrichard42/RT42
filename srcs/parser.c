@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/21 13:52:01 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/25 15:05:21 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void				check_type(t_kvlexer *token, t_rt *rt)
 	{
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
-			if (ptr_type[i].create(token, rt) == -1)
+			if (!ptr_type[i].create(token, rt))
 				printf("Unable to create the obj %s", token->key); // check
 			break ;
 		}
@@ -47,7 +47,7 @@ int						parser(char *name, t_rt *rt)
 	t_list				*current_child;
 
 	if (!(kvlexer = ft_kvlexer(name)))
-		return (0);//((int)error("Wrong format")); //check 
+		return ((int)ft_error("Wrong file"));
 	current_child = kvlexer->children->head;
 	while (current_child)
 	{
@@ -55,5 +55,9 @@ int						parser(char *name, t_rt *rt)
 		current_child = current_child->next;
 	}
 	free_kvlexer(kvlexer);
+	if (!rt->camera)
+		return ((int)ft_error("There should be a camera in the scene"));
+	if (!rt->objs)
+		return ((int)ft_error("The scene is empty"));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/21 13:50:49 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/25 14:32:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			create_camera(t_kvlexer *token, t_rt *rt)
 {
 
 	if (!(rt->camera = malloc(sizeof(t_camera))))
-		return(-1);
+		return (0);
 	rt->camera->fov = get_as_float(token, "FOV");;
 	rt->camera->up = create_vector3f(0.0, 1.0, 0.0);
 	rt->camera->pos = get_as_vector3f(token, "POS");
