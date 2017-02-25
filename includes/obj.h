@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:42:45 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 14:51:42 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/18 18:25:31 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef	struct	s_obj
 	char		is_src;
 	char		is_visible;
 	void		*data;
-	t_inter		(*inter)(struct s_obj *, t_ray *);
+	float		(*inter)(struct s_obj *, t_ray *);
 	t_vector3f	(*normal)(struct s_obj *, t_vector3f *);
 }				t_obj;
 

@@ -6,16 +6,23 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/10 17:11:17 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/23 14:58:27 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CAMERA_H
 # define CAMERA_H
 
+# include "ft_kvlexer.h"
+# include "libft_matrix.h"
+# define WIN_X 1920
+# define WIN_Y 1080
+
+typedef struct s_rt t_rt;
+
 typedef	struct	s_camera 
 {
-	t_vector3f	eyepoint;
+	t_vector3f	pos;
 	t_vector3f	lookatpoint;
 	t_vector3f	up;
 	t_vector3f	light;
@@ -33,8 +40,20 @@ typedef	struct	s_camera
 	float		aspectratio;
 	float		n;
 }				t_camera;
+// typedef struct	s_camera
+// {
+// 	t_vector3f	pos;
+// 	t_vector3f	size;
+// 	t_vector3f	look_at;
+// 	t_vector3f	up;
+// 	t_vector3f	side;
+// 	t_vector3f	res;
+// 	t_vector3f	top_left;
+// 	float		distance;
+// 	float		fov;
+// }				t_camera;
 
-void			create_camera(t_kvlexer *token, t_rt *rt);	// initialise la camera
-t_vector3f		get_viewplanepoint(t_camera *, t_vector2f *); // point 2d (pixel) a point 3d (viewplane || le monde)
+int					create_camera(t_kvlexer *token, t_rt *rt);
+t_vector3f			get_viewplanepoint(t_camera *camera, t_vector2f *pixel);
 
 #endif

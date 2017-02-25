@@ -6,12 +6,14 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:38:06 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/12 18:47:19 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/18 18:25:27 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RAY_H
 # define RAY_H
+
+#include "libft_matrix.h"
 
 typedef	struct	s_ray 
 {

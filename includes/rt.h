@@ -6,12 +6,26 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/12 18:47:10 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 09:20:58 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RT_H
 # define RT_H
+
+# include <SDL2/SDL.h>
+# include "camera.h"
+# include "thpool.h"
+# include "libft.h"
+# include "libft_matrix.h"
+
+typedef struct s_camera	t_camera;
+
+typedef struct		s_thread_data
+{
+	int				line;
+	t_rt			*rt;
+}					t_thread_data;
 
 typedef struct		s_env
 {
@@ -28,11 +42,12 @@ typedef struct		s_env
 typedef	struct		s_rt
 {
 	t_env			env;
-	t_camera		camera;
+	t_camera		*camera;
 	t_dlist			*objs;
 }					t_rt;
 
-t_rt				create_rt();
-void				loop(t_rt *rt); // en att
+t_rt				*create_rt(int x, int y, char *name);
+void				refresh_rt(t_rt *rt, t_thpool *pool);
+void				render_rt(t_rt *rt);
 
 #endif
