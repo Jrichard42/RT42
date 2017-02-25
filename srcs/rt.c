@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/25 09:27:15 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 11:14:20 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void				refresh_rt(t_rt *rt, t_thpool *pool)
 {
 	int				j;
 	t_thread_data	thread_data;
-
+	
 	j = 0;
 	thread_data.rt = rt;
 	while (j < rt->env.size.y)
@@ -140,10 +140,7 @@ t_rt				*create_rt(int x, int y, char *name)
 	if (parser(name, rt) == -1)
 		return (NULL);
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
-	{
-		exit (-1);
-		//ft_exit(3, "sdl init failed"); // check
-	}
+		exit (-1); // TODO check
 	rt->env.win = SDL_CreateWindow("RT", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
 			x, y,
@@ -153,9 +150,6 @@ t_rt				*create_rt(int x, int y, char *name)
 			SDL_TEXTUREACCESS_STREAMING,
 			x + 1, y + 1);
 	if (!(rt->env.win && rt->env.text && rt->env.rend))
-	{	
-		exit(-1);
-		//ft_exit(3, "renderer init failed"); // check
-	}
+		exit(-1); // TODO check
 	return (rt);
 }

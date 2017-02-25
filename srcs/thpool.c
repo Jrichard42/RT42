@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 15:15:57 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/25 09:30:48 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 11:16:11 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 int				push_job(t_thpool *pool, void (*func)(void *),
 		void *data, int data_size)
 {
+	int			tail;
+
+	pthread_mutex_lock(&pool->mutex_tail);
 	if (pool->jobs[pool->tail].filled == 0)
 	{
-		pool->jobs[pool->tail].do_job = func;
-		ft_memcpy(pool->jobs[pool->tail].data, data, data_size);
-		pool->jobs[pool->tail].filled = 1;
+		tail = pool->tail;
+		pool->jobs[tail].filled = 1;
 		if (pool->tail == pool->nb_jobs - 1)
 			pool->tail = 0;
 		else
 			++pool->tail;
+		pthread_mutex_unlock(&pool->mutex_tail);
+		pool->jobs[tail].do_job = func;
+		ft_memcpy(pool->jobs[tail].data, data, data_size);
 	}
+	else
+		pthread_mutex_unlock(&pool->mutex_tail);	
 	return (1);
 }
 
@@ -39,13 +46,13 @@ static void		*do_job(void *data)
 	{
 		func = NULL;
 		param = NULL;
-		pthread_mutex_lock(&pool->mutex);
+		pthread_mutex_lock(&pool->mutex_head);
 		if (pool->jobs[pool->head].filled == 1)
 		{
 			func = pool->jobs[pool->head].do_job;
 			param = pool->jobs[pool->head].data;
 			pool->jobs[pool->head].filled = 0;
-			pthread_mutex_unlock(&pool->mutex);
+			pthread_mutex_unlock(&pool->mutex_head);
 			if (pool->head == pool->nb_jobs - 1)
 				pool->head = 0;
 			else
@@ -54,7 +61,7 @@ static void		*do_job(void *data)
 				func(param);
 		}
 		else
-			pthread_mutex_unlock(&pool->mutex);
+			pthread_mutex_unlock(&pool->mutex_head);
 	}
 	return (NULL);
 }
@@ -69,7 +76,8 @@ t_thpool		*create_thpool(int nb_threads, int nb_jobs, int data_size)
 	if (!(new->jobs = ft_memalloc(nb_jobs * sizeof(*new->jobs))))
 		return (NULL);
 	new->nb_jobs = nb_jobs;
-	new->mutex = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	new->mutex_head = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
+	new->mutex_tail = (pthread_mutex_t)PTHREAD_MUTEX_INITIALIZER;
 	while (nb_jobs)
 	{
 		if (!(new->jobs[nb_jobs - 1].data = ft_memalloc(data_size)))

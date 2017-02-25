@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/12 15:16:10 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/25 09:31:29 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 09:44:31 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ typedef struct		s_job
 
 typedef struct		s_thpool
 {
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	mutex_head;
+	pthread_mutex_t	mutex_tail;
 	int				nb_jobs;
 	int				head;
 	int				tail;
