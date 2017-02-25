@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/17 18:14:29 by dbreton          ###   ########.fr       */
+/*   Updated: 2017/02/25 13:11:26 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ float			dot_vector3f(t_vector3f v1, t_vector3f v2);
 t_vector3f		cross_vector3f(t_vector3f v1, t_vector3f v2);
 t_vector3f		normalize_vector3f(t_vector3f v1);
 float			length_vector3f(t_vector3f v1);
+float			squared_length_vector3f(t_vector3f v1);
 t_vector3f		transform_vector3f(t_vector3f v1, t_matrix *transf);
+t_vector3f		clamp_vector3f(t_vector3f, float min, float max);
 
 #endif

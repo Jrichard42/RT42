@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:31:42 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:06:13 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 12:53:45 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ t_vector2d		div_vector2d(t_vector2d v1, float nb)
 {
 	t_vector2d	new;
 
+	nb = 1.0f / nb;
 	new.x = v1.x * nb;
 	new.y = v1.y * nb;
 	return (new);

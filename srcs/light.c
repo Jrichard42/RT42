@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 20:09:24 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 13:14:25 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,10 @@ t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *co
 	diffuse = diffuse_light(obj, inter) * inter->obj->mat.kd;
 	if (dot_vector3f(inter->normal, sub_vector3f(obj->pos, inter->impact)) > 0)
 		specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
-	//printf("diffuse = %f\n", diffuse);
 	coeffs = (diffuse + specular + inter->obj->mat.ka);
-	//printf("impact.x = %f impact.y = %f impact.z = %f\n", inter->impact.x, inter->impact.y, inter->impact.z);
-	//printf("coef = %f\n", diffuse);
-	//printf("LIGHT->color.x = %f\n", LIGHT->color.x);
 	color_return = mult_vector3f(LIGHT->color, coeffs); //TODO intensity
 	color_return = add_vector3f(color_return, *color);
-	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
-	if (color_return.x > 255.0)
-		color_return.x = 255;
-	if (color_return.y > 255.0)
-		color_return.y = 255;
-	if (color_return.z > 255.0)
-		color_return.z = 255;
-	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
+	color_return = clamp_vector3f(color_return, 0.0, 255.0);
 	return (color_return);
 }
 

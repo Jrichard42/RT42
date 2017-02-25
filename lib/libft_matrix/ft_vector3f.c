@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:31:42 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:08:30 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 12:53:51 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ t_vector3f		div_vector3f(t_vector3f v1, float nb)
 {
 	t_vector3f	new;
 
-	new.x = v1.x / nb;
-	new.y = v1.y / nb;
-	new.z = v1.z / nb;
+	nb = 1.0f / nb;
+	new.x = v1.x * nb;
+	new.y = v1.y * nb;
+	new.z = v1.z * nb;
 	return (new);
 }
