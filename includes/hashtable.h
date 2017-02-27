@@ -7,12 +7,13 @@
 
 # include "libft.h"
 # include <string.h>
+# include <stdlib.h>
+# include <limits.h>
 
 typedef struct  s_entry
 {
     char        *key;
     void        *value;
-    struct s_entry  *next;
 }               t_entry;
 typedef struct  s_hashtable
 {

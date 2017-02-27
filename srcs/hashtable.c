@@ -3,6 +3,7 @@
 //
 
 #include "hashtable.h"
+
 t_hashtable     *create_hash_table(size_t size)
 {
     t_hashtable *table;
@@ -13,7 +14,7 @@ t_hashtable     *create_hash_table(size_t size)
         return NULL;
     if (!(table = (t_hashtable *)malloc(sizeof(t_hashtable))))
         return (NULL);
-    if (!(table->table = (t_entry *)malloc(sizeof(t_entry) * size)))
+    if (!(table->table = (t_entry **)malloc(sizeof(t_entry *) * size)))
         return (NULL);
     while (i < size)
     {
@@ -30,6 +31,7 @@ static size_t          hash(t_hashtable *table, char *key)
     int                 i;
 
     i = 0;
+    hashval = 0;
     while (hashval <ULONG_MAX && key[i] != '\0')
     {
         hashval = hashval << 8;
@@ -56,7 +58,7 @@ void            ht_set(t_hashtable *table, char *key, void *value)
 
     bin = hash(table, key);
     new_pair = create_pair(key, value);
-    if (new_pair)
+    if (new_pair != NULL)
         table->table[bin] = new_pair;
 }
 void            *ht_get(t_hashtable *table, char *key)
@@ -65,7 +67,8 @@ void            *ht_get(t_hashtable *table, char *key)
     t_entry     *pair;
 
     bin = hash(table, key);
-    if (!pair || !pair->key)
+    pair = table->table[bin];
+    if (pair == NULL || pair->key == NULL)
         return (NULL);
     else
         return (pair->value);
