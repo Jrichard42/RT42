@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/25 15:05:21 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/27 10:54:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include "parser.h"
 #include "ft_kvlexer.h"
 #include "libft.h"
+
+static void				error_parser(char *str, char *type)
+{
+	ft_putstr(str);
+	ft_putendl(type);
+}
 
 static void				check_type(t_kvlexer *token, t_rt *rt)
 {
@@ -32,13 +38,13 @@ static void				check_type(t_kvlexer *token, t_rt *rt)
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
 			if (!ptr_type[i].create(token, rt))
-				printf("Unable to create the obj %s", token->key); // check
+				error_parser("Unable to create the obj ", token->key);
 			break ;
 		}
 		++i;
 	}
 	if (i == 6)
-		printf("Unknown obj %s", token->key); // check
+		error_parser("Unknown obj ", token->key);
 }
 
 int						parser(char *name, t_rt *rt)
