@@ -80,7 +80,7 @@ t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
 {
 	t_vector3f		color_return;
 
-	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, coeffs), mult_vector3f(LIGHT->color, coeffs)), 2.0); //TODO intensity
+	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, *coeffs), mult_vector3f(LIGHT->color, *coeffs)), 2.0); //TODO intensity
 	color_return = mult_vector3f(mult_vector3f(inter->obj->color, *coeffs), LIGHT->intensity);
 	return (color_return);
 }

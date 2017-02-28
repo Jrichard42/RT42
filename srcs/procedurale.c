@@ -22,7 +22,7 @@ static t_vector3f	procedure_calcul_light_sup(float impact, float *coeffs, float 
 	t_vector3f		color_return;
 
 	color_return = create_vector3f(0,0,0);
-	if (sin(M_PI / 10.0) * sin((M_PI / 10.0) * impact) >= 0)
+	if (sin(M_PI / 30.0) * sin((M_PI / 30.0) * impact) >= 0)
 		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color1, *coeffs), *intensity);
 	else
 		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color2, *coeffs), *intensity);
@@ -34,7 +34,7 @@ static t_vector3f	procedure_calcul_light_inf(float impact, float *coeffs, float 
 	t_vector3f		color_return;
 
 	color_return = create_vector3f(0,0,0);
-	if (sin(M_PI / 10.0) * sin((M_PI / 10.0) * impact) >= 0)
+	if (sin(M_PI / 30.0) * sin((M_PI / 30.0) * impact) >= 0)
 		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color2, *coeffs), *intensity);
 	else
 		color_return = mult_vector3f(mult_vector3f(((t_plane *)inter->obj->data)->color1, *coeffs), *intensity);
@@ -75,14 +75,14 @@ t_vector3f			procedurale(t_inter *inter, float *coeffs, float *intensity)
 
 	if (((inter->normal.y != 0) || (inter->normal.x != 0)))
 	{
-		if ((sin(M_PI / 10.0) * sin((M_PI / 10.0) * inter->impact.z)) >= 0)
+		if ((sin(M_PI / 30.0) * sin((M_PI / 30.0) * inter->impact.z)) >= 0)
 			color_return = procedurale_sup_zero(inter, coeffs, intensity);
 		else
 			color_return = procedurale_inf_zero(inter, coeffs, intensity);
 	}
 	if (((inter->normal.y == 0) && (inter->normal.x == 0)))
 	{
-		if ((sin(M_PI / 10.0) * sin((M_PI / 10.0) * inter->impact.x)) >= 0)
+		if ((sin(M_PI / 30.0) * sin((M_PI / 30.0) * inter->impact.x)) >= 0)
 			color_return = procedurale_sup_zero(inter, coeffs, intensity);
 		else
 			color_return = procedurale_inf_zero(inter, coeffs, intensity);

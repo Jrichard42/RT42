@@ -37,13 +37,8 @@ int                get_color_value(t_vector3f c)
 void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 {
 	float 			tmp;
-	//write(1, "A", 1);
 
-	//printf("%x\n", obj);
-
-	//printf("%f|%f|%f|%f\n",ray->start.x, ray->dir.x, ray->dir.y, ray->dir.z );
 	tmp = obj->inter(obj, ray);
-	//printf("%f\n", tmp);
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
 		inter->distance = tmp;
@@ -114,14 +109,6 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 					tmp_dot = 2.0 * dot_vector3f(ray->dir, inter->normal);
 					ray_obj.start = inter->impact;
 					ray_obj.dir = sub_vector3f(ray->dir, mult_vector3f(inter->normal, tmp_dot));
-				//	if (((t_obj *)save->content)->is_visible)
-				//		*color = get_inters(rt, &ray_obj);
-					 //if (((t_plane *)inter->obj->data)->damier == 1)
-					 //	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
-					// else
-					//	*color = add_vector3f(calcul_light_reflexion(save, inter, ((t_obj *)node->content), ray), *color);
-					 //else
-				
 					if (((t_plane *)inter->obj->data)->damier == 1)
 					 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
 					 else
@@ -150,9 +137,6 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 	t_list				*node;
 	t_inter				inter;
 	t_vector3f			color;
-	t_ray				ray_ref;
-	float				tmp_dot;
-	//static int i = 0;
 
 	inter.obj = NULL;
 	inter.distance = NAN;
@@ -160,18 +144,11 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 	node = rt->objs->head;
 	while (node)
 	{
-	//	printf("%f|%f|%f|%f\n",ray->start.x, ray->dir.x, ray->dir.y, ray->dir.z );
-		//ray.start = rt->camera->pos; //eyepoint
-		//ray->dir = normalize_vector3f(sub_vector3f(ray->dir, ray->start));
 		if (((t_obj *)node->content)->is_src != 1)
 			calcul_inter(ray, ((t_obj *)node->content), &inter);
-		//write(1, "B", 1);
 		node = node->next;
 	}
-	//printf("%f|%f|%f\n",color.x, color.y, color.z);
 	 rec = apply_light(rt, ray, &color, &inter, rec);
-	//node = rt->objs->head;
-//	apply_light(rt, ray, &color, &inter);
 	return (color);
 }
 
@@ -182,7 +159,7 @@ static void		render_pic(t_rt *rt)
 	t_vector3f	color;
 	t_ray		vp_point;
 	t_vector2f	pixel;
-	int 		rec = 5;
+	int 		rec = 10;
 
 	j = 0;
 	while (j < (rt->env.size.y + 1))
@@ -194,7 +171,6 @@ static void		render_pic(t_rt *rt)
 			vp_point.start = rt->camera->pos;
 			vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
 			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
-			//printf("x = %f y = %f z = %f\n",vp_point.x, vp_point.y, vp_point.z );
 			color = get_inters(rt, &vp_point, rec);
 			put_in_image(rt, i, j, &color);
 			++i;
