@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 19:25:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 14:11:41 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef	struct		s_rt
 }					t_rt;
 
 t_rt				*create_rt(int x, int y, char *name);
+void				destroy_rt(t_rt *rt);
 void				refresh_rt(t_rt *rt);
 void				render_rt(t_rt *rt);
 

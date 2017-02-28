@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 19:07:10 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:07:44 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 12:56:43 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ float			dot_vector2f(t_vector2f v1, t_vector2f v2)
 t_vector2f		normalize_vector2f(t_vector2f v1)
 {
 	t_vector2f	new;
-	float		length;
+	float		inv_length;
 
-	length = length_vector2f(v1);
-	new.x = v1.x / length;
-	new.y = v1.y / length;
+	inv_length = length_vector2f(v1);
+	new.x = v1.x * inv_length;
+	new.y = v1.y * inv_length;
 	return (new);
 }
 

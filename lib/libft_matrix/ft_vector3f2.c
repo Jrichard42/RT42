@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 19:08:04 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:08:20 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 12:55:09 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_vector3f		cross_vector3f(t_vector3f v1, t_vector3f v2)
 t_vector3f		normalize_vector3f(t_vector3f v1)
 {
 	t_vector3f	new;
-	float		length;
+	float		inv_length;
 
-	length = length_vector3f(v1);
-	new.x = v1.x / length;
-	new.y = v1.y / length;
-	new.z = v1.z / length;
+	inv_length = 1.0f / length_vector3f(v1);
+	new.x = v1.x * inv_length;
+	new.y = v1.y * inv_length;
+	new.z = v1.z * inv_length;
 	return (new);
 }
 

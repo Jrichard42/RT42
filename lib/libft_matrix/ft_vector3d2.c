@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/10 19:06:22 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:06:42 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 12:55:55 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ t_vector3d		cross_vector3d(t_vector3d v1, t_vector3d v2)
 t_vector3d		normalize_vector3d(t_vector3d v1)
 {
 	t_vector3d	new;
-	float		length;
+	float		inv_length;
 
-	length = length_vector3d(v1);
-	new.x = v1.x / length;
-	new.y = v1.y / length;
-	new.z = v1.z / length;
+	inv_length = 1.0f / length_vector3d(v1);
+	new.x = v1.x * inv_length;
+	new.y = v1.y * inv_length;
+	new.z = v1.z * inv_length;
 	return (new);
 }
 

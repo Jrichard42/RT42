@@ -33,6 +33,6 @@ int				main(int argc, char **argv)
 		return (-1);
 	rt = create_rt(WIN_X, WIN_Y, argv[1]);
 	loop(rt);
-	// fontion destruction en attente
+	destroy_rt(rt);
 	return (0);
 }

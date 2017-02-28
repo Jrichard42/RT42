@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:04:31 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 13:10:43 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ t_vector2f		div_vector2f(t_vector2f v1, float nb);
 float			dot_vector2f(t_vector2f v1, t_vector2f v2);
 t_vector2f		normalize_vector2f(t_vector2f v1);
 float			length_vector2f(t_vector2f v1);
+float			squared_length_vector2f(t_vector2f v1);
+t_vector2f		clamp_vector2f(t_vector2f v1, float min, float max);
 
 #endif

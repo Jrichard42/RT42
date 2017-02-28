@@ -6,7 +6,7 @@
 /*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 14:36:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/10 19:03:35 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/25 13:12:06 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,7 @@ double			dot_vector3d(t_vector3d v1, t_vector3d v2);
 t_vector3d		cross_vector3d(t_vector3d v1, t_vector3d v2);
 t_vector3d		normalize_vector3d(t_vector3d v1);
 float			length_vector3d(t_vector3d v1);
+float			squared_length_vector3d(t_vector3d v1);
+t_vector3d		clamp_vector3d(t_vector3d v1, double min, double max);
 
 #endif

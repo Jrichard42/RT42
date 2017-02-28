@@ -7,6 +7,7 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
 /*   Updated: 2017/02/21 13:50:49 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/02/25 14:32:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +36,8 @@ int			create_camera(t_kvlexer *token, t_rt *rt)
 		mult_vector3f(rt->camera->u, rt->camera->vphalfwidth),
 		mult_vector3f(rt->camera->v, rt->camera->vphalfheight)));
 	rt->camera->y_inc_vec = mult_vector3f(
-		rt->camera->v, (2.0f * rt->camera->vphalfheight) / (double)WIN_Y);
+	rt->camera->v, (2.0f * rt->camera->vphalfheight) / (double)WIN_Y);
+
 	rt->camera->x_inc_vec = mult_vector3f(
 		rt->camera->u, (2.0f * rt->camera->vphalfwidth) / (float)WIN_X);
 	return (1);
@@ -49,7 +51,5 @@ t_vector3f	get_viewplanepoint(t_camera *camera, t_vector2f *pixel)
 		mult_vector3f(camera->x_inc_vec, pixel->x),
 		mult_vector3f(camera->y_inc_vec, pixel->y));
 	camera->viewplanepoint = add_vector3f(camera->vpbottomleftpoint, tmp);
-	//printf("camera->viewplanepoint.x = %f, camera->viewplanepoint.y = %f, camera->viewplanepoint.z = %f\n", camera->viewplanepoint.x, camera->viewplanepoint.y, camera->viewplanepoint.z);
-//camera->castray = normalize_vector3f(camera->castray);
 	return (camera->viewplanepoint);
 }

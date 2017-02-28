@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/02/18 20:07:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/02/27 10:54:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include "parser.h"
 #include "ft_kvlexer.h"
 #include "libft.h"
+
+static void				error_parser(char *str, char *type)
+{
+	ft_putstr(str);
+	ft_putendl(type);
+}
 
 static void				check_type(t_kvlexer *token, t_rt *rt)
 {
@@ -31,14 +37,14 @@ static void				check_type(t_kvlexer *token, t_rt *rt)
 	{
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
-			if (ptr_type[i].create(token, rt) == -1)
-				printf("Unable to create the obj %s", token->key); // check
+			if (!ptr_type[i].create(token, rt))
+				error_parser("Unable to create the obj ", token->key);
 			break ;
 		}
 		++i;
 	}
 	if (i == 6)
-		printf("Unknown obj %s", token->key); // check
+		error_parser("Unknown obj ", token->key);
 }
 
 int						parser(char *name, t_rt *rt)
@@ -47,7 +53,7 @@ int						parser(char *name, t_rt *rt)
 	t_list				*current_child;
 
 	if (!(kvlexer = ft_kvlexer(name)))
-		return (0);//((int)error("Wrong format")); //check 
+		return ((int)ft_error("Wrong file"));
 	current_child = kvlexer->children->head;
 	while (current_child)
 	{
@@ -55,5 +61,9 @@ int						parser(char *name, t_rt *rt)
 		current_child = current_child->next;
 	}
 	free_kvlexer(kvlexer);
+	if (!rt->camera)
+		return ((int)ft_error("There should be a camera in the scene"));
+	if (!rt->objs)
+		return ((int)ft_error("The scene is empty"));
 	return (1);
 }
