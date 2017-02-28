@@ -21,4 +21,6 @@ typedef	struct	s_inter
 	t_obj		*obj;
 }				t_inter;
 
+void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter);
+
 #endif

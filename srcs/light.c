@@ -13,10 +13,21 @@
 #include "light.h"
 #include "inter.h"
 #include "libft.h"
-#include "plane.h"
+#include "procedurale.h"
+#include "reflexion.h"
 #include "parser.h"
 
 #define	LIGHT ((t_light *)obj->data)
+
+void				cap_light(t_vector3f *color)
+{
+	if (color->x > 255.0)
+		color->x = 255;
+	if (color->y > 255.0)
+		color->y = 255;
+	if (color->z > 255.0)
+		color->z = 255;
+}
 
 static float		specular_light(t_obj *obj, t_inter *inter, t_ray *ray)
 {
@@ -51,39 +62,42 @@ float		diffuse_light(t_obj *obj, t_inter *inter)
 	return (angle);
 }
 
-t_vector3f			calcul_light(t_obj *obj, t_inter *inter, t_ray *ray, t_vector3f *color)
+float		calcul_coef(t_obj *obj, t_inter *inter, t_ray *ray)
 {
 	float			diffuse;
 	float			specular;
-	t_vector3f		color_return;
 	float			coeffs;
 
 	specular = 0.0;
 	diffuse = diffuse_light(obj, inter) * inter->obj->mat.kd;
 	if (dot_vector3f(inter->normal, sub_vector3f(obj->pos, inter->impact)) > 0)
 		specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
-	//printf("diffuse = %f\n", diffuse);
 	coeffs = (diffuse + specular + inter->obj->mat.ka);
-	//printf("impact.x = %f impact.y = %f impact.z = %f\n", inter->impact.x, inter->impact.y, inter->impact.z);
-	//printf("coef = %f\n", diffuse);
-	//printf("light.x = %f\n", LIGHT->color.x);
+	return (coeffs);
+}
+
+t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
+{
+	t_vector3f		color_return;
+
 	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, coeffs), mult_vector3f(LIGHT->color, coeffs)), 2.0); //TODO intensity
-	color_return = mult_vector3f(mult_vector3f(inter->obj->color, coeffs), LIGHT->intensity);
-	color_return = add_vector3f(color_return, *color);
-	if (((t_plane *)inter->obj->data)->damier)
-		if (((t_plane *)inter->obj->data)->damier == 1)
-		{
-			color_return = procedurale(inter, &coeffs, &LIGHT->intensity);
-			color_return = add_vector3f(color_return, *color);
-		}
-	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
-	if (color_return.x > 255.0)
-		color_return.x = 255;
-	if (color_return.y > 255.0)
-		color_return.y = 255;
-	if (color_return.z > 255.0)
-		color_return.z = 255;
-	//printf("color_return.x = %f color_return.y = %f color_return.z = %f\n", color_return.x, color_return.y, color_return.z);
+	color_return = mult_vector3f(mult_vector3f(inter->obj->color, *coeffs), LIGHT->intensity);
+	return (color_return);
+}
+
+t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
+{
+	t_vector3f		color_return;
+
+	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
+	return (color_return);
+}
+
+t_vector3f	calcul_light_reflexion(t_list *node, t_inter *inter, t_obj *obj, t_ray *ray)
+{
+	t_vector3f		color_return;
+
+	color_return = reflexion(node, inter, obj, ray);
 	return (color_return);
 }
 

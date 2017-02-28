@@ -20,6 +20,7 @@
 typedef struct	s_sphere
 {
 	int			radius;
+	float		reflexion;
 }				t_sphere;
 
 int				create_sphere(t_kvlexer *token, t_rt *rt);
