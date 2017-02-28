@@ -10,6 +10,7 @@
 # else
 #  include <CL/cl.h>
 # endif
+# include "hashtable.h"
 
 typedef struct	s_cl_env
 {
@@ -28,12 +29,12 @@ typedef struct 	s_kernel
 }				t_kernel;
 typedef struct 	s_cl
 {
-	t_cl_env	env;
-	t_kernel	*kernels;
+	t_cl_env	*env;
+	t_hashtable	*kernels;
 	cl_command_queue queue;
 }				t_cl;
 
-int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env);
+int 			read_kernel(t_hashtable *kernel, const char *fileName, t_cl_env *env);
 t_cl			cl_init(const char *manifest_dir);
 
 #endif

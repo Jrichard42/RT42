@@ -9,30 +9,7 @@
 //TODO get proper kernel numbers
 #define	NUM_KERNEL 256
 
-t_kernel		*kernel_realloc(t_kernel *ptr, size_t size)
-{
-	t_kernel	*new;
-	int 		i;
-
-	if (!(new = (t_kernel *)malloc(sizeof(t_kernel) * size)))
-		return (NULL);
-	i = 0;
-	if (ptr)
-	{
-		while (ptr[i].kernel)
-		{
-			new[i].name = ptr[i].name;
-			new[i].kernel = ptr[i].kernel;
-			++i;
-		}
-		ft_memdel((void **)&ptr);
-		//new[i] = NULL;
-	}
-	return (new);
-}
-
-
-int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env)
+int 			read_kernel(t_hashtable *kernel, const char *fileName, t_cl_env *env)
 {
 	int 		fd;
 	char 		*line;
@@ -43,8 +20,7 @@ int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env)
 	cl_kernel 	*tmp_kers;
 	cl_uint 	kern_num;
 	size_t 		src_len;
-	int 		i;
-	int 		j;
+	cl_uint		i;
 
 
 	fd = open(fileName, O_RDWR);
@@ -72,20 +48,12 @@ int 			read_kernel(t_kernel **kernel, const char *fileName, t_cl_env *env)
 
 	char 		ker_name[256];
 	i = 0;
-	j = 0;
-	while (kernel[j])
-		++j;
-	*kernel = kernel_realloc(*kernel, sizeof(t_kernel) * (j + kern_num + 1));
-	//*kernel = (t_kernel *)ft_realloc(*kernel, sizeof(t_kernel) * (j + kern_num + 1));
 	while (i < kern_num)
 	{
 		clGetKernelInfo(tmp_kers[i], CL_KERNEL_FUNCTION_NAME, 256, (void *)ker_name, NULL);
-		kernel[j]->name = ft_strdup(ker_name);
-		kernel[j]->kernel = &tmp_kers[i];
-		++j;
+		ht_set(kernel, ker_name, (void *)tmp_kers[i]);
 		++i;
 	}
-	kernel[j] = NULL;
 	return (1);
 }
 //use absolute or relative path to directory
@@ -97,29 +65,26 @@ t_cl			cl_init(const char *manifest_dir)
 	char 		*tmp;
 	char 		*line;
 	char 		*file_name;
+	int 		i;
 
-	res.env.platform_id = NULL;
+	res.env = (t_cl_env*)malloc(sizeof(t_cl_env));
+	res.kernels = create_hash_table(1021);
 	file_name = ft_strjoin(manifest_dir, "/manifest");
 	fd = open(file_name, O_RDWR);
-	printf("%d : %s\n", fd, file_name);
 	free(file_name);
-	//if (fd < 0)
-	//	return ((t_cl)NULL);
-	ret = clGetPlatformIDs(1, &res.env.platform_id, &res.env.ret_num_platforms);
-	ret = clGetDeviceIDs(res.env.platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &res.env.device_id, &res.env.ret_num_devices);
-	res.env.ctx = clCreateContext(NULL, 1, &res.env.device_id, NULL, NULL, &ret);
-	res.queue = clCreateCommandQueue(res.env.ctx, res.env.device_id, 0, &ret);
-	res.kernels = NULL;
-	while (get_next_line(fd, &line) > 0)
+//if (fd < 0)
+//	return ((t_cl)NULL);
+	ret = clGetPlatformIDs(1, &res.env->platform_id, &res.env->ret_num_platforms);
+	ret = clGetDeviceIDs(res.env->platform_id, CL_DEVICE_TYPE_DEFAULT, 1, &res.env->device_id, &res.env->ret_num_devices);
+	res.env->ctx = clCreateContext(NULL, 1, &res.env->device_id, NULL, NULL, &ret);
+	res.queue = clCreateCommandQueue(res.env->ctx, res.env->device_id, 0, &ret);
+	while ((i = get_next_line(fd, &line))> 0)
 	{
 		if (ft_strlen(line) > 0)
 		{
 			tmp = ft_strjoin("/", line);
 			file_name = ft_strjoin(manifest_dir, tmp);
-			read_kernel(&res.kernels, file_name, &res.env);
-			//-----------------------------------------------------------------
-
-			//-----------------------------------------------------------------
+			read_kernel(res.kernels, file_name, res.env);
 			free(tmp);
 			free(file_name);
 		}
