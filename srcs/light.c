@@ -15,7 +15,6 @@
 #include "inter.h"
 #include "libft.h"
 #include "procedurale.h"
-#include "reflexion.h"
 #include "parser.h"
 
 #define	LIGHT ((t_light *)obj->data)
@@ -91,14 +90,6 @@ t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
 	t_vector3f		color_return;
 
 	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
-	return (color_return);
-}
-
-t_vector3f	calcul_light_reflexion(t_list *node, t_inter *inter, t_obj *obj, t_ray *ray)
-{
-	t_vector3f		color_return;
-
-	color_return = reflexion(node, inter, obj, ray);
 	return (color_return);
 }
 

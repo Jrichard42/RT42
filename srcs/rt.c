@@ -143,8 +143,6 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 	inter.distance = NAN;
 	color = create_vector3f(0, 0, 0);
 	node = rt->objs->head;
-	ray.start = rt->camera->pos; //eyepoint
-	ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 	while (node)
 	{
 		if (((t_obj *)node->content)->is_src != 1)
