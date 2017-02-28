@@ -64,7 +64,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 		return (-1);
 	obj->normal = &normal_cylinder;
 	obj->inter = &inter_cylinder;
-	obj->pos = get_as_vector3f(token, "POSITION");
+	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");

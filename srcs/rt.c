@@ -166,11 +166,6 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 		if (((t_obj *)node->content)->is_src != 1)
 			calcul_inter(ray, ((t_obj *)node->content), &inter);
 		//write(1, "B", 1);
-		if (!isnan(inter.distance) && inter.obj != NULL)
-		{
-	//		printf("intersection\n");
-			break;
-		}
 		node = node->next;
 	}
 	//printf("%f|%f|%f\n",color.x, color.y, color.z);
@@ -187,7 +182,7 @@ static void		render_pic(t_rt *rt)
 	t_vector3f	color;
 	t_ray		vp_point;
 	t_vector2f	pixel;
-	int 		rec = 2;
+	int 		rec = 5;
 
 	j = 0;
 	while (j < (rt->env.size.y + 1))

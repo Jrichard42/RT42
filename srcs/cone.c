@@ -90,7 +90,7 @@ int					create_cone(t_kvlexer *token, t_rt *rt)
 		return (-1);
 	obj->normal = &normal_cone;
 	obj->inter = &inter_cone;
-	obj->pos = get_as_vector3f(token, "POSITION");
+	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");
