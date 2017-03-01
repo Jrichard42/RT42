@@ -83,22 +83,27 @@ static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *r
 	return (shadow);
 }
 
-static	t_vector3f	vector_ref(t_inter *inter, t_vector3f incident_tmp)
+static	t_vector3f	vector_ref(t_rt *rt, t_inter *inter, t_ray inc_tmp)
 {
 	float		cos1;
 	float		cos2;
-	t_vector3f	incident;
+	float		ir_tmp;
+	t_vector3f	inc;
 	t_vector3f	v_refraction;
 
-	incident = mult_vector3f(incident_tmp, -1);
-	cos1 = dot_vector3f(incident, inter->normal);
-	cos2 = sqrt(1 - (1 / inter->obj->mat.ir) * (1 - cos1 * cos1));
-	if (cos1 > 0)
-		v_refraction = add_vector3f(mult_vector3f(incident_tmp, 1 / inter->obj->mat.ir), mult_vector3f(inter->normal, (1 / inter->obj->mat.ir * cos1) - cos2));
-	else if (cos1 < 0)
-		v_refraction = add_vector3f(mult_vector3f(incident_tmp,1 / inter->obj->mat.ir), mult_vector3f(inter->normal, (1 / inter->obj->mat.ir * cos1) + cos2));
+	inc = mult_vector3f(inc_tmp.dir, 1);
+	cos1 = dot_vector3f(inc_tmp.dir, inter->normal);
+	cos2 = sqrt(1 - (pow(inc_tmp.ir / inter->obj->mat.ir, 2)) * (1 - cos1 * cos1));
+	if (inc_tmp.ir == inter->obj->mat.ir)
+		ir_tmp = rt->env.ir;
 	else
-		return (incident_tmp);	
+		ir_tmp = inter->obj->mat.ir;
+	if (cos1 > 0)
+		v_refraction = add_vector3f(mult_vector3f(inc, inc_tmp.ir / ir_tmp), mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) - cos2));
+	else if (cos1 < 0)
+		v_refraction = add_vector3f(mult_vector3f(inc, inc_tmp.ir / ir_tmp), mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) + cos2));
+	else
+		return (inc_tmp.dir);
 	return (v_refraction);
 }
 
@@ -123,28 +128,35 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 				node_obj = save;
 				ray_obj.start = inter->impact;
 				ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)save->content)->pos, inter->impact));
-				ray_ref.start = inter->impact;
-				ray_ref.dir = vector_ref(inter, ray_obj.dir);
+				ray_obj.ir = ray->ir;
+				
 				shadow = if_shadow(node_obj, inter, save, &ray_obj);
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
+					ray_ref.start = inter->impact;
+					ray_ref.dir = vector_ref(rt, inter, *ray);
+					ray_ref.ir = ray->ir;
 					tmp_dot = 2.0 * dot_vector3f(ray->dir, inter->normal);
 					ray_obj.start = inter->impact;
 					ray_obj.dir = sub_vector3f(ray->dir, mult_vector3f(inter->normal, tmp_dot));
+					if (test)
+					{
+						--test;
+						if (inter->obj->mat.ir >= 1)
+							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_ref, test)), LIGHT->intensity), 2);
+						*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_obj, test)), LIGHT->intensity), 2);	
+					}
 					if (((t_plane *)inter->obj->data)->damier == 1)
 					 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
 					 else
-					*color = add_vector3f(calcul_light(inter, &coeffs, ((t_obj *)save->content)), *color);
-				if (test)
-				{
-					--test;
-					*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_obj, test)), LIGHT->intensity), 2);
-					if (inter->obj->mat.ir >= 1)
-						*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_ref, test)), LIGHT->intensity), 2);
+						*color = add_vector3f(calcul_light(inter, &coeffs, ((t_obj *)save->content)), *color);
+				//if (test + 1)
+				
+				cap_light(color);
+					
 				}
-					cap_light(color);
-				}
+				
 				shadow = 0;
 			}
 			save = save->next;
@@ -189,6 +201,7 @@ static void		render_pic(t_rt *rt)
 		while (i < (rt->env.size.x + 1))
 		{
 			pixel = create_vector2f(i, j);
+			vp_point.ir = rt->env.ir;
 			vp_point.start = rt->camera->pos;
 			vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
 			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
@@ -245,6 +258,7 @@ t_rt			*create_rt(int x, int y, char *name)
 			SDL_WINDOWPOS_UNDEFINED,
 			x, y,
 			SDL_WINDOW_SHOWN);
+	rt->env.ir = 1.0;
 	rt->env.rend = SDL_CreateRenderer(rt->env.win, -1, SDL_RENDERER_ACCELERATED);
 	rt->env.text = SDL_CreateTexture(rt->env.rend, SDL_PIXELFORMAT_RGBA32,
 			SDL_TEXTUREACCESS_STREAMING,
