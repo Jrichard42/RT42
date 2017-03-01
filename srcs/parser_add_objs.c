@@ -70,6 +70,7 @@ t_material			get_material(t_kvlexer *token)
 	material.kd = 0.33;
 	material.ks = 0.33;
 	material.sh = 10;
+	material.ir = 0.0;
 	if ((node = ft_lstsearch(token->children->head, &search_key, "MATERIAL")))
 	{
 		mat_token = (t_kvlexer *)node->content;
@@ -77,6 +78,7 @@ t_material			get_material(t_kvlexer *token)
 		material.kd = get_as_float(mat_token, "DIFFUSE");
 		material.ks = get_as_float(mat_token, "SPECULAR");
 		material.sh = get_as_float(mat_token, "SHININESS");
+		material.ir = get_as_float(mat_token, "IR");
 	}
 	return (material);
 }

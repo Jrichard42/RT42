@@ -21,6 +21,7 @@ typedef	struct	s_material
 	float		kd;
 	float		ks;
 	int			sh;
+	float		ir;
 }				t_material;
 
 typedef	struct	s_obj
