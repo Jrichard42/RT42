@@ -189,6 +189,8 @@ static void		render_pic(t_rt *rt)
 {
 	int			i;
 	int			j;
+	float		sample_x;
+	float		sample_y;
 	t_vector3f	color;
 	t_ray		vp_point;
 	t_vector2f	pixel;
@@ -200,12 +202,24 @@ static void		render_pic(t_rt *rt)
 		i = 0;
 		while (i < (rt->env.size.x + 1))
 		{
-			pixel = create_vector2f(i, j);
-			vp_point.ir = rt->env.ir;
-			vp_point.start = rt->camera->pos;
-			vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
-			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
-			color = get_inters(rt, &vp_point, rec);
+			sample_y = 1;
+			while (sample_y <= 4)
+			{
+				sample_x = 1;
+				while (sample_x <= 4)
+				{
+					pixel = create_vector2f((float)i + (1.0f / sample_x), (float)j + (1.0f / sample_y));
+					vp_point.start = rt->camera->pos;
+					vp_point.ir = rt->env.ir;
+					vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
+					vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
+					color = add_vector3f(color, get_inters(rt, &vp_point, rec));
+					sample_x++;
+				}
+				sample_y++;
+			}
+			color = div_vector3f(color, 16.0);
+			cap_light(&color);
 			put_in_image(rt, i, j, &color);
 			++i;
 		}
