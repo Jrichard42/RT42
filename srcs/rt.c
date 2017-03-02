@@ -109,7 +109,7 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
-					tmp_dot = 2.0 * dot_vector3f(ray->dir, inter->normal);
+					tmp_dot = 2.0 * dot_vector3f_cl(rt->cl, ray->dir, inter->normal);
 					ray_obj.start = inter->impact;
 					ray_obj.dir = sub_vector3f(ray->dir, mult_vector3f(inter->normal, tmp_dot));
 					if (((t_plane *)inter->obj->data)->damier == 1)

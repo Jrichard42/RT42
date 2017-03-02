@@ -8,6 +8,7 @@
 # include "opencl.h"
 
 t_vector3f			add_vector3f_cl(t_cl *cl, t_vector3f v1, t_vector3f v2);
+float				dot_vector3f_cl(t_cl *cl, t_vector3f v1, t_vector3f v2);
 
 
 #endif
