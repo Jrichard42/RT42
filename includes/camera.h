@@ -39,6 +39,7 @@ typedef	struct	s_camera
 	int			fov;
 	float		aspectratio;
 	float		n;
+	float		sample;
 }				t_camera;
 // typedef struct	s_camera
 // {
