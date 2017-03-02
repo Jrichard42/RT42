@@ -17,6 +17,8 @@
 # include "camera.h"
 # include "libft.h"
 # include "libft_matrix.h"
+# include "opencl.h"
+# include "vector_cl.h"
 
 typedef struct s_camera	t_camera;
 
@@ -37,6 +39,7 @@ typedef	struct		s_rt
 	t_env			env;
 	t_camera		*camera;
 	t_dlist			*objs;
+	t_cl			*cl;
 }					t_rt;
 
 t_rt				*create_rt(int x, int y, char *name);

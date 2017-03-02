@@ -13,12 +13,14 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include "libft.h"
+#include <stdio.h>
 
 void		*ft_realloc(void *ptr, size_t size)
 {
 	void	*new;
 
-	if (!(new = malloc(size * sizeof(*new))))
+	printf("%zu\n", size);
+	if (!(new = malloc(size)))
 		return (NULL);
 	if (ptr)
 	{

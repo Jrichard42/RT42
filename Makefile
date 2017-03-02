@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/02/25 14:18:12 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/02 16:09:40 by dbreton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,9 +20,9 @@ SRCDIR			= srcs/
 INCDIR			= includes/
 SDLINCDIR		= sdl/SDL/include
 
-SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c
+SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c opencl.c hashtable.c vector_cl.c
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -Ofast
+CFLAGS			= -Wall -Wextra -O0 -g
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 
@@ -33,7 +33,7 @@ $(LIBFTMATRIX):
 	@$(MAKE) -C $@
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm
+	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm -framework opencl
 
 %.o: $(SRCDIR)%.c
 	gcc -o $@ -c $< $(CFLAGS) -I$(INCDIR) -I$(LIBFT) -I$(LIBFTMATRIX) -I$(SDLINCDIR)

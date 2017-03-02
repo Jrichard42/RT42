@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/02/25 14:52:31 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/02 16:14:13 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #define	LIGHT ((t_light *)((t_obj *)save->content)->data)
 //TODO put in .h
 t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec);
+#include "parser.h"
+#include "opencl.h"
 
 int                get_color_value(t_vector3f c)
 {
@@ -35,7 +37,7 @@ int                get_color_value(t_vector3f c)
 	return (res);
 }
 
-void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
+static void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter)
 {
 	float 			tmp;
 
@@ -43,7 +45,7 @@ void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
 		inter->distance = tmp;
-		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
+		inter->impact = add_vector3f_cl(cl, ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
 		inter->obj = obj;
 	}
@@ -146,7 +148,7 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 	while (node)
 	{
 		if (((t_obj *)node->content)->is_src != 1)
-			calcul_inter(ray, ((t_obj *)node->content), &inter);
+			calcul_inter(rt->cl, ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
 	 rec = apply_light(rt, ray, &color, &inter, rec);
