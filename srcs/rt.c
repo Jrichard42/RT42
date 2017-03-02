@@ -176,7 +176,7 @@ static void		render_pic(t_rt *rt)
 				sample_x = 1;
 				while (sample_x <= rt->camera->sample)
 				{
-					pixel = create_vector2f((float)i + (1.0f / rt->camera->sample), (float)j + (1.0f / rt->camera->sample));
+					pixel = create_vector2f((float)i + (1.0f / sample_x), (float)j + (1.0f / sample_y));
 					vp_point.start = rt->camera->pos;
 					vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
 					vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
@@ -185,7 +185,7 @@ static void		render_pic(t_rt *rt)
 				}
 				sample_y++;
 			}
-			color = div_vector3f(color, rt->camera->sample * 2.0);
+			color = div_vector3f(color, powf(rt->camera->sample, 2.0));
 			cap_light(&color);
 			put_in_image(rt, i, j, &color);
 			++i;
