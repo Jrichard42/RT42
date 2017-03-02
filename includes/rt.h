@@ -18,6 +18,7 @@
 # include "libft.h"
 # include "libft_matrix.h"
 # include "opencl.h"
+# include "vector_cl.h"
 
 typedef struct s_camera	t_camera;
 
