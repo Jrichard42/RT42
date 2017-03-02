@@ -37,5 +37,7 @@ float			length_vector3f(t_vector3f v1);
 float			squared_length_vector3f(t_vector3f v1);
 t_vector3f		transform_vector3f(t_vector3f v1, t_matrix *transf);
 t_vector3f		clamp_vector3f(t_vector3f, float min, float max);
+t_vector3f		mult_by_vector3f(t_vector3f v1, t_vector3f v2);
+t_vector3f		div_float_by_vector3f(float nb, t_vector3f v);
 
 #endif

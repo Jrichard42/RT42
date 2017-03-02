@@ -19,5 +19,7 @@
 # include "plane.h"
 # include "cylinder.h"
 # include "cone.h"
+# include "box.h"
+# include "torus.h"
 
 #endif

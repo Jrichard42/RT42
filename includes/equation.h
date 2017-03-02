@@ -25,21 +25,21 @@ typedef struct	s_res
 
 typedef struct	s_equ
 {
-	float		bs;
-	float		aa;
-	float		ma;
-	float		bb;
-	float		cc;
-	float		mc;
-	float		k;
-	float		u;
-	float		vt;
-	float		p;
-	float		q;
-	float		del;
-	float		alpha;
-	float		kos;
-	float		r;
+	double		bs;
+	double		aa;
+	double		ma;
+	double		bb;
+	double		cc;
+	double		mc;
+	double		k;
+	double		u;
+	double		vt;
+	double		p;
+	double		q;
+	double		del;
+	double		alpha;
+	double		kos;
+	double		r;
 }				t_equ;
 
 int				sgn(float x);
@@ -49,6 +49,6 @@ t_res			equationpoly(float *val, int lenght);
 t_res			equationpoly1(float a, float b);
 t_res			equationpoly2(float a, float b, float c);
 t_res			equationpoly3(float a, float b, float c, float d);
-t_res			equationpoly4(float *val);
+t_res			equationpoly4(double *val);
 
 #endif

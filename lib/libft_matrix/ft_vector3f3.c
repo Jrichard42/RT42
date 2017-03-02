@@ -37,3 +37,23 @@ t_vector3f		clamp_vector3f(t_vector3f v1, float min, float max)
 		new.z = max;
 	return (new);
 }
+
+t_vector3f		mult_by_vector3f(t_vector3f v1, t_vector3f v2)
+{
+	t_vector3f	new;
+
+	new.x = v1.x * v2.x;
+	new.y = v1.y * v2.y;
+	new.z = v1.z * v2.z;
+	return (new);
+}
+
+t_vector3f		div_float_by_vector3f(float nb, t_vector3f v)
+{
+	t_vector3f new;
+
+	new.x = nb / v.x;
+	new.y = nb / v.y;
+	new.z = nb / v.z;
+	return (new);
+}

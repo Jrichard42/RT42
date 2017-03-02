@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   equationpoly.c                                     :+:      :+:    :+:   */
+/*   box.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/21 13:01:59 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/02/21 13:02:02 by jqueyrou         ###   ########.fr       */
+/*   Created: 2017/03/02 15:31:14 by jqueyrou          #+#    #+#             */
+/*   Updated: 2017/03/02 15:31:16 by jqueyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "equation.h"
+#ifndef BOX_H
+# define BOX_H
 
-t_res	equationpoly(double *val, int lenght)
+# include "rt.h"
+# include "obj.h"
+# include "ft_kvlexer.h"
+# include "parser.h"
+# include "libft.h"
+# include "equation.h"
+
+typedef struct	s_box
 {
-	t_res res;
+	t_vector3f min;
+	t_vector3f max;
+}				t_box;
 
-	res.x1 = NAN;
-	res.x2 = NAN;
-	res.x3 = NAN;
-	res.x4 = NAN;
-	if (lenght == 5)
-		return (equationpoly4(val));
-	if (lenght == 4)
-		return (equationpoly3(val[0], val[1], val[2], val[3]));
-	if (lenght == 3)
-		return (equationpoly2(val[0], val[1], val[2]));
-	if (lenght == 2)
-		return (equationpoly1(val[0], val[1]));
-	return (res);
-}
+int				create_box(t_kvlexer *token, t_rt *rt);
+
+#endif

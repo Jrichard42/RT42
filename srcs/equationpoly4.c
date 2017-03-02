@@ -12,10 +12,10 @@
 
 #include "equation.h"
 
-static t_res	fin(float u, float aa, float bb, float bs)
+static t_res	fin(double u, double aa, double bb, double bs)
 {
-	float	uma;
-	float	d;
+	double	uma;
+	double	d;
 	t_res	res;
 
 	res.x1 = NAN;
@@ -24,19 +24,19 @@ static t_res	fin(float u, float aa, float bb, float bs)
 	res.x4 = NAN;
 	res.nb = 0;
 	uma = u - aa;
-	d = uma - 4 * (bb / 2 / uma * sqrtf(uma) + u / 2);
+	d = uma - 4.0 * (bb / 2 / uma * sqrt(uma) + u / 2);
 	if (d >= 0)
 	{
 		res.nb += 2;
-		res.x1 = (sqrtf(uma) + sqrtf(d)) / 2 - bs;
-		res.x2 = (sqrtf(uma) - sqrtf(d)) / 2 - bs;
+		res.x1 = (sqrt(uma) + sqrt(d)) / 2 - bs;
+		res.x2 = (sqrt(uma) - sqrt(d)) / 2 - bs;
 	}
-	d = uma - 4 * (-bb / 2 / uma * sqrtf(uma) + u / 2);
+	d = uma - 4.0 * (-bb / 2 / uma * sqrt(uma) + u / 2);
 	if (d >= 0)
 	{
 		res.nb += 2;
-		res.x3 = (-sqrtf(uma) + sqrtf(d)) / 2 - bs;
-		res.x4 = (-sqrtf(uma) - sqrtf(d)) / 2 - bs;
+		res.x3 = (-sqrt(uma) + sqrt(d)) / 2 - bs;
+		res.x4 = (-sqrt(uma) - sqrt(d)) / 2 - bs;
 	}
 	return (res);
 }
@@ -45,15 +45,12 @@ static t_res	delta_negative(t_equ var, t_res res)
 {
 	if (var.p != 0)
 	{
-		var.kos = -var.q / 2 / sqrtf(-var.p * var.p * var.p / 27);
-		var.r = sqrtf(-var.p / 3);
+		var.kos = -var.q / 2 / sqrt(-var.p * var.p * var.p / 27);
+		var.r = sqrt(-var.p / 3);
 	}
-	if (absf(var.kos) - 1 < exp(-14))
-		var.alpha = -M_PI * (var.kos - 1) / 2;
-	else
-		var.alpha = acos(var.kos);
+	var.alpha = acos(var.kos);
 	res.x1 = 2 * var.r * cos((var.alpha) / 3) + var.vt;
-	res.x2 = 2 * var.r * cos((var.alpha + 2 * 1 * M_PI) / 3) + var.vt;
+	res.x2 = 2 * var.r * cos((var.alpha + 2 * M_PI) / 3) + var.vt;
 	res.x3 = 2 * var.r * cos((var.alpha + 2 * 2 * M_PI) / 3) + var.vt;
 	if (var.r == 0)
 		return (fin(res.x1, var.aa, var.bb, var.bs));
@@ -65,7 +62,7 @@ static t_res	delta_negative(t_equ var, t_res res)
 	return (fin(var.u, var.aa, var.bb, var.bs));
 }
 
-static void		var_init(t_equ *var, t_res *res, float *val)
+static void		var_init(t_equ *var, t_res *res, double *val)
 {
 	res->x1 = NAN;
 	res->x2 = NAN;
@@ -86,7 +83,7 @@ static void		var_init(t_equ *var, t_res *res, float *val)
 	var->r = 0;
 }
 
-static void		var_calcul(t_equ *var, float *val)
+static void		var_calcul(t_equ *var, double *val)
 {
 	var->bs = val[1] / 4 / val[0];
 	val[0] = 1;
@@ -97,16 +94,10 @@ static void		var_calcul(t_equ *var, float *val)
 	var->p = val[2] / val[0] - val[1] * val[1] / 3 / val[0] / val[0];
 	var->q = val[1] * val[1] * val[1] / val[0] / val[0] / val[0] / 13.5
 	+ val[3] / val[0] - val[1] * val[2] / 3 / val[0] / val[0];
-	if (absf(var->p) < exp(-14))
-		var->p = 0;
-	if (absf(var->q) < exp(-14))
-		var->q = 0;
 	var->del = var->q * var->q / 4 + var->p * var->p * var->p / 27;
-	if (absf(var->del) < exp(-14))
-		var->del = 0;
 }
 
-t_res			equationpoly4(float *val)
+t_res			equationpoly4(double *val)
 {
 	t_res	res;
 	t_equ	var;
