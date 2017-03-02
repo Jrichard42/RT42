@@ -37,7 +37,7 @@ int                get_color_value(t_vector3f c)
 	return (res);
 }
 
-static void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter)
+void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter)
 {
 	float 			tmp;
 

@@ -12,6 +12,7 @@
 
 #ifndef INTER_H
 # define INTER_H
+# include "opencl.h"
 
 typedef	struct	s_inter
 {
@@ -21,6 +22,6 @@ typedef	struct	s_inter
 	t_obj		*obj;
 }				t_inter;
 
-void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter);
+void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter);
 
 #endif
