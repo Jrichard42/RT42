@@ -16,7 +16,41 @@
 #include "obj.h"
 #include "inter.h"
 #include "ray.h"
-#include "parser.h"	
+#include "parser.h"
+#include "opencl.h"
+
+t_vector3f			add_vector3f_cl(t_cl *cl, t_vector3f v1, t_vector3f v2)
+{
+	float 			v[3][3];
+	cl_mem 			memobj[3];
+	t_vector3f		res;
+	cl_kernel 		kernel;
+
+	v[0][0] = v1.x;
+	v[0][1] = v1.y;
+	v[0][2] = v1.z;
+	v[1][0] = v2.x;
+	v[1][1] = v2.y;
+	v[1][2] = v2.z;
+	kernel = ht_get(cl->kernels, "add_vector3f");
+	memobj[0] = clCreateBuffer(cl->env->ctx, CL_MEM_READ_WRITE, 3 * sizeof(float), NULL, NULL);
+	memobj[1] = clCreateBuffer(cl->env->ctx, CL_MEM_READ_WRITE, 3 * sizeof(float), NULL, NULL);
+	memobj[2] = clCreateBuffer(cl->env->ctx, CL_MEM_READ_WRITE, 3 * sizeof(float), NULL, NULL);
+	clEnqueueWriteBuffer(cl->queue, memobj[0], CL_TRUE, 0, 3*sizeof(float), v[0], 0, NULL, NULL);
+	clEnqueueWriteBuffer(cl->queue, memobj[1], CL_TRUE, 0, 3*sizeof(float), v[1], 0, NULL, NULL);
+	clSetKernelArg(kernel, 0, sizeof(cl_mem), (void *)&memobj[0]);
+	clSetKernelArg(kernel, 1, sizeof(cl_mem), (void *)&memobj[1]);
+	clSetKernelArg(kernel, 2, sizeof(cl_mem), (void *)&memobj[2]);
+	clEnqueueTask(cl->queue, kernel, 0, NULL, NULL);
+	clEnqueueReadBuffer(cl->queue, memobj[2], CL_TRUE, 0, 3 * sizeof(float), (void *)&v[2], 0, NULL, NULL);
+	res.x = v[2][0];
+	res.y = v[2][1];
+	res.z = v[2][2];
+	clReleaseMemObject(memobj[0]);
+	clReleaseMemObject(memobj[1]);
+	clReleaseMemObject(memobj[2]);
+	return (res);
+}
 
 int                get_color_value(t_vector3f c)
 {
@@ -28,7 +62,7 @@ int                get_color_value(t_vector3f c)
     return (res);
 }
 
-static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
+static void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter)
 {
 	float 			tmp;
 
@@ -36,7 +70,7 @@ static void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
 		inter->distance = tmp;
-		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
+		inter->impact = add_vector3f_cl(cl, ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
 		inter->obj = obj;
 	}
@@ -71,7 +105,7 @@ static t_vector3f		get_inters(t_rt *rt, t_vector3f *vp_point)
 		ray.start = rt->camera->pos; //eyepoint
 		ray.dir = normalize_vector3f(sub_vector3f(*vp_point, ray.start));
 		if (((t_obj *)node->content)->is_src != 1)
-			calcul_inter(&ray, ((t_obj *)node->content), &inter);
+			calcul_inter(rt->cl, &ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
 	node = rt->objs->head;

@@ -35,6 +35,6 @@ typedef struct 	s_cl
 }				t_cl;
 
 int 			read_kernel(t_hashtable *kernel, const char *fileName, t_cl_env *env);
-t_cl			cl_init(const char *manifest_dir);
+t_cl			*cl_init(const char *manifest_dir);
 
 #endif

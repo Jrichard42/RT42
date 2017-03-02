@@ -28,15 +28,13 @@ static int		loop(t_rt *rt)
 
 int				main(int argc, char **argv)
 {
-	t_rt		*rt;
-	t_cl		cl;
+	t_rt		*rt = NULL;
 
 	if (argc != 2)
 		return (-1);
-	cl = cl_init("./kernels");
-	printf("%x\n", (unsigned int)ht_get(cl.kernels, "hello"));
 
 	rt = create_rt(1920, 1080, argv[1]);
+	rt->cl = cl_init("./kernels");
 	loop(rt);
 	// fontion destruction en attente
 	return (0);
