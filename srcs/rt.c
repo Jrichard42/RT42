@@ -62,7 +62,7 @@ static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 	}
 }
 
-static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *ray_obj)
+static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *ray_obj, t_ray *ray_ref)
 {
 	int					shadow;
 	double				tmp;
@@ -74,8 +74,11 @@ static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *r
 		{
 			if(!isnan(tmp = ((t_obj *)node_obj->content)->inter(((t_obj *)node_obj->content), ray_obj)) && tmp > 0.01 && tmp < length_vector3f(sub_vector3f(((t_obj *)node->content)->pos, inter->impact)) && diffuse_light(((t_obj *)node->content), inter) > 0)
 			{
-				shadow = 1;
-				break;
+				if (((t_obj *)node_obj->content)->mat.ir < 1.0 || isnan(ray_ref->dir.x))
+				{
+					shadow = 1;
+					break;
+				}
 			}
 		}
 		node_obj = node_obj->next;
@@ -98,7 +101,7 @@ static	t_vector3f	vector_ref(t_rt *rt, t_inter *inter, t_ray inc_tmp)
 		ir_tmp = rt->env.ir;
 	else
 		ir_tmp = inter->obj->mat.ir;
-	if (((cos1 > asin(ir_tmp / inc_tmp.ir))) || (inc_tmp.ir > ir_tmp))
+	if (((cos1 > asin(ir_tmp / inc_tmp.ir))) && (inc_tmp.ir > ir_tmp))
 	{
 		v_refraction.x = NAN;
 		return (v_refraction);
@@ -137,7 +140,7 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 				ray_ref.start = inter->impact;
 				ray_ref.ir = inter->obj->mat.ir;
 				ray_ref.dir = vector_ref(rt, inter, *ray);
-				shadow = if_shadow(node_obj, inter, save, &ray_obj);
+				shadow = if_shadow(node_obj, inter, save, &ray_obj, &ray_ref);
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
@@ -210,10 +213,10 @@ static void		render_pic(t_rt *rt)
 		while (i < (rt->env.size.x + 1))
 		{
 			sample_y = 1;
-			while (sample_y <= 3)
+			while (sample_y <= 4)
 			{
 				sample_x = 1;
-				while (sample_x <= 3)
+				while (sample_x <= 4)
 				{
 					pixel = create_vector2f((float)i + (1.0f / sample_x), (float)j + (1.0f / sample_y));
 					vp_point.start = rt->camera->pos;
@@ -225,13 +228,13 @@ static void		render_pic(t_rt *rt)
 				}
 				sample_y++;
 			}
-			color = div_vector3f(color, 9.0);
+			color = div_vector3f(color, 16.0);
 			cap_light(&color);
 			put_in_image(rt, i, j, &color);
 			++i;
 		}
 		++j;
-		printf("\rRENDER => [%.2f] %%", ((float)j / WIN_Y) * 100);
+		printf("RENDER => [%.2f] %%\n", ((float)j / WIN_Y) * 100);
 	}
 }
 
