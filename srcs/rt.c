@@ -98,6 +98,11 @@ static	t_vector3f	vector_ref(t_rt *rt, t_inter *inter, t_ray inc_tmp)
 		ir_tmp = rt->env.ir;
 	else
 		ir_tmp = inter->obj->mat.ir;
+	if (((cos1 > asin(ir_tmp / inc_tmp.ir))) || (inc_tmp.ir > ir_tmp))
+	{
+		v_refraction.x = NAN;
+		return (v_refraction);
+	}
 	if (cos1 > 0)
 		v_refraction = add_vector3f(mult_vector3f(inc, inc_tmp.ir / ir_tmp), mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) - cos2));
 	else if (cos1 < 0)
@@ -129,34 +134,35 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 				ray_obj.start = inter->impact;
 				ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)save->content)->pos, inter->impact));
 				ray_obj.ir = ray->ir;
-				
+				ray_ref.start = inter->impact;
+				ray_ref.ir = inter->obj->mat.ir;
+				ray_ref.dir = vector_ref(rt, inter, *ray);
 				shadow = if_shadow(node_obj, inter, save, &ray_obj);
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
-					ray_ref.start = inter->impact;
-					ray_ref.dir = vector_ref(rt, inter, *ray);
-					ray_ref.ir = ray->ir;
+
 					tmp_dot = 2.0 * dot_vector3f(ray->dir, inter->normal);
 					ray_obj.start = inter->impact;
 					ray_obj.dir = sub_vector3f(ray->dir, mult_vector3f(inter->normal, tmp_dot));
-					if (test)
-					{
-						--test;
-						if (inter->obj->mat.ir >= 1)
-							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_ref, test)), LIGHT->intensity), 2);
-						*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_obj, test)), LIGHT->intensity), 2);	
-					}
+					
 					if (((t_plane *)inter->obj->data)->damier == 1)
 					 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
 					 else
 						*color = add_vector3f(calcul_light(inter, &coeffs, ((t_obj *)save->content)), *color);
-				//if (test + 1)
-				
-				cap_light(color);
-					
 				}
-				
+				if (test)
+				{
+					--test;
+					if (inter->obj->mat.ir >= 1)
+					{
+						if (!(isnan(ray_ref.dir.x)))
+							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_ref, test)), LIGHT->intensity), 2);
+						if (shadow != 1)
+							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_obj, test)), LIGHT->intensity), 2);	
+					}
+				}
+				cap_light(color);
 				shadow = 0;
 			}
 			save = save->next;
@@ -181,9 +187,10 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 			calcul_inter(ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
-	 rec = apply_light(rt, ray, &color, &inter, rec);
+	rec = apply_light(rt, ray, &color, &inter, rec);
 	return (color);
 }
+
 
 static void		render_pic(t_rt *rt)
 {
@@ -203,10 +210,10 @@ static void		render_pic(t_rt *rt)
 		while (i < (rt->env.size.x + 1))
 		{
 			sample_y = 1;
-			while (sample_y <= 4)
+			while (sample_y <= 3)
 			{
 				sample_x = 1;
-				while (sample_x <= 4)
+				while (sample_x <= 3)
 				{
 					pixel = create_vector2f((float)i + (1.0f / sample_x), (float)j + (1.0f / sample_y));
 					vp_point.start = rt->camera->pos;
@@ -218,12 +225,13 @@ static void		render_pic(t_rt *rt)
 				}
 				sample_y++;
 			}
-			color = div_vector3f(color, 16.0);
+			color = div_vector3f(color, 9.0);
 			cap_light(&color);
 			put_in_image(rt, i, j, &color);
 			++i;
 		}
 		++j;
+		printf("\rRENDER => [%.2f] %%", ((float)j / WIN_Y) * 100);
 	}
 }
 
