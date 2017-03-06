@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/06 11:46:37 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/06 14:04:35 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ SDLINCDIR		= sdl/SDL/include
 
 SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c opencl.c hashtable.c vector_cl.c thread_manager.c
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -O0 -g
+CFLAGS			= -Wall -Wextra -O0 -g -pthread
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 
