@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/02 16:09:40 by dbreton          ###   ########.fr        #
+#    Updated: 2017/03/06 11:46:37 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCDIR			= srcs/
 INCDIR			= includes/
 SDLINCDIR		= sdl/SDL/include
 
-SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c opencl.c hashtable.c vector_cl.c
+SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c opencl.c hashtable.c vector_cl.c thread_manager.c
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -O0 -g
 

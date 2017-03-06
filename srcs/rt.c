@@ -6,7 +6,7 @@
 /*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/03/02 16:14:13 by dbreton          ###   ########.fr       */
+/*   Updated: 2017/03/06 12:12:24 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 #include "sphere.h"
 #include "parser.h"	
 #include "camera.h"
+#include "thread_manager.h"
 
 #define	LIGHT ((t_light *)((t_obj *)save->content)->data)
+#define T_DATA ((t_thread_data *)data)
 //TODO put in .h
 t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec);
 #include "parser.h"
@@ -155,31 +157,30 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 	return (color);
 }
 
-static void		render_pic(t_rt *rt)
+void			*render_chunk(void *data)
 {
-	int			i;
-	int			j;
-	t_vector3f	color;
-	t_ray		vp_point;
 	t_vector2f	pixel;
-	int 		rec = 10;
+	t_vector3f  color;
+	t_ray       vp_point;
+	int         rec = 10;
 
-	j = 0;
-	while (j < (rt->env.size.y + 1))
+	pixel = create_vector2f(T_DATA->index % WIN_X, T_DATA->index / WIN_X);
+	while (T_DATA->size > 0)
 	{
-		i = 0;
-		while (i < (rt->env.size.x + 1))
+		if (pixel.x == WIN_X)
 		{
-			pixel = create_vector2f(i, j);
-			vp_point.start = rt->camera->pos;
-			vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
-			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
-			color = get_inters(rt, &vp_point, rec);
-			put_in_image(rt, i, j, &color);
-			++i;
+			pixel.x = 0;
+			++pixel.y;
 		}
-		++j;
+		vp_point.start = T_DATA->rt->camera->pos;
+		vp_point.dir = get_viewplanepoint(T_DATA->rt->camera, &pixel);
+		vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
+		color = get_inters(T_DATA->rt, &vp_point, rec);
+		put_in_image(T_DATA->rt, pixel.x, pixel.y, &color);
+		++pixel.x;
+		--T_DATA->size;
 	}
+	return (NULL);
 }
 
 void			refresh_rt(t_rt *rt)
@@ -188,7 +189,7 @@ void			refresh_rt(t_rt *rt)
 
 	SDL_QueryTexture(rt->env.text, &size_pic, NULL, &rt->env.wh[0], &rt->env.wh[1]);
 	SDL_LockTexture(rt->env.text, NULL, (void**)&rt->env.pixels, &rt->env.pitch);
-	render_pic(rt);
+	thread_manager(rt);
 	SDL_UnlockTexture(rt->env.text);
 }
 
