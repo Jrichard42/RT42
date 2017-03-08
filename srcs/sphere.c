@@ -35,6 +35,8 @@ static float		inter_sphere(t_obj *obj, t_ray *ray)
 		var.result = var.sol_2;
 	else
 		var.result = var.sol_1;
+	if (var.result < 0)
+		return (NAN);
 	return (var.result);
 }
 

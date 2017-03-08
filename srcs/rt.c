@@ -62,7 +62,10 @@ static void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 	}
 }
 
-static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *ray_obj, t_ray *ray_ref)
+static	int				if_shadow(t_list *node_obj,
+									t_inter *inter,
+									t_list *node,
+									t_ray *ray_obj)
 {
 	int					shadow;
 	double				tmp;
@@ -72,16 +75,18 @@ static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *r
 	{
 		if (((t_obj *)node_obj->content)->is_src != 1)
 		{
-			if(!isnan(tmp = ((t_obj *)node_obj->content)->inter(((t_obj *)node_obj->content), ray_obj)) && tmp > 0.01 && tmp < length_vector3f(sub_vector3f(((t_obj *)node->content)->pos, inter->impact)))
+			if(!isnan(tmp =
+					((t_obj *)node_obj->content)->
+					inter(((t_obj *)node_obj->content),ray_obj))
+					&& tmp > 0.01 && tmp < length_vector3f(
+					sub_vector3f(((t_obj *)node->content)->pos,
+					inter->impact)))
 			{
-				// if (((t_obj *)node_obj->content)->mat.ir < 1.0 || isnan(ray_ref->dir.x))
-				// {
 				if (((t_obj *)node_obj->content)->id != inter->obj->id)
 				{
 					shadow = 1;
 					break;
 				}
-				// }
 			}
 		}
 		node_obj = node_obj->next;
@@ -89,42 +94,48 @@ static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *r
 	return (shadow);
 }
 
+int					calcul_cos_refraction(t_inter *inter, double *cos1, double *cos2, t_ray inc_tmp)
+{
+	t_vector3f	inc;
+
+	inc = mult_vector3f(inc_tmp.dir, -1.0);
+	*cos1 = dot_vector3f(inc, inter->normal);
+	if (inter->obj->mat.ir == 0)
+		return (-1);
+	*cos2 = 1 - pow(inc_tmp.ir / inter->obj->mat.ir, 2.0) *
+		(1.0 - pow(*cos1, 2.0));
+	if (*cos2 < 0)
+		return (-1);
+	*cos2 = sqrt(*cos2);
+	return (1);
+}
+
 static	t_vector3f	vector_ref(t_rt *rt, t_inter *inter, t_ray inc_tmp)
 {
-	float		cos1;
-	float		cos2;
-	float		sin1;
-	float		ir_tmp;
-	t_vector3f	inc;
 	t_vector3f	v_refraction;
+	double		cos1;
+	double		cos2;
+	double		ir_tmp;
 
-	v_refraction = create_vector3f(0, 0, 0);
-	inc = mult_vector3f(inc_tmp.dir, 1);
-	cos1 = dot_vector3f(inc_tmp.dir, inter->normal);
-	if (inter->obj->mat.ir == 0)
+	if (calcul_cos_refraction(inter, &cos1, &cos2, inc_tmp) == -1)
 	{
 		v_refraction.x = NAN;
 		return (v_refraction);
 	}
-	cos2 = sqrt(1 - (pow(inc_tmp.ir / inter->obj->mat.ir, 2)) * (1 - cos1 * cos1));
 	if (inc_tmp.ir == inter->obj->mat.ir)
 		ir_tmp = rt->env.ir;
 	else
 		ir_tmp = inter->obj->mat.ir;
-	sin1 = (ir_tmp / inc_tmp.ir) * sin(acos(cos2));
-	//printf("sin1 = %f\n", sin1);
-	// if (((cos1 > asin(ir_tmp / inc_tmp.ir))) || (sin1 >= 0.9))
-	// {
-	// 	v_refraction.x = NAN;
-	// 	return (v_refraction);
-	// }
 	if (cos1 > 0)
-		v_refraction = add_vector3f(mult_vector3f(inc, inc_tmp.ir / ir_tmp), mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) - cos2));
+		v_refraction =
+		add_vector3f(mult_vector3f(inc_tmp.dir, inc_tmp.ir / ir_tmp),
+		mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) - cos2));
 	else if (cos1 < 0)
-		v_refraction = add_vector3f(mult_vector3f(inc, inc_tmp.ir / ir_tmp), mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) + cos2));
+		v_refraction =
+		add_vector3f(mult_vector3f(inc_tmp.dir, inc_tmp.ir / ir_tmp),
+		mult_vector3f(inter->normal, ((inc_tmp.ir / ir_tmp) * cos1) + cos2));
 	else
 		return (inc_tmp.dir);
-	// printf("%f|%f|%f\n", v_refraction.x, v_refraction.y, v_refraction.z);
 	return (v_refraction);
 }
 
@@ -132,13 +143,12 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 {
 	int 				shadow;
 	t_list				*save;
-	float				coeffs;
+	double				coeffs;
 	t_list				*node_obj;
 	t_ray				ray_obj;
 	t_ray				ray_ref;
-	float				tmp_dot;
+	double				tmp_dot;
 
-	shadow = 0;
 	save = rt->objs->head;;
 	if (inter->obj != NULL)
 	{
@@ -153,11 +163,10 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 				ray_ref.start = inter->impact;
 				ray_ref.ir = inter->obj->mat.ir;
 				ray_ref.dir = vector_ref(rt, inter, *ray);
-				shadow = if_shadow(node_obj, inter, save, &ray_obj, &ray_ref);
+				shadow = if_shadow(node_obj, inter, save, &ray_obj);
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
-
 					tmp_dot = 2.0 * dot_vector3f(ray->dir, inter->normal);
 					ray_obj.start = inter->impact;
 					ray_obj.dir = sub_vector3f(ray->dir, mult_vector3f(inter->normal, tmp_dot));
@@ -173,14 +182,12 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 					if (inter->obj->mat.ir >= 1)
 					{
 						if (!(isnan(ray_ref.dir.x)))
-							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_ref, test)), LIGHT->intensity), 2);
+							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_ref, test)), LIGHT->intensity), 2.0);
 						if (shadow != 1)
-							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_obj, test)), LIGHT->intensity), 2);
+							*color = div_vector3f(mult_vector3f(add_vector3f(*color, get_inters(rt, &ray_obj, test)), LIGHT->intensity), 2.0);
 					}
 				}
 				cap_light(color);
-				//printf("%f|%f|%f\n", color->x, color->y, color->z);
-				shadow = 0;
 			}
 			save = save->next;
 		}

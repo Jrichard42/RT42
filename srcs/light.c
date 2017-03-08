@@ -76,7 +76,7 @@ float		calcul_coef(t_obj *obj, t_inter *inter, t_ray *ray)
 	return (coeffs);
 }
 
-t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
+t_vector3f	calcul_light(t_inter *inter, double *coeffs, t_obj *obj)
 {
 	t_vector3f		color_return;
 
@@ -85,7 +85,7 @@ t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
 	return (color_return);
 }
 
-t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
+t_vector3f	calcul_light_procedurale(t_inter *inter, double *coeffs, t_obj *obj)
 {
 	t_vector3f		color_return;
 
