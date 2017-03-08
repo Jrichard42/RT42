@@ -21,5 +21,8 @@
 # include "cone.h"
 # include "box.h"
 # include "torus.h"
+# include "triangle.h"
+# include "tetraedre.h"
+# include "pyramide.h"
 
 #endif

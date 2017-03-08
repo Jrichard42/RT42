@@ -1,30 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   box.h                                              :+:      :+:    :+:   */
+/*   pyramide.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/08 17:53:34 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/08 17:53:36 by jqueyrou         ###   ########.fr       */
+/*   Created: 2017/03/08 17:52:10 by jqueyrou          #+#    #+#             */
+/*   Updated: 2017/03/08 17:52:14 by jqueyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BOX_H
-# define BOX_H
+#ifndef PYRAMIDE_H
+# define PYRAMIDE_H
 
+# include "equation.h"
 # include "rt.h"
 # include "obj.h"
 # include "ft_kvlexer.h"
 # include "parser.h"
 # include "libft.h"
-# include "equation.h"
+# include "triangle.h"
 
-typedef struct	s_box
+typedef struct	s_pyra
 {
-	t_vector3f	min;
-	t_vector3f	max;
-}				t_box;
+	t_triangle	*face;
+	int			touch;
+}				t_pyra;
 
-int				create_box(t_kvlexer *token, t_rt *rt);
+typedef struct	s_vertex
+{
+	t_vector3f	sommet;
+	t_vector3f	v1;
+	t_vector3f	v2;
+	t_vector3f	v3;
+	t_vector3f	v4;
+}				t_vertex;
+int				create_pyra(t_kvlexer *token, t_rt *rt);
+
 #endif

@@ -12,20 +12,20 @@
 
 #include "equation.h"
 
-int				sgn(float x)
+int				sgn(double x)
 {
 	return ((x > 0) - (x < 0));
 }
 
-float			absf(float x)
+double			absf(double x)
 {
 	return (x * sgn(x));
 }
 
-float			uv(float delta, float q, float sg)
+double			uv(double delta, double q, double sg)
 {
-	float r;
-	float z;
+	double r;
+	double z;
 
 	r = sqrt(delta) * sg;
 	z = (-q / 2) + r;
@@ -37,7 +37,7 @@ static	t_res	delta_negative(t_equ var, t_res res)
 	if (var.p != 0)
 	{
 		var.kos = -var.q / 2 / sqrt(-var.p * var.p * var.p / 27);
-		var.r = sqrtf(-var.p / 3);
+		var.r = sqrt(-var.p / 3);
 	}
 	else
 	{
@@ -55,7 +55,7 @@ static	t_res	delta_negative(t_equ var, t_res res)
 	return (res);
 }
 
-t_res			equationpoly3(float a, float b, float c, float d)
+t_res			equationpoly3(double a, double b, double c, double d)
 {
 	t_equ var;
 	t_res res;

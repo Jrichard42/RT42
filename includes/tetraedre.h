@@ -1,30 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   box.h                                              :+:      :+:    :+:   */
+/*   tetraedre.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/08 17:53:34 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/08 17:53:36 by jqueyrou         ###   ########.fr       */
+/*   Created: 2017/03/08 17:51:34 by jqueyrou          #+#    #+#             */
+/*   Updated: 2017/03/08 17:51:36 by jqueyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BOX_H
-# define BOX_H
+#ifndef TETRAEDRE_H
+# define TETRAEDRE_H
 
+# include "equation.h"
 # include "rt.h"
 # include "obj.h"
 # include "ft_kvlexer.h"
 # include "parser.h"
 # include "libft.h"
-# include "equation.h"
+# include "triangle.h"
 
-typedef struct	s_box
+typedef struct	s_tetra
 {
-	t_vector3f	min;
-	t_vector3f	max;
-}				t_box;
+	t_triangle	*face;
+	int			touch;
+}				t_tetra;
+int				create_tetra(t_kvlexer *token, t_rt *rt);
 
-int				create_box(t_kvlexer *token, t_rt *rt);
 #endif

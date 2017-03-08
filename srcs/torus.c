@@ -87,8 +87,8 @@ static t_vector3f		normal_torus(struct s_obj *obj, t_vector3f *impact)
 	direction = sub_vector3f(center_to_point, mult_vector3f(TORUS->axis,
 		center_to_point_dot_axis));
 	direction = normalize_vector3f(direction);
-	normal = add_vector3f(sub_vector3f(*impact, obj->pos),
-		mult_vector3f(direction, TORUS->outer_rad));
+	normal = sub_vector3f(*impact, add_vector3f(obj->pos,
+	mult_vector3f(direction, TORUS->outer_rad)));
 	normal = normalize_vector3f(normal);
 	return (normal);
 }

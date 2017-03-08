@@ -17,10 +17,10 @@
 typedef struct	s_res
 {
 	int			nb;
-	float		x1;
-	float		x2;
-	float		x3;
-	float		x4;
+	double		x1;
+	double		x2;
+	double		x3;
+	double		x4;
 }				t_res;
 
 typedef struct	s_equ
@@ -42,13 +42,12 @@ typedef struct	s_equ
 	double		r;
 }				t_equ;
 
-int				sgn(float x);
-float			absf(float x);
-float			uv(float delta, float q, float sg);
-t_res			equationpoly(float *val, int lenght);
+int				sgn(double x);
+double			absf(double x);
+double			uv(double delta, double q, double sg);
 t_res			equationpoly1(float a, float b);
 t_res			equationpoly2(float a, float b, float c);
-t_res			equationpoly3(float a, float b, float c, float d);
+t_res			equationpoly3(double a, double b, double c, double d);
 t_res			equationpoly4(double *val);
 
 #endif

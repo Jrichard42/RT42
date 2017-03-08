@@ -25,7 +25,7 @@ t_res	equationpoly2(float a, float b, float c)
 	delta = b * b - (4 * a * c);
 	if (delta > 0)
 	{
-		delta = sqrtf(delta);
+		delta = sqrt(delta);
 		res.nb = 2;
 		res.x1 = (-b - delta) / (2 * a);
 		res.x2 = (-b + delta) / (2 * a);
