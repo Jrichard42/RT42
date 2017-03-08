@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/09 09:47:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/08 16:48:30 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/01/18 22:35:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,5 @@ typedef struct	s_gnldata
 
 int				get_next_line(const int fd, char **line);
 void			delgnl(void *content, size_t content_size);
-int				fd_cmp(t_list *node, void *data);
 
 #endif

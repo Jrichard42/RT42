@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/09 09:47:23 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/08 16:48:30 by jrichard         ###   ########.fr       */
+/*   Created: 2016/11/25 16:35:37 by jrichard          #+#    #+#             */
+/*   Updated: 2017/01/18 22:34:01 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "get_next_line.h"
 
-# include "libft.h"
-# define BUFF_SIZE 4096
-
-typedef struct	s_gnldata
+void	delgnl(void *content, size_t content_size)
 {
-	int		fd;
-	int		index;
-	char	*buff;
-}				t_gnldata;
-
-int				get_next_line(const int fd, char **line);
-void			delgnl(void *content, size_t content_size);
-int				fd_cmp(t_list *node, void *data);
-
-#endif
+	ft_bzero(content, content_size);
+	ft_strdel((&(((t_gnldata*)content)->buff)));
+	ft_memdel(&content);
+}
