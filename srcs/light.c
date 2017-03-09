@@ -85,13 +85,13 @@ t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
 	return (color_return);
 }
 
-t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
-{
-	t_vector3f		color_return;
+// t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
+// {
+// 	t_vector3f		color_return;
 
-	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
-	return (color_return);
-}
+// 	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
+// 	return (color_return);
+// }
 
 int					create_light(t_kvlexer *token, t_rt *rt)
 {

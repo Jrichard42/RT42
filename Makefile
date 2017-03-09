@@ -20,7 +20,7 @@ SRCDIR			= srcs/
 INCDIR			= includes/
 SDLINCDIR		= sdl/SDL/include
 
-SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c opencl.c hashtable.c vector_cl.c thread_manager.c triangle.c tetraedre.c pyramide.c
+SRC 			= camera.c cone.c cylinder.c light.c parser.c plane.c sphere.c events.c main.c parser_add_objs.c rt.c utils.c procedurale.c torus.c box.c equationpoly1.c equationpoly2.c equationpoly3.c equationpoly4.c opencl.c hashtable.c vector_cl.c thread_manager.c triangle.c tetraedre.c pyramide.c inter.c apply_color.c
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -O3 -pthread
 
