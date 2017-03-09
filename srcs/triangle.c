@@ -40,7 +40,7 @@ static float		inter_triangle(t_obj *obj, t_ray *ray)
 	return (var.f);
 }
 
-static t_vector3f	normal_triangle(struct s_obj *obj, t_vector3f *impact)
+static t_vector3f	cal_normal_triangle(struct s_obj *obj)
 {
 	t_vector3f	normale;
 	t_vector3f	e1;
@@ -49,10 +49,18 @@ static t_vector3f	normal_triangle(struct s_obj *obj, t_vector3f *impact)
 	e1 = sub_vector3f(TRIANGLE->vertex[1], TRIANGLE->vertex[0]);
 	e2 = sub_vector3f(TRIANGLE->vertex[2], TRIANGLE->vertex[0]);
 	normale = (cross_vector3f(e1, e2));
+	return (normalize_vector3f(normale));
+}
+
+static t_vector3f	normal_triangle(struct s_obj *obj, t_vector3f *impact)
+{
+	t_vector3f	normale;
+
+	normale = TRIANGLE->normal;
 	normale.x = fabs(normale.x) * sgn(impact->x) * -1;
 	normale.y = fabs(normale.y) * sgn(impact->y) * -1;
 	normale.z = fabs(normale.z) * sgn(impact->z) * -1;
-	return (normalize_vector3f(normale));
+	return (normale);
 }
 
 int					create_triangle(t_kvlexer *token, t_rt *rt)
@@ -76,6 +84,7 @@ int					create_triangle(t_kvlexer *token, t_rt *rt)
 		"VERTEX1"));
 	TRIANGLE->vertex[2] = add_vector3f(obj->pos, get_as_vector3f(token,
 		"VERTEX2"));
+	TRIANGLE->normal = cal_normal_triangle(obj);
 	obj->color = get_as_vector3f(token, "COLOR");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);

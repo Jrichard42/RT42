@@ -23,6 +23,7 @@
 typedef struct	s_triangle
 {
 	t_vector3f	vertex[3];
+	t_vector3f	normal;
 }				t_triangle;
 
 typedef struct	s_var
