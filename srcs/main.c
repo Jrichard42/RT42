@@ -33,7 +33,7 @@ int				main(int argc, char **argv)
 	if (argc != 2)
 		return (-1);
 	rt = create_rt(WIN_X, WIN_Y, argv[1]);
-	rt->cl = cl_init("./kernels");
+	//rt->cl = cl_init("./kernels");
 	loop(rt);
 	destroy_rt(rt);
 	return (0);

@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   rt.c                                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: dbreton <dbreton@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/12/19 19:15:07 by dbreton           #+#    #+#             */
-/*   Updated: 2017/03/06 12:12:24 by jrichard         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include <math.h>
 #include "rt.h"
 #include "light.h"
@@ -25,9 +13,9 @@
 #define	LIGHT ((t_light *)((t_obj *)save->content)->data)
 #define T_DATA ((t_thread_data *)data)
 //TODO put in .h
-t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec);
-#include "parser.h"
-#include "opencl.h"
+t_vector3f		get_inters(t_rt *rt, t_ray *ray);
+// #include "parser.h"
+// #include "opencl.h"
 
 int                get_color_value(t_vector3f c)
 {
@@ -47,7 +35,8 @@ void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter)
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance || isnan(inter->distance)))
 	{
 		inter->distance = tmp;
-		inter->impact = add_vector3f_cl(cl, ray->start, mult_vector3f(ray->dir, inter->distance));
+		// inter->impact = add_vector3f_cl(cl, ray->start, mult_vector3f(ray->dir, inter->distance));
+		inter->impact = add_vector3f(ray->start, mult_vector3f(ray->dir, inter->distance));
 		inter->normal = obj->normal(obj, &inter->impact);
 		inter->obj = obj;
 	}
@@ -76,10 +65,13 @@ static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *r
 	{
 		if (((t_obj *)node_obj->content)->is_src != 1)
 		{
-			if(!isnan(tmp = ((t_obj *)node_obj->content)->inter(((t_obj *)node_obj->content), ray_obj)) && tmp > 0.01 && tmp < length_vector3f(sub_vector3f(((t_obj *)node->content)->pos, inter->impact)) && diffuse_light(((t_obj *)node->content), inter) > 0)
+			if(!isnan(tmp = ((t_obj *)node_obj->content)->inter(((t_obj *)node_obj->content), ray_obj)) && tmp > 0.01 && tmp < length_vector3f(sub_vector3f(((t_obj *)node->content)->pos, inter->impact)))
 			{
-				shadow = 1;
-				break;
+				if (((t_obj *)node_obj->content)->id != inter->obj->id)
+				{
+					shadow = 1;
+					break;
+				}
 			}
 		}
 		node_obj = node_obj->next;
@@ -87,14 +79,13 @@ static	int				if_shadow(t_list *node_obj, t_inter *inter, t_list *node, t_ray *r
 	return (shadow);
 }
 
-int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int test)
+void		apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter)
 {
 	int 				shadow;
 	t_list				*save;
 	float				coeffs;
 	t_list				*node_obj;
 	t_ray				ray_obj;
-	float				tmp_dot;
 
 	shadow = 0;
 	save = rt->objs->head;;
@@ -111,22 +102,7 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
-					tmp_dot = 2.0 * dot_vector3f_cl(rt->cl, ray->dir, inter->normal);
-					ray_obj.start = inter->impact;
-					ray_obj.dir = sub_vector3f(ray->dir, mult_vector3f(inter->normal, tmp_dot));
-					if (((t_plane *)inter->obj->data)->damier == 1)
-					 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
-					 else
 					*color = add_vector3f(calcul_light(inter, &coeffs, ((t_obj *)save->content)), *color);
-				if (test)
-				{
-					--test;
-					*color = div_vector3f(
-						mult_vector3f(
-							add_vector3f(*color,
-								get_inters(rt, &ray_obj, test)),
-								LIGHT->intensity), 2);
-				}
 					cap_light(color);
 				}
 				shadow = 0;
@@ -134,10 +110,9 @@ int			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter, int t
 			save = save->next;
 		}
 	}
-	return (test);
 }
 
-t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
+t_vector3f		get_inters(t_rt *rt, t_ray *ray)
 {
 	t_list				*node;
 	t_inter				inter;
@@ -153,7 +128,7 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray, int rec)
 			calcul_inter(rt->cl, ray, ((t_obj *)node->content), &inter);
 		node = node->next;
 	}
-	 rec = apply_light(rt, ray, &color, &inter, rec);
+	apply_light(rt, ray, &color, &inter);
 	return (color);
 }
 
@@ -162,7 +137,6 @@ void			*render_chunk(void *data)
 	t_vector2f	pixel;
 	t_vector3f  color;
 	t_ray       vp_point;
-	int         rec = 10;
 
 	pixel = create_vector2f(T_DATA->index % WIN_X, T_DATA->index / WIN_X);
 	while (T_DATA->size > 0)
@@ -175,7 +149,7 @@ void			*render_chunk(void *data)
 		vp_point.start = T_DATA->rt->camera->pos;
 		vp_point.dir = get_viewplanepoint(T_DATA->rt->camera, &pixel);
 		vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir, vp_point.start));
-		color = get_inters(T_DATA->rt, &vp_point, rec);
+		color = get_inters(T_DATA->rt, &vp_point);
 		put_in_image(T_DATA->rt, pixel.x, pixel.y, &color);
 		++pixel.x;
 		--T_DATA->size;
@@ -236,3 +210,4 @@ t_rt			*create_rt(int x, int y, char *name)
 		return (ft_error("Failed to initialize sdl environment"));
 	return (rt);
 }
+
