@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:26:17 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/02 16:10:11 by dbreton          ###   ########.fr       */
+/*   Updated: 2017/03/09 17:35:47 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,15 @@ int				main(int argc, char **argv)
 	t_rt		*rt = NULL;
 
 	if (argc != 2)
+	{
+		ft_putendl("Usage : ./rt scene_file");
 		return (-1);
-	rt = create_rt(WIN_X, WIN_Y, argv[1]);
-	//rt->cl = cl_init("./kernels");
-	loop(rt);
+	}
+	if ((rt = create_rt(WIN_X, WIN_Y, argv[1])))
+	{
+		//rt->cl = cl_init("./kernels");
+		loop(rt);
+	}
 	destroy_rt(rt);
 	return (0);
 }
