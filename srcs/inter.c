@@ -42,8 +42,12 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray)
 	node = rt->objs->head;
 	while (node)
 	{
-		if (((t_obj *)node->content)->is_src != 1)
+		if (((t_obj *)node->content)->is_src != 1 &&
+			((t_obj *)node->content)->inter != NULL &&
+			((t_obj *)node->content)->normal != NULL)
+		{
 			calcul_inter(rt->cl, ray, ((t_obj *)node->content), &inter);
+		}
 		node = node->next;
 	}
 	apply_light(rt, ray, &color, &inter);

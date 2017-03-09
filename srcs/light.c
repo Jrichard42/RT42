@@ -19,22 +19,12 @@
 
 #define	LIGHT ((t_light *)obj->data)
 
-void				cap_light(t_vector3f *color)
-{
-	if (color->x > 255.0)
-		color->x = 255;
-	if (color->y > 255.0)
-		color->y = 255;
-	if (color->z > 255.0)
-		color->z = 255;
-}
-
 static float		specular_light(t_obj *obj, t_inter *inter, t_ray *ray)
 {
 	t_vector3f		pos_cam;
 	t_vector3f		incidence;
 	t_vector3f		tmp;
-	float			angle;
+	double			angle;
 
 	pos_cam = sub_vector3f(ray->start, inter->impact);
 	incidence = sub_vector3f(inter->impact, obj->pos);
@@ -44,6 +34,8 @@ static float		specular_light(t_obj *obj, t_inter *inter, t_ray *ray)
 	tmp = normalize_vector3f(tmp);
 	pos_cam = normalize_vector3f(pos_cam);
 	angle = dot_vector3f(pos_cam, tmp);
+	if (angle < 0)
+		angle = 0;
 	angle = powf(angle, inter->obj->mat.sh);
 	if (angle < 0)
 		angle = 0;
@@ -85,13 +77,13 @@ t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
 	return (color_return);
 }
 
-// t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
-// {
-// 	t_vector3f		color_return;
+t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
+{
+	t_vector3f		color_return;
 
-// 	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
-// 	return (color_return);
-// }
+	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
+	return (color_return);
+}
 
 int					create_light(t_kvlexer *token, t_rt *rt)
 {

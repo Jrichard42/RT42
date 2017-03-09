@@ -13,23 +13,16 @@
 #include "rt.h"
 #include "light.h"
 #include "obj.h"
-
-int				get_color_value(t_vector3f c)
-{
-	int            res;
-
-	res = (unsigned char)(c.x) & 0xFF;
-	res += ((unsigned char)(c.y) & 0x00FF) << 8;
-	res += ((unsigned char)(c.z) & 0x0000FF) << 16;
-	return (res);
-}
+#include "plane.h"
 
 void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
 	unsigned int		pixel_pos;
 	int					int_color;
 
-	int_color = get_color_value(*color);
+	int_color = (unsigned char)(color->x) & 0xFF;
+	int_color += ((unsigned char)(color->y) & 0x00FF) << 8;
+	int_color += ((unsigned char)(color->z) & 0x0000FF) << 16;
 	if ((x < rt->env.wh[0]) && y < (rt->env.wh[1]))
 	{
 		pixel_pos = y * (rt->env.pitch / sizeof(unsigned int)) + x;
@@ -52,7 +45,7 @@ static	int				if_shadow(t_list *node_obj
 		{
 			if(!isnan(tmp = ((t_obj *)node_obj->content)->
 				inter(((t_obj *)node_obj->content), ray_obj)) 
-			&& tmp > 0.01 && tmp < length_vector3f(sub_vector3f(((t_obj *)
+			&& tmp > 0.01 && (tmp * tmp) < squared_length_vector3f(sub_vector3f(((t_obj *)
 				node->content)->pos, inter->impact)))
 			{
 				if (((t_obj *)node_obj->content)->id != inter->obj->id)
@@ -78,7 +71,6 @@ void			apply_light(t_rt *rt,
 	t_list				*node_obj;
 	t_ray				ray_obj;
 
-	shadow = 0;
 	save = rt->objs->head;;
 	if (inter->obj != NULL)
 	{
@@ -93,8 +85,10 @@ void			apply_light(t_rt *rt,
 				if (shadow != 1)
 				{
 					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
+					if (((t_plane *)inter->obj->data)->damier == 1)
+					 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
 					*color = add_vector3f(calcul_light(inter, &coeffs, ((t_obj *)save->content)), *color);
-					cap_light(color);
+					*color = clamp_vector3f(*color, 0, 255);
 				}
 				shadow = 0;
 			}
