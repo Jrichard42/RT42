@@ -48,7 +48,7 @@ static	int				if_shadow(t_list *node_obj
 			&& tmp > 0.01 && (tmp * tmp) < squared_length_vector3f(sub_vector3f(((t_obj *)
 				node->content)->pos, inter->impact)))
 			{
-				if (((t_obj *)node_obj->content)->id != inter->obj->id)
+				if (((t_obj *)node_obj->content) != inter->obj)
 				{
 					shadow = 1;
 					break;

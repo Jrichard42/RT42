@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   sampling.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 13:38:06 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:25:27 by jrichard         ###   ########.fr       */
+/*   Created: 2017/03/10 14:30:18 by abitoun           #+#    #+#             */
+/*   Updated: 2017/03/10 14:30:19 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#ifndef SAMPLING_H
+# define SAMPLING_H
 
-#include "libft_matrix.h"
-
-typedef	struct	s_ray 
-{
-	t_vector3f	start;
-	t_vector3f	dir;
-}				t_ray;
+t_vector3f			sampling(t_rt *rt, t_vector2f pixel, float sampling);
 
 #endif

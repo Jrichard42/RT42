@@ -39,7 +39,7 @@ int			create_camera(t_kvlexer *token, t_rt *rt)
 	rt->camera->v, (2.0f * rt->camera->vphalfheight) / (double)WIN_Y);
 
 	rt->camera->x_inc_vec = mult_vector3f(
-		rt->camera->u, (2.0f * rt->camera->vphalfwidth) / (float)WIN_X);
+		rt->camera->u, (2.0f * rt->camera->vphalfwidth) / (double)WIN_X);
 	return (1);
 }
 

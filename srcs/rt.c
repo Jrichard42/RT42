@@ -17,23 +17,20 @@
 #include "obj.h"
 #include "inter.h"
 #include "ray.h"
-#include "plane.h"
-#include "sphere.h"
 #include "parser.h"	
 #include "camera.h"
+#include "sampling.h"
 #include "thread_manager.h"
 
 #define	LIGHT ((t_light *)((t_obj *)save->content)->data)
 #define T_DATA ((t_thread_data *)data)
 //TODO put in .h
-// #include "parser.h"
 // #include "opencl.h"
 
 void			*render_chunk(void *data)
 {
 	t_vector2f	pixel;
 	t_vector3f  color;
-	t_ray       vp_point;
 
 	pixel = create_vector2f(T_DATA->index % WIN_X, T_DATA->index / WIN_X);
 	while (T_DATA->size > 0)
@@ -43,11 +40,7 @@ void			*render_chunk(void *data)
 			pixel.x = 0;
 			++pixel.y;
 		}
-		vp_point.start = T_DATA->rt->camera->pos;
-		vp_point.dir = get_viewplanepoint(T_DATA->rt->camera, &pixel);
-		vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir,
-			vp_point.start));
-		color = get_inters(T_DATA->rt, &vp_point);
+		color = sampling(T_DATA->rt, pixel, 3.0);
 		put_in_image(T_DATA->rt, pixel.x, pixel.y, &color);
 		++pixel.x;
 		--T_DATA->size;

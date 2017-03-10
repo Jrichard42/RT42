@@ -37,8 +37,6 @@ static float		specular_light(t_obj *obj, t_inter *inter, t_ray *ray)
 	if (angle < 0)
 		angle = 0;
 	angle = powf(angle, inter->obj->mat.sh);
-	if (angle < 0)
-		angle = 0;
 	return (angle);
 }
 
