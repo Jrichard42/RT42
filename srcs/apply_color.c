@@ -45,7 +45,8 @@ static	int				if_shadow(t_list *node_obj
 		{
 			if(!isnan(tmp = ((t_obj *)node_obj->content)->
 				inter(((t_obj *)node_obj->content), ray_obj)) 
-			&& tmp > 0.01 && (tmp * tmp) < squared_length_vector3f(sub_vector3f(((t_obj *)
+			&& tmp > 0.01 && (tmp * tmp) <
+			squared_length_vector3f(sub_vector3f(((t_obj *)
 				node->content)->pos, inter->impact)))
 			{
 				if (((t_obj *)node_obj->content) != inter->obj)
@@ -60,38 +61,46 @@ static	int				if_shadow(t_list *node_obj
 	return (shadow);
 }
 
+static	void	apply_light_annex(t_list *save,
+							t_ray *ray,
+							t_vector3f *color,
+							t_inter *inter)
+{
+	float				coeffs;
+	t_ray				ray_obj;
+	int 				shadow;
+
+	ray_obj.start = inter->impact;
+	ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)save->content)->
+		pos, inter->impact));
+	shadow = if_shadow(save, inter, save, &ray_obj);
+	if (shadow != 1)
+	{
+		coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
+		if (((t_plane *)inter->obj->data)->damier == 1)
+		 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs,
+		 		((t_obj *)save->content)), *color);
+		else
+			*color = add_vector3f(calcul_light(inter, &coeffs,
+				((t_obj *)save->content)), *color);
+		*color = clamp_vector3f(*color, 0, 255);
+	}
+}
+
 void			apply_light(t_rt *rt,
 							t_ray *ray,
 							t_vector3f *color,
 							t_inter *inter)
 {
-	int 				shadow;
 	t_list				*save;
-	float				coeffs;
-	t_list				*node_obj;
-	t_ray				ray_obj;
 
-	save = rt->objs->head;;
+	save = rt->objs->head;
 	if (inter->obj != NULL)
 	{
 		while (save)
 		{
 			if (((t_obj *)save->content)->is_src == 1)
-			{
-				node_obj = save;
-				ray_obj.start = inter->impact;
-				ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)save->content)->pos, inter->impact));
-				shadow = if_shadow(node_obj, inter, save, &ray_obj);
-				if (shadow != 1)
-				{
-					coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
-					if (((t_plane *)inter->obj->data)->damier == 1)
-					 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs, ((t_obj *)save->content)), *color);
-					*color = add_vector3f(calcul_light(inter, &coeffs, ((t_obj *)save->content)), *color);
-					*color = clamp_vector3f(*color, 0, 255);
-				}
-				shadow = 0;
-			}
+				apply_light_annex(save, ray, color, inter);
 			save = save->next;
 		}
 	}
