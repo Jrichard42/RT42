@@ -18,16 +18,18 @@
 #include "ray.h"
 #include "camera.h"
 
-t_vector3f			sampling(t_rt *rt, t_vector2f pixel, float sampling)
+void			sampling(t_rt *rt,
+						t_vector2f pixel,
+						float sampling,
+						t_vector3f *color)
 {
-	t_vector3f 		color;
 	t_vector2f		pixel_tmp;
 	t_ray			vp_point;
 	t_vector2f		inc;
 
 	inc.y = 1;
 	pixel_tmp = pixel;
-	color = create_vector3f(0,0,0);
+	*color = create_vector3f(0,0,0);
 	while (inc.y <= sampling)
 	{
 		inc.x = 1;
@@ -39,10 +41,10 @@ t_vector3f			sampling(t_rt *rt, t_vector2f pixel, float sampling)
 			vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
 			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir,
 				vp_point.start));
-			color = add_vector3f(color, get_inters(rt, &vp_point));
+			*color = add_vector3f(*color, apply_light(rt, &vp_point,
+				get_inters(rt, &vp_point)));
 		}
 		++inc.y;
 	}
-	color = clamp_vector3f(div_vector3f(color, powf(sampling, 2.0)), 0, 255);
-	return (color);
+	*color = clamp_vector3f(div_vector3f(*color, powf(sampling, 2.0)), 0, 255);
 }

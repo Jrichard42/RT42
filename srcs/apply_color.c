@@ -87,21 +87,23 @@ static	void	apply_light_annex(t_list *save,
 	}
 }
 
-void			apply_light(t_rt *rt,
+t_vector3f			apply_light(t_rt *rt,
 							t_ray *ray,
-							t_vector3f *color,
-							t_inter *inter)
+							t_inter inter)
 {
 	t_list				*save;
+	t_vector3f			color;
 
 	save = rt->objs->head;
-	if (inter->obj != NULL)
+	color = create_vector3f(0, 0, 0);
+	if (inter.obj != NULL)
 	{
 		while (save)
 		{
 			if (((t_obj *)save->content)->is_src == 1)
-				apply_light_annex(save, ray, color, inter);
+				apply_light_annex(save, ray, &color, &inter);
 			save = save->next;
 		}
 	}
+	return (color);
 }

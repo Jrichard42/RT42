@@ -15,6 +15,6 @@
 
 int				get_color_value(t_vector3f c);
 void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color);
-void			apply_light(t_rt *rt, t_ray *ray, t_vector3f *color, t_inter *inter);
+t_vector3f		apply_light(t_rt *rt, t_ray *ray, t_inter inter);
 
 #endif

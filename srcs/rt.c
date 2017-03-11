@@ -40,7 +40,7 @@ void			*render_chunk(void *data)
 			pixel.x = 0;
 			++pixel.y;
 		}
-		color = sampling(T_DATA->rt, pixel, 3.0);
+		sampling(T_DATA->rt, pixel, 3.0, &color);
 		put_in_image(T_DATA->rt, pixel.x, pixel.y, &color);
 		++pixel.x;
 		--T_DATA->size;

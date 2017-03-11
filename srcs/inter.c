@@ -30,15 +30,13 @@ void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter)
 	}
 }
 
-t_vector3f		get_inters(t_rt *rt, t_ray *ray)
+t_inter		get_inters(t_rt *rt, t_ray *ray)
 {
 	t_list				*node;
 	t_inter				inter;
-	t_vector3f			color;
 
 	inter.obj = NULL;
 	inter.distance = NAN;
-	color = create_vector3f(0, 0, 0);
 	node = rt->objs->head;
 	while (node)
 	{
@@ -50,6 +48,5 @@ t_vector3f		get_inters(t_rt *rt, t_ray *ray)
 		}
 		node = node->next;
 	}
-	apply_light(rt, ray, &color, &inter);
-	return (color);
+	return (inter);
 }
