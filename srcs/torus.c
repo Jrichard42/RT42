@@ -19,6 +19,7 @@ static float			resolution(double *eq)
 	t_res	res;
 
 	res = equationpoly4(eq);
+	inter = NAN;
 	if (!isnan(res.x1))
 		inter = res.x1;
 	if (((!isnan(res.x2) && res.x2 < inter) || (!isnan(res.x2) &&
