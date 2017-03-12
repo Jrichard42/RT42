@@ -13,6 +13,7 @@
 #include "rt.h"
 #include "light.h"
 #include "obj.h"
+#include "inter.h"
 #include "plane.h"
 
 void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
@@ -61,35 +62,55 @@ static	int				if_shadow(t_list *node_obj
 	return (shadow);
 }
 
-static	void	apply_light_annex(t_list *save,
-							t_ray *ray,
-							t_vector3f *color,
-							t_inter *inter)
+static	void		choose_texture(t_inter		*inter,
+									float		*coeffs,
+									t_list		*save,
+									t_vector3f	*color)
+{
+	if (((t_plane *)inter->obj->data)->damier == 1)
+		*color = div_vector3f(add_vector3f(*color, calcul_light_procedurale(inter, coeffs,
+			((t_obj *)save->content))), 2.0);
+	else
+		*color = div_vector3f(add_vector3f(*color, calcul_light(inter, coeffs,
+			((t_obj *)save->content))), 2.0);
+}
+
+static	t_vector3f	apply_light_annex(t_list *save,
+							t_ray ray,
+							t_inter inter,
+							int 	recursion_max)
 {
 	float				coeffs;
-	t_ray				ray_obj;
+	t_vector3f			color;
 	int 				shadow;
+	int					recursion;
 
-	ray_obj.start = inter->impact;
-	ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)save->content)->
-		pos, inter->impact));
-	shadow = if_shadow(save, inter, save, &ray_obj);
+	color = create_vector3f(0, 0, 0);
+	recursion = 0;
+	shadow = if_shadow(save, &inter, save, &ray);
 	if (shadow != 1)
 	{
-		coeffs = calcul_coef(((t_obj *)save->content), inter, ray);
-		if (((t_plane *)inter->obj->data)->damier == 1)
-		 	*color = add_vector3f(calcul_light_procedurale(inter, &coeffs,
-		 		((t_obj *)save->content)), *color);
-		else
-			*color = add_vector3f(calcul_light(inter, &coeffs,
-				((t_obj *)save->content)), *color);
-		*color = clamp_vector3f(*color, 0, 255);
+		while (recursion < recursion_max)
+		{
+			if (inter.obj != NULL)
+			{
+				coeffs = calcul_coef(((t_obj *)save->content), &inter, &ray);
+				ray.start = inter.impact;
+				ray.dir = sub_vector3f(ray.dir, mult_vector3f(inter.normal,
+					2.0 * dot_vector3f(ray.dir, inter.normal)));
+				choose_texture(&inter, &coeffs, save, &color);
+			}
+			inter = get_inters(save, &ray);
+			recursion++;
+		}
 	}
+	return (color);
 }
 
 t_vector3f			apply_light(t_rt *rt,
 							t_ray *ray,
-							t_inter inter)
+							t_inter inter,
+							int 	recursion_max)
 {
 	t_list				*save;
 	t_vector3f			color;
@@ -101,9 +122,9 @@ t_vector3f			apply_light(t_rt *rt,
 		while (save)
 		{
 			if (((t_obj *)save->content)->is_src == 1)
-				apply_light_annex(save, ray, &color, &inter);
+				color = add_vector3f(color, apply_light_annex(save, *ray, inter, recursion_max));
 			save = save->next;
 		}
 	}
-	return (color);
+	return (clamp_vector3f(color, 0, 255));
 }
