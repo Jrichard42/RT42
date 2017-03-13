@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:18:41 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/13 15:18:43 by abitoun          ###   ########.fr       */
+/*   Updated: 2017/03/13 15:41:51 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define TEXTURE_H
 
 # include "rt.h"
+
+typedef enum	e_text_type
+{
+	DAMIER,
+	PERLIN
+}				t_text_type;
 
 typedef struct	s_damier
 {
