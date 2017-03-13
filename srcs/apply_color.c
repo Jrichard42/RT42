@@ -84,10 +84,14 @@ static	t_vector3f	apply_light_annex(t_list *save,
 	t_vector3f			color;
 	int 				shadow;
 	int					recursion;
+	t_ray				ray_obj;
 
 	color = create_vector3f(0, 0, 0);
 	recursion = 0;
-	shadow = if_shadow(save, &inter, save, &ray);
+	ray_obj.start = inter.impact;
+	ray_obj.dir = normalize_vector3f(sub_vector3f(((t_obj *)save->content)->
+		pos, inter.impact));
+	shadow = if_shadow(save, &inter, save, &ray_obj);
 	if (shadow != 1)
 	{
 		while (recursion < recursion_max)
