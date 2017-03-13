@@ -12,14 +12,15 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include "camera.h"
 #include "light.h"
 #include "bruit_perlin.h"
-#define noisewidth 1920
-#define noiseheight 1080
+#define noisewidth WIN_X
+#define noiseheight WIN_Y
 
-float			color_HSL(float tmp_color, float tmp1, float tmp2)
+float			color_hsl(float tmp_color, float tmp1, float tmp2)
 {
-	float 		color;
+	float		color;
 
 	color = 0.0;
 	if ((6 * tmp_color) < 1)
@@ -34,41 +35,13 @@ float			color_HSL(float tmp_color, float tmp1, float tmp2)
 	return (color);
 }
 
-t_vector3f		HSL_TO_RGB(float h, float s, float l)
-{
-	float		tmp1;
-	float		tmp2;
-	t_vector3f	tmp3;
-	t_vector3f	color;
-	float		hue;
-
-	tmp1 = 0.0;
-	l = fabs(l) / 100;
-	s = fabs(s) / 100;
-	if (s > 1.0)
-		s = 1.0;
-	if (l < 0.5)
-		tmp1 = l * (1.0 + s);
-	else
-		tmp1 = (l + s) - (l * s);
-	tmp2 = 2 * l - tmp1;
-	hue = h / 360;
-	tmp3.x = hue + 0.333;
-	tmp3.y = hue;
-	tmp3.z = hue - 0.333;
-	color.x = color_HSL(tmp3.x, tmp1, tmp2);
-	color.y = color_HSL(tmp3.y, tmp1, tmp2);
-	color.z = color_HSL(tmp3.z, tmp1, tmp2);
-	return (color);
-}
-
 void			rand_noise(double noise[noiseheight][noisewidth])
 {
 	int		x;
 	int		y;
 
 	y = 0;
-	while(y < noiseheight)
+	while (y < noiseheight)
 	{
 		x = 0;
 		while (x < noisewidth)
@@ -80,31 +53,34 @@ void			rand_noise(double noise[noiseheight][noisewidth])
 	}
 }
 
-double			smooth_noise(double x, double y, double noise[noiseheight][noisewidth])
+double			smooth_noise(double x,
+								double y,
+								double noise[noiseheight][noisewidth])
 {
 	double		fract_x;
 	double		fract_y;
-	int			x1;
-	int			y1;
-	int			x2;
-	int			y2;
+	t_vector2i	tmp1;
+	t_vector2i	tmp2;
 	double		value;
 
 	fract_x = x - (int)x;
 	fract_y = y - (int)y;
-	x1 = ((int)x + noisewidth) % noisewidth;
-	y1 = ((int)y + noiseheight) % noiseheight;
-	x2 = (x1 + noisewidth - 1) % noisewidth;
-	y2 = (y1 + noiseheight - 1) % noiseheight;
+	tmp1.x = ((int)x + noisewidth) % noisewidth;
+	tmp1.y = ((int)y + noiseheight) % noiseheight;
+	tmp2.x = (tmp1.x + noisewidth - 1) % noisewidth;
+	tmp2.y = (tmp1.y + noiseheight - 1) % noiseheight;
 	value = 0.0;
-	value += fract_x * fract_y * noise[y1][x1];
-	value += (1 - fract_x) * fract_y * noise[(int)y1][(int)x2];
-	value += fract_x * (1 - fract_y) * noise[(int)y2][(int)x1];
-	value += (1 - fract_x) * (1 - fract_y) * noise[(int)y2][(int)x2];
+	value += fract_x * fract_y * noise[tmp1.y][tmp1.x];
+	value += (1 - fract_x) * fract_y * noise[tmp1.y][tmp2.x];
+	value += fract_x * (1 - fract_y) * noise[tmp2.y][tmp1.x];
+	value += (1 - fract_x) * (1 - fract_y) * noise[tmp2.y][tmp2.x];
 	return (value);
 }
 
-double			turbulence(double x, double y, double size, double noise[noiseheight][noisewidth])
+double			turbulence(double x,
+							double y,
+							double size,
+							double noise[noiseheight][noisewidth])
 {
 	double		value;
 	double		initial_size;
@@ -125,7 +101,7 @@ t_vector3f		bruit_perlin(t_vector2f pixel)
 	static	double	noise[noiseheight][noisewidth];
 	t_vector3f		color;
 	float			l;
-	
+
 	if (marque != 1)
 	{
 		rand_noise(noise);
@@ -133,10 +109,17 @@ t_vector3f		bruit_perlin(t_vector2f pixel)
 	}
 	if (pixel.y <= 1920 && pixel.y <= 1080)
 	{
-		l = (192 + (unsigned int)(turbulence(pixel.x, pixel.y, 128, noise))) / 4;
-		if (l > 100)
-			l = 100;
-		color = HSL_TO_RGB(240, 100, l);
+		// l = (192 + (unsigned int)(
+		// 	turbulence(pixel.x, pixel.y, 64, noise))) / 4;
+		// if (l > 100)
+		// 	l = 100;
+		// color = hsl_to_rgb(240, 100, l);
+		color.x = 30 + marble(pixel, noise);			//pour le marble on peut utilser le rgb
+		color.y = 10 + marble(pixel, noise);			//pour le marble on peut utilser le rgb
+		color.z = marble(pixel, noise);					//pour le marble on peut utilser le rgb
+		// color.x = 130 + wood(pixel, noise);			//pour le marble on peut utilser le rgb
+		// color.y = 60 + wood(pixel, noise);			//pour le marble on peut utilser le rgb
+		// color.z = 19;								//pour le marble on peut utilser le rgb
 	}
 	cap_light(&color);
 	return (color);
