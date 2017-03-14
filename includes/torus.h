@@ -31,14 +31,14 @@ typedef struct	s_var_torus
 {
 	float		center_to_ray_dot_dir;
 	float		center_to_ray_start_dot_dir_sqrt;
-	float		inner_rad_sq;
-	float		outer_rad_sq;
+	double		inner_rad_sq;
+	double		outer_rad_sq;
 	float		axis_dot_centertoray;
 	float		axis_dot_raydir;
-	float		a;
-	float		b;
-	float		c;
-	float		d;
+	double		a;
+	double		b;
+	double		c;
+	double		d;
 }				t_var_torus;
 
 int				create_torus(t_kvlexer *token, t_rt *rt);
