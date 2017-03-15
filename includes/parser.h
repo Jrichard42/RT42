@@ -30,5 +30,7 @@ t_vector3f		get_as_vector3f(t_kvlexer *token, char *str);
 t_vector2f		get_as_vector2f(t_kvlexer *token, char *str);
 float			get_as_float(t_kvlexer *token, char *str);
 t_material		get_material(t_kvlexer *token);
+char			*get_as_string(t_kvlexer *token, char *str);
+float			get_as_double(t_kvlexer *token, char *str);
 
 #endif

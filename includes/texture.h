@@ -18,7 +18,7 @@
 typedef struct	s_damier
 {
 	t_vector3f	color_1;
-	t_vector3f	color_2
+	t_vector3f	color_2;
 }				t_damier;
 
 typedef struct	s_perlin

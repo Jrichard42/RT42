@@ -29,7 +29,9 @@ SRC 			= 	camera.c \
 					sphere.c \
 					events.c \
 					main.c \
-					parser_add_objs.c \
+					parser_get_type.c \
+					parser_get_type2.c \
+					parser_texture.c \
 					rt.c \
 					utils.c \
 					procedurale.c \

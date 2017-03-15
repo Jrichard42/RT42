@@ -32,13 +32,14 @@ char			*get_as_string(t_kvlexer *token, char *str)
 {
 	t_list		*node;
 	t_kvlexer	*field;
-	char		*str;
+	char		*string;
 
-	str = NULL;
+	string = NULL;
 	if ((node = ft_lstsearch(token->children->head, &search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
-		if (!(str = ft_strdup(field->value)));
+		if (!(string = ft_strdup(field->value)))
+			return (NULL);
 	}
-	return (str);
+	return (string);
 }
