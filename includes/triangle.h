@@ -41,5 +41,7 @@ typedef struct	s_var
 }				t_var;
 
 int				create_triangle(t_kvlexer *token, t_rt *rt);
+float			inter_triangles(t_triangle *t, t_ray *ray);
+int				if_touch(t_triangle *t, t_vector3f *impact);
 
 #endif

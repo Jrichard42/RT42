@@ -24,8 +24,8 @@
 typedef struct	s_tetra
 {
 	t_triangle	*face;
-	int			touch;
 }				t_tetra;
 int				create_tetra(t_kvlexer *token, t_rt *rt);
+void			calc_normal_tetra(t_tetra *tetra);
 
 #endif

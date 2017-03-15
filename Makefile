@@ -50,7 +50,8 @@ SRC 			= 	camera.c \
 					pyramide.c \
 					inter.c \
 					apply_color.c \
-					sampling.c
+					sampling.c \
+					normal_polygone.c \
 					
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -O3 -pthread

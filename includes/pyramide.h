@@ -24,7 +24,6 @@
 typedef struct	s_pyra
 {
 	t_triangle	*face;
-	int			touch;
 }				t_pyra;
 
 typedef struct	s_vertex
@@ -36,5 +35,6 @@ typedef struct	s_vertex
 	t_vector3f	v4;
 }				t_vertex;
 int				create_pyra(t_kvlexer *token, t_rt *rt);
+void			calc_normal_pyra(t_pyra *pyra);
 
 #endif

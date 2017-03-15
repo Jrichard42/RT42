@@ -14,32 +14,6 @@
 #define PYRA ((t_pyra *)obj->data)
 #define FLOAT_ZERO 0.0001f
 
-static float		inter_triangle(t_triangle *t, t_ray *ray)
-{
-	t_var var;
-
-	var.e1 = sub_vector3f(t->vertex[1], t->vertex[0]);
-	var.e2 = sub_vector3f(t->vertex[2], t->vertex[0]);
-	var.pvector = cross_vector3f(ray->dir, var.e2);
-	var.determinant = dot_vector3f(var.e1, var.pvector);
-	if (fabs(var.determinant) < FLOAT_ZERO)
-		return (NAN);
-	var.invertedeterminant = 1.0f / var.determinant;
-	var.tvec = sub_vector3f(ray->start, t->vertex[0]);
-	var.lambda = dot_vector3f(var.tvec, var.pvector);
-	var.lambda *= var.invertedeterminant;
-	if (var.lambda < 0.0f || var.lambda > 1.0f)
-		return (NAN);
-	var.qvec = cross_vector3f(var.tvec, var.e1);
-	var.mue = dot_vector3f(ray->dir, var.qvec);
-	var.mue *= var.invertedeterminant;
-	if (var.mue < 0.0f || var.mue + var.lambda > 1.0f)
-		return (NAN);
-	var.f = dot_vector3f(var.e2, var.qvec);
-	var.f = var.f * var.invertedeterminant - FLOAT_ZERO;
-	return (var.f);
-}
-
 static float		inter_pyra(t_obj *obj, t_ray *ray)
 {
 	float	inter;
@@ -50,38 +24,42 @@ static float		inter_pyra(t_obj *obj, t_ray *ray)
 	i = 0;
 	while (i < 6)
 	{
-		tmp = inter_triangle(&PYRA->face[i], ray);
+		tmp = inter_triangles(&PYRA->face[i], ray);
 		if (((!isnan(tmp) && tmp < inter) || (!isnan(tmp) &&
 			isnan(inter))))
-		{
-			PYRA->touch = i;
 			inter = tmp;
-		}
 		i++;
 	}
 	if (inter < 0)
-	{
-		PYRA->touch = -1;
 		inter = NAN;
-	}
 	return (inter);
+}
+
+int					if_touch(t_triangle *t, t_vector3f *impact)
+{
+	float d;
+
+	d = dot_vector3f(t->normal, t->vertex[0]);
+	if (((dot_vector3f(*impact, t->normal) - d) < 0.0005f)
+			&& ((dot_vector3f(*impact, t->normal) - d) > -0.0005f))
+		return (1);
+	return (0);
 }
 
 static t_vector3f	normal_pyra(struct s_obj *obj, t_vector3f *impact)
 {
-	t_vector3f normale;
-	t_vector3f e1;
-	t_vector3f e2;
-	t_triangle t;
+	int i;
+	int res;
 
-	t = PYRA->face[PYRA->touch];
-	e1 = sub_vector3f(t.vertex[1], t.vertex[0]);
-	e2 = sub_vector3f(t.vertex[2], t.vertex[0]);
-	normale = (cross_vector3f(e1, e2));
-	normale.x = fabs(normale.x) * sgn(impact->x) * -1;
-	normale.y = fabs(normale.y) * sgn(impact->y) * -1;
-	normale.z = fabs(normale.z) * sgn(impact->z) * -1;
-	return (normalize_vector3f(normale));
+	i = 0;
+	res = 0;
+	while (i < 6)
+	{
+		if (if_touch(&PYRA->face[i], impact))
+			res = i;
+		i++;
+	}
+	return (PYRA->face[res].normal);
 }
 
 static t_triangle	*create_pyra_bis(t_vertex *vert)
@@ -133,6 +111,7 @@ int					create_pyra(t_kvlexer *token, t_rt *rt)
 	vert.v3 = add_vector3f(obj->pos, get_as_vector3f(token, "VERTEX2"));
 	vert.v4 = add_vector3f(obj->pos, get_as_vector3f(token, "VERTEX3"));
 	PYRA->face = create_pyra_bis(&vert);
+	calc_normal_pyra(PYRA);
 	obj->color = get_as_vector3f(token, "COLOR");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
