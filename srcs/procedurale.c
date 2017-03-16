@@ -17,7 +17,7 @@
 #include "plane.h"
 #include "inter.h"
 
-static t_vector3f	procedure_calcul_light_sup(double impact, double *coeffs, float *intensity, t_inter *inter)
+static t_vector3f	procedure_calcul_light_sup(double impact, float *coeffs, float *intensity, t_inter *inter)
 {
 	t_vector3f		color_return;
 
@@ -29,7 +29,7 @@ static t_vector3f	procedure_calcul_light_sup(double impact, double *coeffs, floa
 	return (color_return);
 }
 
-static t_vector3f	procedure_calcul_light_inf(double impact, double *coeffs, float *intensity, t_inter *inter)
+static t_vector3f	procedure_calcul_light_inf(double impact, float *coeffs, float *intensity, t_inter *inter)
 {
 	t_vector3f		color_return;
 
@@ -41,7 +41,7 @@ static t_vector3f	procedure_calcul_light_inf(double impact, double *coeffs, floa
 	return (color_return);
 }
 
-static t_vector3f	procedurale_inf_zero(t_inter *inter, double *coeffs, float *intensity)
+static t_vector3f	procedurale_inf_zero(t_inter *inter, float *coeffs, float *intensity)
 {
 	t_vector3f color_return;
 
@@ -55,7 +55,7 @@ static t_vector3f	procedurale_inf_zero(t_inter *inter, double *coeffs, float *in
 	return (color_return);
 }
 
-static t_vector3f	procedurale_sup_zero(t_inter *inter, double *coeffs, float *intensity)
+static t_vector3f	procedurale_sup_zero(t_inter *inter, float *coeffs, float *intensity)
 {
 	t_vector3f color_return;
 
@@ -69,7 +69,7 @@ static t_vector3f	procedurale_sup_zero(t_inter *inter, double *coeffs, float *in
 	return (color_return);
 }
 
-t_vector3f			procedurale(t_inter *inter, double *coeffs, float *intensity)
+t_vector3f			procedurale(t_inter *inter, float *coeffs, float *intensity)
 {
 	t_vector3f		color_return;
 

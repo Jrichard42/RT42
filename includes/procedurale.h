@@ -18,6 +18,6 @@
 # include "inter.h"
 # include "ft_kvlexer.h"
 
-t_vector3f		procedurale(t_inter *inter, double *coeffs, double *intensity);
+t_vector3f		procedurale(t_inter *inter, float *coeffs, float *intensity);
 
 #endif
