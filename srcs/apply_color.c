@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:48:35 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/16 14:40:59 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/16 15:06:10 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ static	t_vector3f	apply_light_annex(t_list *save,
 
 t_vector3f			apply_light(t_rt *rt,
 							t_ray *ray,
-							t_inter inter,
+							t_inter inter, //TOSEE
 							int 	recursion_max)
 {
 	t_list				*node;
@@ -126,16 +126,12 @@ t_vector3f			apply_light(t_rt *rt,
 	{
 		while (node)
 		{
-			obj = ((t_obj *)save->content);
+			obj = ((t_obj *)node->content);
 			if (obj->is_src == 1)
 			{
-				color = phong(obj, ) * 0.33;
-				color += reflection() * 0.33;
+				color = obj->light->calc_light(obj, ray, &inter) * 0.33;
+			 	color += reflection() * 0.33;
 				color += refraction() * 0.33;
-			
-		
-		
-		
 		//		color = add_vector3f(color, apply_light_annex(save, *ray, inter, recursion_max));
 			}
 			node = node->next;
