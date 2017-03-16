@@ -16,6 +16,23 @@
 #include "light.h"
 #include "bruit_perlin.h"
 
+float			color_hsl(float tmp_color, float tmp1, float tmp2)
+{
+	float		color;
+
+	color = 0.0;
+	if ((6 * tmp_color) < 1)
+		color = tmp2 + (tmp1 - tmp2) * 6 * tmp_color;
+	else if ((2 * tmp_color) < 1)
+		color = tmp1;
+	else if ((3 * tmp_color) < 2)
+		color = tmp2 + (tmp1 - tmp2) * (0.666 - tmp_color) * 6;
+	else
+		color = tmp2;
+	color = color * 255.0;
+	return (color);
+}
+
 t_vector3f		hsl_to_rgb(float h, float s, float l)
 {
 	float		tmp1;
