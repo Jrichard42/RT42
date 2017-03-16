@@ -14,6 +14,9 @@
 # define OBJ_H
 
 # include "ray.h"
+# include "light.h"
+
+typedef struct s_light t_light;
 
 typedef	struct	s_material
 {
@@ -21,6 +24,7 @@ typedef	struct	s_material
 	float		kd;
 	float		ks;
 	int			sh;
+	float		ir;
 }				t_material;
 
 typedef	struct	s_obj

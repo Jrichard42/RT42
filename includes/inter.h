@@ -12,7 +12,12 @@
 
 #ifndef INTER_H
 # define INTER_H
-# include "opencl.h"
+
+# include "obj.h"
+# include "libft.h"
+# include "libft_matrix.h"
+
+typedef struct s_obj t_obj;
 
 typedef	struct	s_inter
 {

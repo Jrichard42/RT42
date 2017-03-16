@@ -16,12 +16,12 @@
 #include "apply_color.h"
 #include "obj.h"
 #include "ray.h"
+#include "inter.h"
 #include "camera.h"
 
 t_vector3f			sampling(t_rt 		*rt,
 							t_vector2f 	pixel,
-							float 		sampling,
-							int			recursion_max)
+							float 		sampling)
 {
 	t_vector2f		pixel_tmp;
 	t_ray			vp_point;
@@ -43,7 +43,7 @@ t_vector3f			sampling(t_rt 		*rt,
 			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir,
 				vp_point.start));
 			color = add_vector3f(color, apply_light(rt, &vp_point,
-				get_inters(rt->objs->head, &vp_point), recursion_max));
+				get_inters(rt->objs->head, &vp_point)));
 		}
 		++inc.y;
 	}

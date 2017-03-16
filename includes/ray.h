@@ -19,6 +19,7 @@ typedef	struct	s_ray
 {
 	t_vector3f	start;
 	t_vector3f	dir;
+	float		ir;
 }				t_ray;
 
 #endif

@@ -10,19 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "light.h"
 #include "texture.h"
 #include "parser.h"
 
-t_material		get_material(t_kvlexer *token)
+t_material			get_material(t_kvlexer *token)
 {
-	t_list		*node;
-	t_material	material;
-	t_kvlexer	*mat_token;
+	t_list			*node;
+	t_material		material;
+	t_kvlexer		*mat_token;
 
 	material.ka = 0.33;
 	material.kd = 0.33;
 	material.ks = 0.33;
 	material.sh = 10;
+	material.ir = 1.0;
 	if ((node = ft_lstsearch(token->children->head, &search_key, "MATERIAL")))
 	{
 		mat_token = (t_kvlexer *)node->content;
@@ -30,6 +32,7 @@ t_material		get_material(t_kvlexer *token)
 		material.kd = get_as_float(mat_token, "DIFFUSE");
 		material.ks = get_as_float(mat_token, "SPECULAR");
 		material.sh = get_as_float(mat_token, "SHININESS");
+		material.ir = get_as_float(mat_token, "IR");
 	}
 	return (material);
 }
@@ -64,7 +67,7 @@ t_kvlexer			*get_texture(t_kvlexer *token)
 	return (NULL);
 }
 
-t_kvlexer			*get_light(t_kvlexer *token)
+t_light				get_light(t_kvlexer *token)
 {
 	t_list			*node;
 	t_light			light;
@@ -77,7 +80,7 @@ t_kvlexer			*get_light(t_kvlexer *token)
 		light_token = (t_kvlexer *)node->content;
 		light.color = get_as_vector3f(light_token, "COLOR");
 		light.intensity = get_as_float(light_token, "INTENSITY");
-		light.calc_light = &LA_FONCTION;
+		light.calc_light = &calcul_light;
 	}
 	return (light);
 }

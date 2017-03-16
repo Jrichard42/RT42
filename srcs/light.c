@@ -62,16 +62,20 @@ float		calcul_coef(t_obj *obj, t_inter *inter, t_ray *ray)
 	diffuse = diffuse_light(obj, inter) * inter->obj->mat.kd;
 	if (dot_vector3f(inter->normal, sub_vector3f(obj->pos, inter->impact)) > 0)
 		specular = specular_light(obj, inter, ray) * inter->obj->mat.ks;
+	//printf("specular = %f diffuse = %f\n", specular, diffuse);
 	coeffs = (diffuse + specular + inter->obj->mat.ka);
 	return (coeffs);
 }
 
-t_vector3f	calcul_light(t_inter *inter, float *coeffs, t_obj *obj)
+t_vector3f	calcul_light(t_obj *obj, t_ray *ray, t_inter *inter)
 {
 	t_vector3f		color_return;
+	float			coeffs;
 
+	coeffs = calcul_coef(obj, inter, ray);
+	//printf("coeffs = %f\n", coeffs);
 	//color_return = div_vector3f(add_vector3f(mult_vector3f(inter->obj->color, *coeffs), mult_vector3f(LIGHT->color, *coeffs)), 2.0); //TODO intensity
-	color_return = mult_vector3f(mult_vector3f(inter->obj->color, *coeffs), LIGHT->intensity);
+	color_return = mult_vector3f(mult_vector3f(inter->obj->color, coeffs), obj->light.intensity);
 	return (color_return);
 }
 
@@ -96,8 +100,9 @@ int					create_light(t_kvlexer *token, t_rt *rt)
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	obj->light->color = get_as_vector3f(token, "COLOR");
-	obj->light->intensity = get_as_float(token, "INTENSITY");
+	obj->light.color = get_as_vector3f(token, "COLOR");
+	obj->light.intensity = get_as_float(token, "INTENSITY");
+	obj->light.calc_light = &calcul_light;
 	//	LIGHT->color = get_as_vector3f(token, "COLOR");
 	//	LIGHT->intensity = get_as_float(token, "INTENSITY");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
