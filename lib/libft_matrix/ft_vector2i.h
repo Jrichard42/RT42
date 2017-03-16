@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_vectors.h                                       :+:      :+:    :+:   */
+/*   ft_vector2i.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jrichard <jrichard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/10 15:15:14 by jrichard          #+#    #+#             */
-/*   Updated: 2017/01/12 17:44:59 by jrichard         ###   ########.fr       */
+/*   Created: 2017/03/13 13:30:56 by hpachy            #+#    #+#             */
+/*   Updated: 2017/03/13 13:30:57 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_VECTORS_H
-# define FT_VECTORS_H
+#ifndef FT_VECTOR2I_H
+# define FT_VECTOR2I_H
 
-# include "ft_vector2i.h"
-# include "ft_vector2f.h"
-# include "ft_vector2d.h"
-# include "ft_vector3f.h"
-# include "ft_vector3d.h"
+typedef struct	s_vector2i
+{
+	int			x;
+	int			y;
+}				t_vector2i;
 
 #endif
+

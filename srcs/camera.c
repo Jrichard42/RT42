@@ -20,7 +20,7 @@ int			create_camera(t_kvlexer *token, t_rt *rt)
 
 	if (!(rt->camera = malloc(sizeof(t_camera))))
 		return(-1);
-	rt->camera->fov = get_as_float(token, "FOV");;
+	rt->camera->fov = get_as_float(token, "FOV");
 	rt->camera->up = create_vector3f(0.0, -1.0, 0.0);
 	rt->camera->pos = get_as_vector3f(token, "POS");
 	rt->camera->lookatpoint = get_as_vector3f(token, "LOOKAT");
