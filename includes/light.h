@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:24:46 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/16 14:39:12 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct	s_light
 {
 	t_vector3f	color;
 	float		intensity;
+	t_vector3f	(*calc_light)(t_obj *light, t_ray *ray, t_inter *inter);
 }				t_light;
 
 int				create_light(t_kvlexer *token, t_rt *rt);

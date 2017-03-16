@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/25 14:51:51 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/16 14:46:01 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");
+	if (obj->is_src)
+		obj->light = get_light(token);
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	SPHERE->radius = get_as_float(token, "RADIUS");
 	obj->color = get_as_vector3f(token, "COLOR");
