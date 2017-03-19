@@ -30,14 +30,6 @@ static 	float		inter_plane(t_obj *obj, t_ray *ray)
 		var.result = var.a;
 	}
 	else
-		return(NAN);
-	if (var.result < 10000)
-		return (var.result);
-	else
-		return (NAN);
-	if (var.result > -10000)
-		return (var.result);
-	else
 		return (NAN);
 	return (var.result);
 }

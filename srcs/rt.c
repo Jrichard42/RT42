@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:57:55 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/16 13:56:56 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/03/16 12:31:23 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void			*render_chunk(void *data)
 			pixel.x = 0;
 			++pixel.y;
 		}
-		color = sampling(T_DATA->rt, pixel, 3, 5);
+		color = sampling(T_DATA->rt, pixel, 1);
 		put_in_image(T_DATA->rt, pixel.x, pixel.y, &color);
 		++pixel.x;
 		--T_DATA->size;

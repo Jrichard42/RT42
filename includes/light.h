@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/18 18:24:46 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/16 15:06:13 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 # define LIGHT_H
 
 # include "rt.h"
-# include "obj.h"
-# include "inter.h"
+# include "ray.h"
+//:w
+//# include "inter.h"
 # include "ft_kvlexer.h"
+
+typedef struct s_obj t_obj;
+typedef struct s_inter t_inter;
 
 typedef struct	s_light
 {
 	t_vector3f	color;
 	float		intensity;
+	t_vector3f	(*calc_light)(t_obj *obj, t_ray *ray, t_inter *inter);
 }				t_light;
 
 int				create_light(t_kvlexer *token, t_rt *rt);
-t_vector3f		calcul_light(t_inter *inter, float *coeffs, t_obj *obj);
+t_vector3f		calcul_light(t_obj *obj, t_ray *ray, t_inter *inter);
 float			calcul_coef(t_obj *obj, t_inter *inter, t_ray *ray);
 t_vector3f		calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj);
 float			diffuse_light(t_obj *obj, t_inter *inter);

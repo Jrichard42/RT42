@@ -17,7 +17,7 @@
 #include "plane.h"
 #include "inter.h"
 
-static t_vector3f	procedure_calcul_light_sup(double impact, float *coeffs, float *intensity, t_inter *inter)
+static t_vector3f	procedure_calcul_light_sup(float impact, float *coeffs, float *intensity, t_inter *inter)
 {
 	t_vector3f		color_return;
 
@@ -29,7 +29,7 @@ static t_vector3f	procedure_calcul_light_sup(double impact, float *coeffs, float
 	return (color_return);
 }
 
-static t_vector3f	procedure_calcul_light_inf(double impact, float *coeffs, float *intensity, t_inter *inter)
+static t_vector3f	procedure_calcul_light_inf(float impact, float *coeffs, float *intensity, t_inter *inter)
 {
 	t_vector3f		color_return;
 
