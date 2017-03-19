@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 13:35:51 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/02 13:35:52 by jqueyrou         ###   ########.fr       */
+/*   Updated: 2017/03/19 18:04:19 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,25 +95,38 @@ static t_vector3f		normal_box(struct s_obj *obj, t_vector3f *impact)
 	return (create_vector3f(0.0, 0.0, 0.0));
 }
 
-int						create_box(t_kvlexer *token, t_rt *rt)
+static void			base_box(t_obj *obj, t_kvlexer *token, t_rt *rt)
 {
-	t_obj			*obj;
-
-	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (0);
-	if (!(obj->data = ft_memalloc(sizeof(t_box))))
-		return (0);
+	obj->pos = create_vector3f(0, 0, 0);
+	obj->id = 0;
+	obj->is_src = 0;
+	obj->is_visible = 1;
+	obj->color = create_vector3f(1, 1, 1);
+	BOX->min = create_vector3f(0, 0, 1);
+	BOX->max = create_vector3f(0, 1, 0);
 	obj->normal = &normal_box;
 	obj->inter = &inter_box;
-	obj->pos = get_as_vector3f(token, "POS");
-	obj->mat = get_material(token);
-	obj->id = get_as_float(token, "ID");
-	obj->is_src = get_as_float(token, "IS_SRC");
-	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	BOX->min = obj->pos;
-	BOX->max = get_as_vector3f(token, "MAX");
-	obj->color = get_as_vector3f(token, "COLOR");
-	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);
+	obj->mat = get_material(token, rt);
+}
+
+int						create_box(t_kvlexer *token, t_rt *rt)
+{
+	t_obj			obj;
+	t_box			*box;
+
+	if (!(obj.data = ft_memalloc(sizeof(t_box))))
+		return (0);
+	box = ((t_box *)obj.data);
+	base_box(&obj, token, rt);
+	get_as_vector3f(token, "POS", &(obj.pos));
+	get_as_int(token, "ID", &(obj.id));
+	get_as_int(token, "IS_SRC", &(obj.is_src));
+	if (obj.is_src)
+			obj.light = get_light(token);
+	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
+	get_as_vector3f(token, "COLOR", &(obj.color));	
+	box->min = obj.pos;
+	get_as_vector3f(token, "MAX", &(box->max));
+	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	return (1);
 }

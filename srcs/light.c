@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/16 14:55:09 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 18:03:32 by jrichard         ###   ########.fr       */
 /*   Updated: 2017/02/25 14:24:47 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -87,25 +87,31 @@ t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
 	return (color_return);
 }
 
+static void			base_light(t_obj *obj, t_kvlexer *token, t_rt *rt)
+{
+	obj->pos = create_vector3f(0, 0, 0);
+	obj->id = 0;
+	obj->is_src = 1;
+	obj->is_visible = 0;
+	obj->light.color = create_vector3f(255, 255, 255);
+	obj->light.intensity = 10;
+	obj->normal = NULL;
+	obj->inter = NULL;
+	obj->light.calc_light = &calcul_light;
+	obj->mat = get_material(token, rt);
+}
+
 int					create_light(t_kvlexer *token, t_rt *rt)
 {
-	t_obj			*obj;
+	t_obj			obj;
 
-	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (0);
-//	if (!(obj->data = ft_memalloc(sizeof(t_light))))
-//		return (0);
-	obj->pos = get_as_vector3f(token, "POS");
-	obj->mat = get_material(token);
-	obj->id = get_as_float(token, "ID");
-	obj->is_src = get_as_float(token, "IS_SRC");
-	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	obj->light.color = get_as_vector3f(token, "COLOR");
-	obj->light.intensity = get_as_float(token, "INTENSITY");
-	obj->light.calc_light = &calcul_light;
-	//	LIGHT->color = get_as_vector3f(token, "COLOR");
-	//	LIGHT->intensity = get_as_float(token, "INTENSITY");
-	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);
+	base_light(&obj, token, rt);
+	get_as_vector3f(token, "POS", &(obj.pos));
+	get_as_int(token, "ID", &(obj.id));
+	get_as_int(token, "IS_SRC", &(obj.is_src));
+	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
+	get_as_vector3f(token, "COLOR", &(obj.light.color));
+	get_as_float(token, "INTENSITY", &(obj.light.intensity));
+	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	return (1);
 }

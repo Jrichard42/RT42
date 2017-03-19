@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/16 15:06:13 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 11:22:22 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include "rt.h"
 # include "ray.h"
-//:w
 //# include "inter.h"
 # include "ft_kvlexer.h"
 

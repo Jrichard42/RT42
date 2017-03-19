@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/25 14:52:00 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 18:02:05 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,27 +80,40 @@ static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
 	return (normalize_vector3f(norm));
 }
 
-int					create_cone(t_kvlexer *token, t_rt *rt)
+static void			base_cone(t_obj *obj, t_kvlexer *token, t_rt *rt)
 {
-	t_obj			*obj;
-
-	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (0);
-	if (!(obj->data = ft_memalloc(sizeof(t_cone))))
-		return (0);
+	obj->pos = create_vector3f(0, 0, 0);
+	obj->id = 0;
+	obj->is_src = 0;
+	obj->is_visible = 1;
+	obj->color = create_vector3f(1, 1, 1);
+	CONE->angle = 10;
+	CONE->dir = create_vector3f(0, 1, 0);
 	obj->normal = &normal_cone;
 	obj->inter = &inter_cone;
-	obj->pos = get_as_vector3f(token, "POS");
-	obj->mat = get_material(token);
-	obj->id = get_as_float(token, "ID");
-	obj->is_src = get_as_float(token, "IS_SRC");
-	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	CONE->angle = get_as_float(token, "ANGLE");
-	CONE->angle = CONE->angle * M_PI / 180.0;
-	CONE->dir = get_as_vector3f(token, "DIR");
-	obj->color = get_as_vector3f(token, "COLOR");
-	CONE->dir = normalize_vector3f(CONE->dir);
-	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);
+	obj->mat = get_material(token, rt);
+}
+
+int					create_cone(t_kvlexer *token, t_rt *rt)
+{
+	t_obj			obj;
+	t_cone			*cone;
+
+	if (!(obj.data = ft_memalloc(sizeof(t_cone))))
+		return (0);
+	cone = ((t_cone *)obj.data);
+	base_cone(&obj, token, rt);
+	get_as_vector3f(token, "POS", &(obj.pos));
+	get_as_int(token, "ID", &(obj.id));
+	get_as_int(token, "IS_SRC", &(obj.is_src));
+	if (obj.is_src)
+		obj.light = get_light(token);
+	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
+	get_as_vector3f(token, "COLOR", &(obj.color));
+	get_as_float(token, "ANGLE", &(cone->angle));
+	cone->angle *= M_PI / 180.0;
+	get_as_vector3f(token, "DIR", &(cone->dir));
+	cone->dir = normalize_vector3f(cone->dir);
+	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	return (1);
 }

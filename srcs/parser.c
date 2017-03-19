@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/16 12:39:57 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 12:53:04 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void				error_parser(char *str, char *type)
 
 static void				check_type(t_kvlexer *token, t_rt *rt)
 {
-	static t_ptr_type	ptr_type[11] = {{"SPHERE\0", &create_sphere},
+	static t_ptr_type	ptr_type[12] = {{"SPHERE\0", &create_sphere},
 										{"LIGHT\0", &create_light},
 										{"CAMERA\0", &create_camera},
 										{"PLANE\0", &create_plane},
@@ -34,21 +34,22 @@ static void				check_type(t_kvlexer *token, t_rt *rt)
 										{"TETRAEDRE\0", &create_tetra},
 										{"PYRAMIDE\0", &create_pyra},
 										{"BOX\0", &create_box},
-										{"CONE\0", &create_cone}};
+										{"CONE\0", &create_cone},
+										{"INCLUDE\0", &parser_text_mat}};
 	int					i;
 
 	i = 0;
-	while (i < 11)
+	while (i < 12)
 	{
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
-			if (!ptr_type[i].create(token, rt))
+			if (!ptr_type[i].create(token, rt) && i != 11)
 				error_parser("Unable to create the obj ", token->key);
 			break ;
 		}
 		++i;
 	}
-	if (i == 11)
+	if (i == 12)
 		error_parser("Unknown obj ", token->key);
 }
 

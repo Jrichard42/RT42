@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/16 13:09:46 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/16 14:27:50 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 18:14:07 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,35 @@
 #include "texture.h"
 #include "parser.h"
 
-t_material			get_material(t_kvlexer *token)
+t_material			get_material(t_kvlexer *token, t_rt *rt)
 {
 	t_list			*node;
 	t_material		material;
 	t_kvlexer		*mat_token;
 
+	material.name[0] = '\0';
 	material.ka = 0.33;
 	material.kd = 0.33;
 	material.ks = 0.33;
 	material.sh = 10;
 	material.ir = 1.0;
-	if ((node = ft_lstsearch(token->children->head, &search_key, "MATERIAL")))
+	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, "MATERIAL")))
 	{
 		mat_token = (t_kvlexer *)node->content;
-		material.ka = get_as_float(mat_token, "AMBIENT");
-		material.kd = get_as_float(mat_token, "DIFFUSE");
-		material.ks = get_as_float(mat_token, "SPECULAR");
-		material.sh = get_as_float(mat_token, "SHININESS");
-		material.ir = get_as_float(mat_token, "IR");
+		if (mat_token->value && (node = ft_lstsearch(rt->materials->head, &search_mat, mat_token->value)))
+			material = *((t_material *)node->content);
+		if (token->value)
+			ft_strncpy(material.name, token->value, 10);
+		get_as_float(mat_token, "AMBIENT", &(material.ka));
+		get_as_float(mat_token, "DIFFUSE", &(material.kd));
+		get_as_float(mat_token, "SPECULAR", &(material.ks));
+		get_as_int(mat_token, "SHININESS", &(material.sh));
+		get_as_float(mat_token, "IR", &(material.ir));
 	}
 	return (material);
 }
 
-static t_damier		get_text_as_damier(t_kvlexer *token)
+/*static t_damier		get_text_as_damier(t_kvlexer *token)
 {
 	t_damier		damier;
 
@@ -56,13 +61,13 @@ static t_perlin		get_text_as_perlin(t_kvlexer *token)
 	perlin.color = get_as_vector3f(token, "COLOR");
 	perlin.type_perlin = get_as_string(token, "TYPE_PERLIN");
 	return (perlin);
-}
+}*/
 
 t_kvlexer			*get_texture(t_kvlexer *token)
 {
 	t_list			*node;
 
-	if ((node = ft_lstsearch(token->children->head, &search_key, "TEXTURE")))
+	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, "TEXTURE")))
 		return ((t_kvlexer *)node->content);
 	return (NULL);
 }
@@ -73,13 +78,14 @@ t_light				get_light(t_kvlexer *token)
 	t_light			light;
 	t_kvlexer		*light_token;
 
-	light.color = create_vector3f(0, 0, 0);
-	light.intensity = 10.0;
-	if ((node = ft_lstsearch(token->children->head, &search_key, "LIGHT")))
+	light.color = create_vector3f(255, 255, 255);
+	light.intensity = 10;
+	light.calc_light = &calcul_light;
+	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, "LIGHT")))
 	{
 		light_token = (t_kvlexer *)node->content;
-		light.color = get_as_vector3f(light_token, "COLOR");
-		light.intensity = get_as_float(light_token, "INTENSITY");
+		get_as_vector3f(light_token, "COLOR", &(light.color));
+		get_as_float(light_token, "INTENSITY", &(light.intensity));
 		light.calc_light = &calcul_light;
 	}
 	return (light);

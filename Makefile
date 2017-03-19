@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/16 15:46:37 by abitoun          ###   ########.fr        #
+#    Updated: 2017/03/19 17:06:28 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,18 +20,20 @@ SRCDIR			= srcs/
 INCDIR			= includes/
 SDLINCDIR		= sdl/SDL/include
 
-SRC 			= 	camera.c \
+SRC 			= 	main.c \
+					camera.c \
 					cone.c \
 					cylinder.c \
 					light.c \
-					parser.c \
 					plane.c \
 					sphere.c \
 					events.c \
-					main.c \
+					parser.c \
+					parser_text_mat.c \
 					parser_get_type.c \
 					parser_get_type2.c \
 					parser_get_component.c \
+					material.c \
 					rt.c \
 					utils.c \
 					procedurale.c \

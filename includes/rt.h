@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:06:26 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/06 11:51:22 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 17:52:00 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ typedef	struct		s_rt
 	t_env			env;
 	t_camera		*camera;
 	t_dlist			*objs;
+	t_dlist			*materials;
+	t_dlist			*textures;
 	t_cl			*cl;
 }					t_rt;
 

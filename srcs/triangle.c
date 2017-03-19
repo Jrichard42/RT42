@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 16:51:50 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/08 16:51:51 by jqueyrou         ###   ########.fr       */
+/*   Updated: 2017/03/19 18:02:13 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,44 @@ static t_vector3f	normal_triangle(struct s_obj *obj, t_vector3f *impact)
 	return (TRIANGLE->normal);
 }
 
-int					create_triangle(t_kvlexer *token, t_rt *rt)
+static void			base_triangle(t_obj *obj, t_kvlexer *token, t_rt *rt)
 {
-	t_obj			*obj;
-
-	if (!(obj = ft_memalloc(sizeof(*obj))))
-		return (0);
-	if (!(obj->data = ft_memalloc(sizeof(t_triangle))))
-		return (0);
+	obj->pos = create_vector3f(0, 0, 0);
+	obj->id = 0;
+	obj->is_src = 0;
+	obj->is_visible = 1;
+	obj->color = create_vector3f(1, 1, 1);
+	TRIANGLE->vertex[0] = create_vector3f(0, 0, 1); //set base
+	TRIANGLE->vertex[1] = create_vector3f(0, 0, 1); //set base
+	TRIANGLE->vertex[2] = create_vector3f(0, 0, 1); //set base
 	obj->normal = &normal_triangle;
 	obj->inter = &inter_triangle;
-	obj->pos = get_as_vector3f(token, "POS");
-	obj->mat = get_material(token);
-	obj->id = get_as_float(token, "ID");
-	obj->is_src = get_as_float(token, "IS_SRC");
-	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	TRIANGLE->vertex[0] = add_vector3f(obj->pos, get_as_vector3f(token,
-		"VERTEX0"));
-	TRIANGLE->vertex[1] = add_vector3f(obj->pos, get_as_vector3f(token,
-		"VERTEX1"));
-	TRIANGLE->vertex[2] = add_vector3f(obj->pos, get_as_vector3f(token,
-		"VERTEX2"));
-	cal_normal_triangle(TRIANGLE);
-	obj->color = get_as_vector3f(token, "COLOR");
-	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);
+	obj->mat = get_material(token, rt);
+}
+
+int					create_triangle(t_kvlexer *token, t_rt *rt)
+{
+	t_obj			obj;
+	t_triangle		*triangle;
+
+	if (!(obj.data = ft_memalloc(sizeof(t_triangle))))
+		return (0);
+	triangle = ((t_triangle *)obj.data);
+	base_triangle(&obj, token, rt);
+	get_as_vector3f(token, "POS", &(obj.pos));
+	get_as_int(token, "ID", &(obj.id));
+	get_as_int(token, "IS_SRC", &(obj.is_src));
+	if (obj.is_src)
+		obj.light = get_light(token);
+	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
+	get_as_vector3f(token, "COLOR", &(obj.color));
+	get_as_vector3f(token, "VERTEX0", &(triangle->vertex[0]));
+	triangle->vertex[0] = add_vector3f(obj.pos, triangle->vertex[0]);
+	get_as_vector3f(token, "VERTEX1", &(triangle->vertex[1]));
+	triangle->vertex[1] = add_vector3f(obj.pos, triangle->vertex[1]);
+	get_as_vector3f(token, "VERTEX2", &(triangle->vertex[2]));
+	triangle->vertex[2] = add_vector3f(obj.pos, triangle->vertex[2]);
+	cal_normal_triangle(triangle);
+	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	return (1);
 }
