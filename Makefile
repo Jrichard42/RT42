@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/09 15:09:38 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/20 11:30:40 by dbreton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,7 +59,7 @@ SRC 			= 	camera.c \
 					tmp.c \
 
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -g -pthread
+CFLAGS			= -Wall -Wextra -g -pthread -O0
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 

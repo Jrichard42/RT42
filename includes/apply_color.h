@@ -18,6 +18,6 @@ void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color);
 t_vector3f		apply_light(t_rt *rt, t_ray *ray, t_inter inter,
 							int recursion_max);
 
-t_vector3f			cylinder_mapping(t_vector3f inter_obj, t_vector3f **texture);
+t_vector3f			cylinder_mapping(t_inter inter_obj, t_vector3f **texture);
 t_vector3f			**create_texture_tab(char *type);
 #endif
