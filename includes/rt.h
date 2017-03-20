@@ -33,6 +33,7 @@ typedef struct		s_env
 	Uint32			*pixels;
 	Uint32			format;
 	float			ir;
+	t_vector3f		**texture;
 }					t_env;
 
 typedef	struct		s_rt

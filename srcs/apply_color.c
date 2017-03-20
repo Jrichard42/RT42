@@ -15,6 +15,8 @@
 #include "obj.h"
 #include "inter.h"
 #include "plane.h"
+#include "apply_color.h"
+#include "bruit_perlin.h"
 
 void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
@@ -78,8 +80,11 @@ static	void		choose_texture(t_inter		*inter,
 static	t_vector3f	apply_light_annex(t_list *save,
 							t_ray ray,
 							t_inter inter,
-							int 	recursion_max)
+							int 	recursion_max,
+							t_rt *rt)
 {
+	// static t_vector3f	**texture;
+	// static	int 		tmp_yolo;
 	float				coeffs;
 	t_vector3f			color;
 	int 				shadow;
@@ -103,11 +108,14 @@ static	t_vector3f	apply_light_annex(t_list *save,
 				ray.dir = sub_vector3f(ray.dir, mult_vector3f(inter.normal,
 					2.0 * dot_vector3f(ray.dir, inter.normal)));
 				choose_texture(&inter, &coeffs, save, &color);
+				color = cylinder_mapping(inter.impact, rt->env.texture);
+				//printf("coucou\n");
 			}
 			inter = get_inters(save, &ray);
 			recursion++;
 		}
 	}
+	// faudrais voir pour la mettre ici
 	return (color);
 }
 
@@ -126,7 +134,7 @@ t_vector3f			apply_light(t_rt *rt,
 		while (save)
 		{
 			if (((t_obj *)save->content)->is_src == 1)
-				color = add_vector3f(color, apply_light_annex(save, *ray, inter, recursion_max));
+				color = add_vector3f(color, apply_light_annex(save, *ray, inter, recursion_max, rt));
 			save = save->next;
 		}
 	}

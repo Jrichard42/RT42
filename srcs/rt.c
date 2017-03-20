@@ -82,10 +82,16 @@ void			destroy_rt(t_rt *rt)
 
 t_rt			*create_rt(int x, int y, char *name)
 {
-	t_rt		*rt;
+	t_rt				*rt;
+	static	int			marque;
 
 	if (!(rt = ft_memalloc(sizeof(*rt))))
 		return (ft_error("Failed to create main structure"));
+	if (marque != 1)
+	{
+		marque = 1;
+		rt->env.texture = create_texture_tab("MARBLE");
+	}
 	rt->env.size = create_vector2f(x, y);
 	if (!parser(name, rt))
 		return (NULL);
