@@ -42,8 +42,8 @@ static t_vector3f			bilinear_filter(t_tex tex, int x, int y, int fac)
 		while (i < fac)
 		{
 			color = add_vector3f(color,
-							tex.data[((y + (j - (fac / 2))) % tex.height)]
-							[((x + (i - (fac / 2))) % tex.width)]);
+							tex.data[abs(((y + (j - (fac / 2))) % tex.height))]
+							[abs(((x + (i - (fac / 2))) % tex.width))]);
 			color = div_vector3f(color, 2);
 			++i;
 		}
@@ -75,6 +75,6 @@ t_vector3f		get_tex_point(t_tex tex, float u, float v)
 
 	x = (int)(u * tex.width);
 	y = (int)(v * tex.height);
-	color = bilinear_filter(tex, x, y, 8);
+	color = bilinear_filter(tex, x, y, 16);
 	return (color);
 }
