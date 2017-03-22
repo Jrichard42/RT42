@@ -52,9 +52,11 @@ SRC 			= 	camera.c \
 					apply_color.c \
 					sampling.c \
 					normal_polygone.c \
+					reflexion.c \
+					refraction.c \
 					
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -g -pthread
+CFLAGS			= -Wall -Wextra -O3 -pthread
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 

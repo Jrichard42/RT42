@@ -79,11 +79,13 @@ t_vector3f	calcul_light(t_obj *obj, t_ray *ray, t_inter *inter)
 	return (color_return);
 }
 
-t_vector3f	calcul_light_procedurale(t_inter *inter, float *coeffs, t_obj *obj)
+t_vector3f	calcul_light_procedurale(t_obj *obj, t_ray *ray, t_inter *inter)
 {
 	t_vector3f		color_return;
+	float			coeffs;
 
-	color_return = procedurale(inter, coeffs, &LIGHT->intensity);
+	coeffs = calcul_coef(obj, inter, ray);
+	color_return = procedurale(inter, &coeffs, &obj->light.intensity);
 	return (color_return);
 }
 
