@@ -111,7 +111,7 @@ int						create_box(t_kvlexer *token, t_rt *rt)
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	BOX->min = obj->pos;
-	BOX->max = get_as_vector3f(token, "MAX");
+	BOX->max = add_vector3f(obj->pos, get_as_vector3f(token, "DIMENSION"));
 	obj->color = get_as_vector3f(token, "COLOR");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
