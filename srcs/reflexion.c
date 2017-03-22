@@ -22,13 +22,13 @@ t_vector3f	apply_reflexion(t_obj *obj,
 										t_rt *rt)
 {
 	t_vector3f	color;
-	int		recursion;
 	t_ray		ray_obj;
 	t_inter		inter;
+	t_list		*list;
 
 	color = create_vector3f(0,0,0);
-	recursion = 0;
-	inter = get_inters(rt->objs->head, &ray);
+	list = rt->objs->head;
+	inter = get_inters(list, &ray);
 	if (inter.obj != NULL)
 	{
 		ray_obj.start = inter.impact;
@@ -39,7 +39,6 @@ t_vector3f	apply_reflexion(t_obj *obj,
 		ray.start = inter.impact;
 		ray.dir = sub_vector3f(ray.dir, mult_vector3f(inter.normal,
 			2.0 * dot_vector3f(ray.dir, inter.normal)));
-		inter = get_inters(rt->objs->head, &ray);
 		color = div_vector3f(add_vector3f(color, apply_light(rt, &ray, rec_count - 1)), 2.0f);
 	}
 	return (clamp_vector3f(color, 0, 255));

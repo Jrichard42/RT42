@@ -67,13 +67,13 @@ t_vector3f			apply_refraction(t_obj *obj,
 										t_rt *rt)
 {
 	t_vector3f	color;
-	int 		recursion;
 	t_ray		ray_obj;
 	t_inter 	inter;
+	t_list		*list;
 
-	recursion = 0;
 	color = create_vector3f(0,0,0);
-	inter = get_inters(rt->objs->head, &ray);
+	list = rt->objs->head;
+	inter = get_inters(list, &ray);
 	if (inter.obj != NULL)
 	{
 		ray_obj.start = inter.impact;

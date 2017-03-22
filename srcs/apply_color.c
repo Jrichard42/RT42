@@ -73,11 +73,14 @@ static	t_vector3f	apply_light_annex(t_obj *obj,
 
 	inter = get_inters(rt->objs->head, ray);
 	color = create_vector3f(0,0,0);
-	color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 0.2); // COULEUR DE BASE
-	if (rec_count)
+	if (inter.obj != NULL)
 	{
-		color = add_vector3f(color, mult_vector3f(apply_reflexion(obj, *ray, rec_count, rt), 0.4)); // COULEUR REFLEXION
-		color = add_vector3f(color, mult_vector3f(apply_refraction(obj, *ray, rec_count, rt), 0.4)); // COULEUR refraction
+		color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 0.5); // COULEUR DE BASE
+		if (rec_count)
+		{
+			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj, *ray, rec_count, rt), 0.5)); // COULEUR REFLEXION
+			color = add_vector3f(color, mult_vector3f(apply_refraction(obj, *ray, rec_count, rt), 0.5)); // COULEUR refraction
+		}
 	}
 	return (color);
 }
@@ -96,18 +99,17 @@ t_vector3f			apply_light(t_rt *rt,
 	count_color = 0;
 	inter = get_inters(rt->objs->head, ray);
 	color = create_vector3f(0, 0, 0);
-	if (inter.obj != NULL)
-		while (node)
+	while (node)
+	{
+		obj = ((t_obj *)node->content);
+		if (obj->is_src == 1)
 		{
-			obj = ((t_obj *)node->content);
-			if (obj->is_src == 1)
-			{
-				color = add_vector3f(color,
-					apply_light_annex(obj, ray, rec_count, rt));
-				count_color++;
-			}
-			node = node->next;
+			color = add_vector3f(color,
+				apply_light_annex(obj, ray, rec_count, rt));
+			count_color++;
 		}
+		node = node->next;
+	}
 	color = div_vector3f(color, count_color);
 	return (clamp_vector3f(color, 0, 255));
 }
