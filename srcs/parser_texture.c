@@ -22,7 +22,7 @@ t_damier		get_text_as_damier(t_kvlexer *token)
 	return (damier);
 }
 
-t_perlin		get_text_as_perlin(t_kvlexer *token)
+/*t_perlin		get_text_as_perlin(t_kvlexer *token)
 {
 	t_perlin	perlin;
 
@@ -32,7 +32,7 @@ t_perlin		get_text_as_perlin(t_kvlexer *token)
 	perlin.color = get_as_vector3f(token, "COLOR");
 	perlin.type_perlin = get_as_string(token, "TYPE_PERLIN");
 	return (perlin);
-}
+}*/
 
 t_kvlexer		*get_texture(t_kvlexer *token)
 {

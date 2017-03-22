@@ -14,6 +14,8 @@
 # define OBJ_H
 
 # include "ray.h"
+# include "inter.h"
+#include "texture.h"
 
 typedef	struct	s_material
 {
@@ -33,8 +35,12 @@ typedef	struct	s_obj
 	char		is_visible;
 	t_vector3f	color;
 	void		*data;
+	t_vector3f 	dir;
+	t_tex		tex;
+	//t_vector3f	**tex;
 	float		(*inter)(struct s_obj *, t_ray *);
 	t_vector3f	(*normal)(struct s_obj *, t_vector3f *);
+	t_vector3f	(*texture)(struct s_obj *, t_inter);
 }				t_obj;
 
 #endif

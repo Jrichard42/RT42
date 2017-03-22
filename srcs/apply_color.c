@@ -108,7 +108,7 @@ static	t_vector3f	apply_light_annex(t_list *save,
 				ray.dir = sub_vector3f(ray.dir, mult_vector3f(inter.normal,
 					2.0 * dot_vector3f(ray.dir, inter.normal)));
 				choose_texture(&inter, &coeffs, save, &color);
-				color = mult_vector3f(add_vector3f(color, cylinder_mapping(inter, rt->env.texture)), coeffs / 2);
+				color = mult_vector3f(add_vector3f(color, inter.obj->texture(inter.obj, inter)), coeffs / 2);
 				//printf("coucou\n");
 			}
 			inter = get_inters(save, &ray);

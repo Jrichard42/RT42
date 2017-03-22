@@ -19,6 +19,13 @@
 
 #define	CONE ((t_cone *)obj->data)
 
+static	t_vector3f	cone_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+
+	return (color);
+}
+
 static float			inter_cone(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
@@ -90,6 +97,7 @@ int					create_cone(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj->normal = &normal_cone;
 	obj->inter = &inter_cone;
+	obj->texture = &cone_tex;
 	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
@@ -100,6 +108,7 @@ int					create_cone(t_kvlexer *token, t_rt *rt)
 	CONE->dir = get_as_vector3f(token, "DIR");
 	obj->color = get_as_vector3f(token, "COLOR");
 	CONE->dir = normalize_vector3f(CONE->dir);
+	obj->dir = CONE->dir;
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (1);

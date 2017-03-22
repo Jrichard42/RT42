@@ -5,7 +5,6 @@
 #include <math.h>
 #include <stdlib.h>
 #include "texture.h"
-
 #include "camera.h"
 # include "libft.h"
 # include "libft_matrix.h"
@@ -76,6 +75,6 @@ t_vector3f		get_tex_point(t_tex tex, float u, float v)
 
 	x = (int)(u * tex.width);
 	y = (int)(v * tex.height);
-	color = bilinear_filter(tex, x, y, 64);
+	color = bilinear_filter(tex, x, y, 8);
 	return (color);
 }

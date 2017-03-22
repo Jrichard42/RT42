@@ -90,7 +90,7 @@ t_rt			*create_rt(int x, int y, char *name)
 	if (marque != 1)
 	{
 		marque = 1;
-		rt->env.texture = create_texture_tab("MARBLE");
+	//	rt->env.texture = create_texture_tab("MARBLE");
 	}
 	rt->env.size = create_vector2f(x, y);
 	if (!parser(name, rt))

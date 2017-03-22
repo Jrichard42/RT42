@@ -19,6 +19,20 @@
 
 #define	SPHERE ((t_sphere *)obj->data)
 
+static	t_vector3f	sphere_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+	t_vector3f		pos;
+	t_vector3f		uv;
+
+	pos = sub_vector3f(inter.obj->pos, inter.impact);
+	pos = normalize_vector3f(pos);
+	uv.x = asinf(pos.x) / M_PI + 0.5f;
+	uv.y = asinf(pos.y) / M_PI + 0.5f;
+	color = get_tex_point(self->tex, uv.x, uv.y);
+	return (color);
+}
+
 static float		inter_sphere(t_obj *obj, t_ray *ray)
 {
 	t_quadratic var;
@@ -55,13 +69,17 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj->normal = &normal_sphere;
 	obj->inter = &inter_sphere;
+	obj->texture = &sphere_tex;
 	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
 	obj->is_src = get_as_float(token, "IS_SRC");
 	obj->is_visible = get_as_float(token, "IS_VISIBLE");
 	SPHERE->radius = get_as_float(token, "RADIUS");
+	obj->dir = get_as_vector3f(token, "DIR");
+	obj->dir = normalize_vector3f(obj->dir);
 	obj->color = get_as_vector3f(token, "COLOR");
+	obj->tex = create_texture(840, 840, "WOOD");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (1);

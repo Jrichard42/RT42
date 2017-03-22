@@ -14,8 +14,16 @@
 #include "plane.h"
 #include "quadratic.h"
 #include "parser.h"
+#include "inter.h"
 
 #define	PLANE ((t_plane *)obj->data)
+
+static	t_vector3f	plane_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+
+	return (color);
+}
 
 static 	float		inter_plane(t_obj *obj, t_ray *ray)
 {
@@ -58,6 +66,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj->normal = &normal_plane;
 	obj->inter = &inter_plane;
+	obj->texture = &plane_tex;
 	obj->pos = get_as_vector3f(token, "POSITION");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
@@ -69,6 +78,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 	PLANE->color2 = get_as_vector3f(token, "COLOR_DAMIER_2");
 	obj->color = get_as_vector3f(token, "COLOR");
 	PLANE->dir = normalize_vector3f(PLANE->dir);
+	obj->dir = PLANE->dir;
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (1);

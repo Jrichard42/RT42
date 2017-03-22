@@ -16,7 +16,13 @@
 #include "parser.h"
 #include "libft.h"
 
+
 #define	CYLINDER ((t_cylinder *)obj->data)
+
+static	t_vector3f	get_color_cyl(t_obj *self, t_inter inter)
+{
+
+}
 
 static 	float		inter_cylinder(t_obj *obj, t_ray *ray)
 {
@@ -64,6 +70,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj->normal = &normal_cylinder;
 	obj->inter = &inter_cylinder;
+	obj->texture = &get_color_cyl;
 	obj->pos = get_as_vector3f(token, "POS");
 	obj->mat = get_material(token);
 	obj->id = get_as_float(token, "ID");
@@ -73,6 +80,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 	CYLINDER->dir = get_as_vector3f(token, "DIR");
 	obj->color = get_as_vector3f(token, "COLOR");
 	CYLINDER->dir = normalize_vector3f(CYLINDER->dir);
+	obj->dir = CYLINDER->dir;
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (1);
