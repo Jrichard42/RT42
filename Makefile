@@ -56,7 +56,7 @@ SRC 			= 	camera.c \
 					bruit_perlin.c \
 					hsl_to_rgb.c \
 					procedural_fonction.c \
-					tmp.c \
+					texture.c \
 
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -g -pthread -O0
