@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 13:35:40 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/19 18:03:56 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:18:32 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,41 +94,46 @@ static t_vector3f		normal_torus(struct s_obj *obj, t_vector3f *impact)
 	return (normal);
 }
 
-static void			base_torus(t_obj *obj, t_kvlexer *token, t_rt *rt)
+static int			create_torus2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
-	obj->pos = create_vector3f(0, 0, 0);
-	obj->id = 0;
-	obj->is_src = 0;
-	obj->is_visible = 1;
-	obj->color = create_vector3f(1, 1, 1);
-	TORUS->inner_rad = 10;
-	TORUS->outer_rad = 10;
-	TORUS->axis = create_vector3f(0, 0, 1);
-	obj->normal = &normal_torus;
-	obj->inter = &inter_torus;
-	obj->mat = get_material(token, rt);
+	if (!get_material(token, rt, &(obj->mat)))
+		return (0);
+	if (!get_as_vector3f(token, "POS", &(obj->pos)))
+		return ((int)ft_error("The TORUS should contain a field POS"));
+	if (!get_as_int(token, "ID", &(obj->id)))
+		return ((int)ft_error("The TORUS should contain a field ID"));
+	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
+		return ((int)ft_error("The TORUS should contain a field IS_SRC"));
+	if (obj->is_src)
+		obj->light = get_light(token);
+	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
+		return ((int)ft_error("The TORUS should contain a field IS_VISIBLE"));
+	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
+		return ((int)ft_error("The TORUS should contain a field COLOR"));
+	if (!get_as_float(token, "OUTERRADIUS", &(TORUS->outer_rad)))
+		return ((int)ft_error("The TORUS should contain a field OUTERRADIUS"));
+	if (!get_as_float(token, "INNERRADIUS", &(TORUS->inner_rad)))
+		return ((int)ft_error("The TORUS should contain a field INNERRADIUS"));
+	if (!get_as_vector3f(token, "AXIS", &(TORUS->axis)))
+		return ((int)ft_error("The TORUS should contain a field AXIS"));
+	TORUS->axis = normalize_vector3f(TORUS->axis);
+	return (1);
 }
 
-int						create_torus(t_kvlexer *token, t_rt *rt)
+int					create_torus(t_kvlexer *token, t_rt *rt)
 {
-	t_obj				obj;
-	t_torus				*torus;
+	t_obj			obj;
 
 	if (!(obj.data = ft_memalloc(sizeof(t_torus))))
 		return (0);
-	torus = ((t_torus *)obj.data);
-	base_torus(&obj, token, rt);
-	get_as_vector3f(token, "POS", &(obj.pos));
-	get_as_int(token, "ID", &(obj.id));
-	get_as_int(token, "IS_SRC", &(obj.is_src));
-	if (obj.is_src)
-		obj.light = get_light(token);
-	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
-	get_as_vector3f(token, "COLOR", &(obj.color));
-	get_as_float(token, "OUTERRADIUS", &(torus->outer_rad));
-	get_as_float(token, "INNERRADIUS", &(torus->inner_rad));
-	get_as_vector3f(token, "AXIS", &(torus->axis));
-	torus->axis = normalize_vector3f(torus->axis);
-	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	obj.normal = &normal_torus;
+	obj.inter = &inter_torus;
+	if (create_torus2(token, rt, &obj))
+		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	else
+	{
+		free(obj.data);
+		return (0);
+	}
 	return (1);
 }

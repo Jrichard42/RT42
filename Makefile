@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/19 17:06:28 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/23 14:03:18 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,11 @@ SRC 			= 	main.c \
 					sphere.c \
 					events.c \
 					parser.c \
-					parser_text_mat.c \
 					parser_get_type.c \
 					parser_get_type2.c \
-					parser_get_component.c \
+					parser_get_light.c \
+					parser_get_material.c \
+					parser_get_texture.c \
 					material.c \
 					rt.c \
 					utils.c \

@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 13:35:51 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/19 18:04:19 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:15:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,38 +95,44 @@ static t_vector3f		normal_box(struct s_obj *obj, t_vector3f *impact)
 	return (create_vector3f(0.0, 0.0, 0.0));
 }
 
-static void			base_box(t_obj *obj, t_kvlexer *token, t_rt *rt)
+static int			create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
-	obj->pos = create_vector3f(0, 0, 0);
-	obj->id = 0;
-	obj->is_src = 0;
-	obj->is_visible = 1;
-	obj->color = create_vector3f(1, 1, 1);
-	BOX->min = create_vector3f(0, 0, 1);
-	BOX->max = create_vector3f(0, 1, 0);
-	obj->normal = &normal_box;
-	obj->inter = &inter_box;
-	obj->mat = get_material(token, rt);
+	t_vector3f		dimension;
+
+	if (!get_material(token, rt, &(obj->mat)))
+		return (0);
+	if (!get_as_vector3f(token, "POS", &(obj->pos)))
+		return ((int)ft_error("The BOX should contain a field POS"));
+	if (!get_as_int(token, "ID", &(obj->id)))
+		return ((int)ft_error("The BOX should contain a field ID"));
+	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
+		return ((int)ft_error("The BOX should contain a field IS_SRC"));
+	if (obj->is_src)
+		obj->light = get_light(token);
+	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
+		return ((int)ft_error("The BOX should contain a field IS_VISIBLE"));
+	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
+		return ((int)ft_error("The BOX should contain a field COLOR"));
+	if (!get_as_vector3f(token, "DIMENSION", &dimension))
+		return ((int)ft_error("The BOX should contain a field DIMENSION"));
+	BOX->max = add_vector3f(obj->pos, dimension);
+	return (1);
 }
 
-int						create_box(t_kvlexer *token, t_rt *rt)
+int					create_box(t_kvlexer *token, t_rt *rt)
 {
 	t_obj			obj;
-	t_box			*box;
 
 	if (!(obj.data = ft_memalloc(sizeof(t_box))))
 		return (0);
-	box = ((t_box *)obj.data);
-	base_box(&obj, token, rt);
-	get_as_vector3f(token, "POS", &(obj.pos));
-	get_as_int(token, "ID", &(obj.id));
-	get_as_int(token, "IS_SRC", &(obj.is_src));
-	if (obj.is_src)
-			obj.light = get_light(token);
-	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
-	get_as_vector3f(token, "COLOR", &(obj.color));	
-	box->min = obj.pos;
-	get_as_vector3f(token, "MAX", &(box->max));
-	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	obj.normal = &normal_box;
+	obj.inter = &inter_box;
+	if (create_box2(token, rt, &obj))
+		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	else
+	{
+		free(obj.data);
+		return (0);
+	}
 	return (1);
 }

@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   material.h                                         :+:      :+:    :+:   */
+/*   parser_get_texture.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/19 12:48:18 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/23 15:09:15 by jrichard         ###   ########.fr       */
+/*   Created: 2017/03/23 14:00:00 by jrichard          #+#    #+#             */
+/*   Updated: 2017/03/23 18:20:01 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MATERIAL_H
-# define MATERIAL_H
+#include "texture.h"
+#include "parser.h"
 
-#include "rt.h"
-#include "ft_kvlexer.h"
-
-typedef	struct	s_material
+t_kvlexer			*get_texture(t_kvlexer *token)
 {
-	char		name[11];
-	float		ka;
-	float		kd;
-	float		ks;
-	int			sh;
-	float		ir;
-}				t_material;
+	t_list			*node;
 
-int				create_mat(t_kvlexer *token, t_rt *rt);
-int				search_mat(t_list *node, void *data);
-
-#endif
+	if (token->children &&
+			(node = ft_lstsearch(token->children->head, &search_key, "TEXTURE")))
+		return ((t_kvlexer *)node->content);
+	return (NULL);
+}

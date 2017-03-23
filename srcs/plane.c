@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/19 18:02:30 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:16:52 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,40 +40,42 @@ static t_vector3f	normal_plane(struct s_obj *obj, t_vector3f *impact)
 	return (PLANE->dir);
 }
 
-static void			base_plane(t_obj *obj, t_kvlexer *token, t_rt *rt)
+static int			create_plane2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
-	obj->pos = create_vector3f(0, 0, 0);
-	obj->id = 0;
-	obj->is_src = 0;
-	obj->is_visible = 1;
-	obj->color = create_vector3f(1, 1, 1);
-	PLANE->dir = create_vector3f(0, 0, 1);
-	obj->normal = &normal_plane;
-	obj->inter = &inter_plane;
-	obj->mat = get_material(token, rt);
+	if (!get_material(token, rt, &(obj->mat)))
+		return (0);
+	if (!get_as_vector3f(token, "POS", &(obj->pos)))
+		return ((int)ft_error("The PLANE should contain a field POS"));
+	if (!get_as_int(token, "ID", &(obj->id)))
+		return ((int)ft_error("The PLANE should contain a field ID"));
+	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
+		return ((int)ft_error("The PLANE should contain a field IS_SRC"));
+	if (obj->is_src)
+		obj->light = get_light(token);
+	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
+		return ((int)ft_error("The PLANE should contain a field IS_VISIBLE"));
+	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
+		return ((int)ft_error("The PLANE should contain a field COLOR"));
+	if (!get_as_vector3f(token, "DIR", &(PLANE->dir)))
+		return ((int)ft_error("The PLANE should contain a field DIR"));
+	PLANE->dir = normalize_vector3f(PLANE->dir);
+	return (1);
 }
 
 int					create_plane(t_kvlexer *token, t_rt *rt)
 {
 	t_obj			obj;
-	t_plane			*plane;
 
 	if (!(obj.data = ft_memalloc(sizeof(t_plane))))
 		return (0);
-	plane = ((t_plane *)obj.data);
-	base_plane(&obj, token, rt);
-	get_as_vector3f(token, "POS", &(obj.pos));
-	get_as_int(token, "ID", &(obj.id));
-	get_as_int(token, "IS_SRC", &(obj.is_src));
-	if (obj.is_src)
-		obj.light = get_light(token);
-	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
-	get_as_vector3f(token, "COLOR", &(obj.color));
-	get_as_vector3f(token, "DIR", &(plane->dir));
-	plane->dir = normalize_vector3f(plane->dir);
-	/*PLANE->damier = get_as_float(token, "DAMIER");
-	PLANE->color1 = get_as_vector3f(token, "COLOR_DAMIER_1");
-	PLANE->color2 = get_as_vector3f(token, "COLOR_DAMIER_2");*/
-	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	obj.normal = &normal_plane;
+	obj.inter = &inter_plane;
+	if (create_plane2(token, rt, &obj))
+		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	else
+	{
+		free(obj.data);
+		return (0);
+	}
 	return (1);
 }

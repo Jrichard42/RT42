@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 12:49:13 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/19 18:34:28 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 14:38:06 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,29 +21,32 @@ int				search_mat(t_list *node, void *data)
 	return (0);
 }
 
-static void		base_mat(t_material *mat)
+static int		create_mat2(t_kvlexer *token, t_rt *rt, t_material *mat)
 {
-	mat->ka = 0.3;
-	mat->kd = 0.3;
-	mat->ks = 0.3;
-	mat->sh = 10;
-	mat->ir = 1.0;
+	(void)rt;
+	ft_strncpy(mat->name, token->value, 10);
+	if (!get_as_float(token, "AMBIENT", &(mat->ka)))
+		return ((int)ft_error("The MATERIAL should contain a field AMBIENT"));
+	if (!get_as_float(token, "DIFFUSE", &(mat->kd)))
+		return ((int)ft_error("The MATERIAL should contain a field DIFFUSE"));
+	if (!get_as_float(token, "SPECULAR", &(mat->ks)))
+		return ((int)ft_error("The MATERIAL should contain a field SPECULAR"));
+	if (!get_as_int(token, "SHININESS", &(mat->sh)))
+		return ((int)ft_error("The MATERIAL should contain a field SHININESS"));
+	if (!get_as_float(token, "IR", &(mat->ir)))
+		return ((int)ft_error("The MATERIAL should contain a field IR"));
+	return (1);
 }
 
-void			create_mat(t_kvlexer *token, t_rt *rt)
+int				create_mat(t_kvlexer *token, t_rt *rt)
 {
 	t_material	mat;
 	t_list		*node;
 
 	if (token->value)
 	{
-		base_mat(&mat);
-		ft_strncpy(mat.name, token->value, 10);
-		get_as_float(token, "AMBIENT", &(mat.ka));
-		get_as_float(token, "DIFFUSE", &(mat.kd));
-		get_as_float(token, "SPECULAR", &(mat.ks));
-		get_as_int(token, "SHININESS", &(mat.sh));
-		get_as_float(token, "IR", &(mat.ir));
+		if (!create_mat2(token, rt, &mat))
+			return (0);
 		if (rt->materials && (node = ft_lstsearch(rt->materials->head, &search_mat, mat.name)))
 		{
 			((t_material *)node->content)->ka = mat.ka;
@@ -57,4 +60,5 @@ void			create_mat(t_kvlexer *token, t_rt *rt)
 	}
 	else
 		ft_error("Materials in the material file should have a name");
+	return (1);
 }

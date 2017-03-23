@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:32 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/19 17:57:23 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 18:18:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int				get_as_float(t_kvlexer *token, char *str, float *f);
 int				get_as_double(t_kvlexer *token, char *str, double *d);
 int				get_as_int(t_kvlexer *token, char *str, int *i);
 int				get_as_string(t_kvlexer *token, char *str, char *string);
-t_material		get_material(t_kvlexer *token, t_rt *rt);
+int				get_material(t_kvlexer *token, t_rt *rt, t_material *mat);
 t_light			get_light(t_kvlexer *token);
 
 #endif

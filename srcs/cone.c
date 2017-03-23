@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/19 18:02:05 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:15:40 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,40 +80,45 @@ static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
 	return (normalize_vector3f(norm));
 }
 
-static void			base_cone(t_obj *obj, t_kvlexer *token, t_rt *rt)
+static int			create_cone2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
-	obj->pos = create_vector3f(0, 0, 0);
-	obj->id = 0;
-	obj->is_src = 0;
-	obj->is_visible = 1;
-	obj->color = create_vector3f(1, 1, 1);
-	CONE->angle = 10;
-	CONE->dir = create_vector3f(0, 1, 0);
-	obj->normal = &normal_cone;
-	obj->inter = &inter_cone;
-	obj->mat = get_material(token, rt);
+	if (!get_material(token, rt, &(obj->mat)))
+		return (0);
+	if (!get_as_vector3f(token, "POS", &(obj->pos)))
+		return ((int)ft_error("The CONE should contain a field POS"));
+	if (!get_as_int(token, "ID", &(obj->id)))
+		return ((int)ft_error("The CONE should contain a field ID"));
+	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
+		return ((int)ft_error("The CONE should contain a field IS_SRC"));
+	if (obj->is_src)
+		obj->light = get_light(token);
+	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
+		return ((int)ft_error("The CONE should contain a field IS_VISIBLE"));
+	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
+		return ((int)ft_error("The CONE should contain a field COLOR"));
+	if (!get_as_float(token, "ANGLE", &(CONE->angle)))
+		return ((int)ft_error("The CONE should contain a field ANGLE"));
+	CONE->angle *= M_PI / 180.0;
+	if (!get_as_vector3f(token, "DIR", &(CONE->dir)))
+		return ((int)ft_error("The CONE should contain a field DIR"));
+	CONE->dir = normalize_vector3f(CONE->dir);
+	return (1);
 }
 
 int					create_cone(t_kvlexer *token, t_rt *rt)
 {
 	t_obj			obj;
-	t_cone			*cone;
 
 	if (!(obj.data = ft_memalloc(sizeof(t_cone))))
 		return (0);
-	cone = ((t_cone *)obj.data);
-	base_cone(&obj, token, rt);
-	get_as_vector3f(token, "POS", &(obj.pos));
-	get_as_int(token, "ID", &(obj.id));
-	get_as_int(token, "IS_SRC", &(obj.is_src));
-	if (obj.is_src)
-		obj.light = get_light(token);
-	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
-	get_as_vector3f(token, "COLOR", &(obj.color));
-	get_as_float(token, "ANGLE", &(cone->angle));
-	cone->angle *= M_PI / 180.0;
-	get_as_vector3f(token, "DIR", &(cone->dir));
-	cone->dir = normalize_vector3f(cone->dir);
-	ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	obj.normal = &normal_cone;
+	obj.inter = &inter_cone;
+	if (create_cone2(token, rt, &obj))
+		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	else
+	{
+		free(obj.data);
+		return (0);
+	}
 	return (1);
 }
