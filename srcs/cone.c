@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/23 15:15:40 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:46:49 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 #include "utils.h"
 #include "libft_matrix.h"
 #define CONE ((t_cone *)obj->data)
+
+static	t_vector3f	cone_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+
+	color = create_vector3f(0, 0, 0);
+	return (color);
+}
 
 static float			inter_cone(t_obj *obj, t_ray *ray)
 {
@@ -114,6 +122,7 @@ int						create_cone(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_cone;
 	obj.inter = &inter_cone;
+	obj.texture = &cone_tex;
 	if (create_cone2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

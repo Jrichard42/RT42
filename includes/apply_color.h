@@ -21,4 +21,6 @@ int				is_shadow(t_obj *obj
 									t_list *list,
 									t_ray *ray_obj);
 
+t_vector3f			cylinder_mapping(t_inter inter_obj, t_vector3f **texture);
+t_vector3f			**create_texture_tab(char *type);
 #endif

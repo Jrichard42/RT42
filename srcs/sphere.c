@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/24 15:20:59 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:24:41 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@
 #include "libft.h"
 
 #define SPHERE ((t_sphere *)obj->data)
+
+static	t_vector3f	sphere_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+	t_vector3f		pos;
+	t_vector3f		uv;
+
+	pos = sub_vector3f(inter.obj->pos, inter.impact);
+	pos = normalize_vector3f(pos);
+	uv.x = asinf(pos.x) / M_PI + 0.5f;
+	uv.y = asinf(pos.y) / M_PI + 0.5f;
+	color = get_tex_point(self->tex, uv.x, uv.y);
+	return (color);
+}
 
 static float		inter_sphere(t_obj *obj, t_ray *ray)
 {
@@ -48,6 +62,8 @@ static int			create_sphere2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
+	//if (!get_texture(token, rt, &(obj->tex)))
+	//	return (0);
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The SPHERE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -71,6 +87,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_sphere;
 	obj.inter = &inter_sphere;
+	obj.texture = &sphere_tex;
 	if (create_sphere2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else
@@ -78,5 +95,6 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 		free(obj.data);
 		return (0);
 	}
+	//obj->tex = create_texture(840, 840, "WOOD");
 	return (1);
 }

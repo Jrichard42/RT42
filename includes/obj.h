@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:42:45 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/23 14:13:28 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:38:06 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "ray.h"
 # include "material.h"
 # include "light.h"
+# include "inter.h"
+#include "texture.h"
 
 typedef struct s_light	t_light;
 
@@ -28,8 +30,10 @@ typedef	struct			s_obj
 	int					is_visible;
 	t_light				light;
 	void				*data;
+	t_tex				tex;
 	float				(*inter)(struct s_obj *, t_ray *);
 	t_vector3f			(*normal)(struct s_obj *, t_vector3f *);
+	t_vector3f			(*texture)(struct s_obj *, t_inter);
 }						t_obj;
 
 #endif

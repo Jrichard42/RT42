@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/23 14:03:18 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/24 17:41:04 by dbreton          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,14 @@ SRC 			= 	main.c \
 					reflexion.c \
 					refraction.c \
 					light_2.c \
-					
+					cylinder_mapping.c \
+					bruit_perlin.c \
+					hsl_to_rgb.c \
+					procedural_fonction.c \
+					texture.c \
+
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -g -pthread
+CFLAGS			= -Wall -Wextra -pthread -Ofast
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 

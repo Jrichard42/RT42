@@ -14,6 +14,8 @@
 # define TEXTURE_H
 
 # include "rt.h"
+# include "libft_matrix.h"
+#include "bruit_perlin.h"
 
 typedef struct	s_damier
 {
@@ -21,13 +23,23 @@ typedef struct	s_damier
 	t_vector3f	color_2;
 }				t_damier;
 
-typedef struct	s_perlin
+/*typedef struct	s_perlin
 {
 	double		turbpower;
 	double		turbsize;
 	t_vector2f	periode;
 	t_vector3f	color;
 	char		*type_perlin;
-}				t_perlin;
+}				t_perlin;*/
+
+typedef struct 	s_texture
+{
+	int 		width;
+	int 		height;
+	t_vector3f	**data;
+}				t_tex;
+
+t_tex		create_texture(const int w, const int h, const char *type);
+t_vector3f	get_tex_point(t_tex tex, float u, float v);
 
 #endif
