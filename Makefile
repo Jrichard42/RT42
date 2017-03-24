@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/09 15:09:38 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/23 14:03:18 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,18 +20,21 @@ SRCDIR			= srcs/
 INCDIR			= includes/
 SDLINCDIR		= sdl/SDL/include
 
-SRC 			= 	camera.c \
+SRC 			= 	main.c \
+					camera.c \
 					cone.c \
 					cylinder.c \
 					light.c \
-					parser.c \
 					plane.c \
 					sphere.c \
 					events.c \
-					main.c \
+					parser.c \
 					parser_get_type.c \
 					parser_get_type2.c \
-					parser_texture.c \
+					parser_get_light.c \
+					parser_get_material.c \
+					parser_get_texture.c \
+					material.c \
 					rt.c \
 					utils.c \
 					procedurale.c \
@@ -54,7 +57,7 @@ SRC 			= 	camera.c \
 					normal_polygone.c \
 					
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -O3 -pthread
+CFLAGS			= -Wall -Wextra -g -pthread
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 

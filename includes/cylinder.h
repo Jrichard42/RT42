@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 14:17:41 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/17 20:00:28 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 11:09:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 typedef struct	s_cylinder
 {
-	int			radius;
+	float		radius;
 	t_vector3f 	dir;
 }				t_cylinder;
 

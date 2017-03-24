@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/25 14:51:51 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:18:11 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ static float		inter_sphere(t_obj *obj, t_ray *ray)
 		var.result = var.sol_2;
 	else
 		var.result = var.sol_1;
-	if (var.result < 0)
-		return (NAN);
 	return (var.result);
 }
 
@@ -45,24 +43,41 @@ static t_vector3f	normal_sphere(struct s_obj *obj, t_vector3f *impact)
 	return (normalize_vector3f(sub_vector3f(*impact, obj->pos)));
 }
 
+static int			create_sphere2(t_kvlexer *token, t_rt *rt, t_obj *obj)
+{
+	if (!get_material(token, rt, &(obj->mat)))
+		return (0);
+	if (!get_as_vector3f(token, "POS", &(obj->pos)))
+		return ((int)ft_error("The SPHERE should contain a field POS"));
+	if (!get_as_int(token, "ID", &(obj->id)))
+		return ((int)ft_error("The SPHERE should contain a field ID"));
+	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
+		return ((int)ft_error("The SPHERE should contain a field IS_SRC"));
+	if (obj->is_src)
+		obj->light = get_light(token);
+	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
+		return ((int)ft_error("The SPHERE should contain a field IS_VISIBLE"));
+	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
+		return ((int)ft_error("The SPHERE should contain a field COLOR"));
+	if (!get_as_float(token, "RADIUS", &(SPHERE->radius)))
+		return ((int)ft_error("The SPHERE should contain a field RADIUS"));
+	return (1);
+}
+
 int					create_sphere(t_kvlexer *token, t_rt *rt)
 {
-	t_obj			*obj;
-
-	if (!(obj = ft_memalloc(sizeof(*obj))))
+	t_obj			obj;
+	
+	if (!(obj.data = ft_memalloc(sizeof(t_sphere))))
 		return (0);
-	if (!(obj->data = ft_memalloc(sizeof(t_sphere))))
+	obj.normal = &normal_sphere;
+	obj.inter = &inter_sphere;
+	if (create_sphere2(token, rt, &obj))
+		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	else
+	{
+		free(obj.data);
 		return (0);
-	obj->normal = &normal_sphere;
-	obj->inter = &inter_sphere;
-	obj->pos = get_as_vector3f(token, "POS");
-	obj->mat = get_material(token);
-	obj->id = get_as_float(token, "ID");
-	obj->is_src = get_as_float(token, "IS_SRC");
-	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	SPHERE->radius = get_as_float(token, "RADIUS");
-	obj->color = get_as_vector3f(token, "COLOR");
-	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);
+	}
 	return (1);
 }

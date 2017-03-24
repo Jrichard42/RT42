@@ -6,40 +6,38 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:10:52 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/13 16:16:28 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/19 11:58:18 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-float			get_as_double(t_kvlexer *token, char *str)
+int				get_as_int(t_kvlexer *token, char *str, int *i)
 {
 	t_list		*node;
 	t_kvlexer	*field;
-	double		ret_float;
 
-	ret_float = 100;
-	if ((node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (field && field->value && *field->value)
-			ret_float = ft_atof(field->value);
+			*i = ft_atoi(field->value);
+		return (1);
 	}
-	return (ret_float);
+	return (0);
 }
 
-char			*get_as_string(t_kvlexer *token, char *str)
+int				get_as_string(t_kvlexer *token, char *str, char *string)
 {
 	t_list		*node;
 	t_kvlexer	*field;
-	char		*string;
 
-	string = NULL;
-	if ((node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (!(string = ft_strdup(field->value)))
-			return (NULL);
+			return (0);
+		return (1);
 	}
-	return (string);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
-/*   Updated: 2017/02/21 13:50:49 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/03/23 12:08:34 by jrichard         ###   ########.fr       */
 /*   Updated: 2017/02/25 14:32:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -15,15 +15,22 @@
 #include "camera.h"
 #include "parser.h"
 
+/*static void	base_camera()
+{
+	//base values for camera
+}*/
+
 int			create_camera(t_kvlexer *token, t_rt *rt)
 {
-
 	if (!(rt->camera = malloc(sizeof(t_camera))))
-		return(-1);
-	rt->camera->fov = get_as_float(token, "FOV");
+		return (-1);
+	if (!get_as_int(token, "FOV", &(rt->camera->fov)))
+		return ((int)ft_error("The CAMERA should contain a field FOV"));
 	rt->camera->up = create_vector3f(0.0, -1.0, 0.0);
-	rt->camera->pos = get_as_vector3f(token, "POS");
-	rt->camera->lookatpoint = get_as_vector3f(token, "LOOKAT");
+	if (!get_as_vector3f(token, "POS", &(rt->camera->pos)))
+		return ((int)ft_error("The CAMERA should contain a field POS"));
+	if (!get_as_vector3f(token, "LOOKAT", &(rt->camera->lookatpoint)))
+		return ((int)ft_error("The CAMERA should contain a field LOOKAT"));
 	rt->camera->viewdir = normalize_vector3f(sub_vector3f(rt->camera->lookatpoint, rt->camera->pos)); // pas besoin de le recalculer
 	rt->camera->vphalfwidth = tanf((rt->camera->fov / 2.0f) * M_PI / 180.0f);
 	rt->camera->aspectratio= (double)WIN_Y / (double)WIN_X;

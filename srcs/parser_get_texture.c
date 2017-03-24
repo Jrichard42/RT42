@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error.c                                         :+:      :+:    :+:   */
+/*   parser_get_texture.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/10 19:37:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/23 11:21:45 by jrichard         ###   ########.fr       */
+/*   Created: 2017/03/23 14:00:00 by jrichard          #+#    #+#             */
+/*   Updated: 2017/03/23 18:20:01 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "texture.h"
+#include "parser.h"
 
-void	*ft_error(char *s)
+t_kvlexer			*get_texture(t_kvlexer *token)
 {
-	ft_putendl(s);
-	return (0);
+	t_list			*node;
+
+	if (token->children &&
+			(node = ft_lstsearch(token->children->head, &search_key, "TEXTURE")))
+		return ((t_kvlexer *)node->content);
+	return (NULL);
 }

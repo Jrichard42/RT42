@@ -13,7 +13,6 @@
 #ifndef SAMPLING_H
 # define SAMPLING_H
 
-t_vector3f			sampling(t_rt *rt, t_vector2f pixel, float sampling,
-							int recursion_max);
+t_vector3f			sampling(t_rt *rt, t_vector2f pixel, float sampling);
 
 #endif

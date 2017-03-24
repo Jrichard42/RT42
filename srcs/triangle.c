@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 16:51:50 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/08 16:51:51 by jqueyrou         ###   ########.fr       */
+/*   Updated: 2017/03/23 15:18:54 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,30 +56,47 @@ static t_vector3f	normal_triangle(struct s_obj *obj, t_vector3f *impact)
 	return (TRIANGLE->normal);
 }
 
+static int			create_triangle2(t_kvlexer *token, t_rt *rt, t_obj *obj)
+{
+	if (!get_material(token, rt, &(obj->mat)))
+		return (0);
+	if (!get_as_vector3f(token, "POS", &(obj->pos)))
+		return ((int)ft_error("The TRIANGLE should contain a field POS"));
+	if (!get_as_int(token, "ID", &(obj->id)))
+		return ((int)ft_error("The TRIANGLE should contain a field ID"));
+	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
+		return ((int)ft_error("The TRIANGLE should contain a field IS_SRC"));
+	if (obj->is_src)
+		obj->light = get_light(token);
+	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
+		return ((int)ft_error("The TRIANGLE should contain a field IS_VISIBLE"));
+	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
+		return ((int)ft_error("The TRIANGLE should contain a field COLOR"));
+	if (!get_as_vector3f(token, "VERTEX0", &(TRIANGLE->vertex[0])) ||
+			!get_as_vector3f(token, "VERTEX1", &(TRIANGLE->vertex[1])) ||
+			!get_as_vector3f(token, "VERTEX2", &(TRIANGLE->vertex[0])))
+		return ((int)ft_error("The TRIANGLE should contain 3 fields VERTEX0-2"));
+	TRIANGLE->vertex[0] = add_vector3f(obj->pos, TRIANGLE->vertex[0]);
+	TRIANGLE->vertex[1] = add_vector3f(obj->pos, TRIANGLE->vertex[1]);
+	TRIANGLE->vertex[2] = add_vector3f(obj->pos, TRIANGLE->vertex[2]);
+	cal_normal_triangle(TRIANGLE);
+	return (1);
+}
+
 int					create_triangle(t_kvlexer *token, t_rt *rt)
 {
-	t_obj			*obj;
+	t_obj			obj;
 
-	if (!(obj = ft_memalloc(sizeof(*obj))))
+	if (!(obj.data = ft_memalloc(sizeof(t_triangle))))
 		return (0);
-	if (!(obj->data = ft_memalloc(sizeof(t_triangle))))
+	obj.normal = &normal_triangle;
+	obj.inter = &inter_triangle;
+	if (create_triangle2(token, rt, &obj))
+		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
+	else
+	{
+		free(obj.data);
 		return (0);
-	obj->normal = &normal_triangle;
-	obj->inter = &inter_triangle;
-	obj->pos = get_as_vector3f(token, "POS");
-	obj->mat = get_material(token);
-	obj->id = get_as_float(token, "ID");
-	obj->is_src = get_as_float(token, "IS_SRC");
-	obj->is_visible = get_as_float(token, "IS_VISIBLE");
-	TRIANGLE->vertex[0] = add_vector3f(obj->pos, get_as_vector3f(token,
-		"VERTEX0"));
-	TRIANGLE->vertex[1] = add_vector3f(obj->pos, get_as_vector3f(token,
-		"VERTEX1"));
-	TRIANGLE->vertex[2] = add_vector3f(obj->pos, get_as_vector3f(token,
-		"VERTEX2"));
-	cal_normal_triangle(TRIANGLE);
-	obj->color = get_as_vector3f(token, "COLOR");
-	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
-	ft_memdel((void **)&obj);
+	}
 	return (1);
 }
