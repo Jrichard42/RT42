@@ -20,10 +20,11 @@ typedef struct s_light t_light;
 
 typedef	struct	s_material
 {
-	float		ka;
-	float		kd;
-	float		ks;
+	t_vector3f		ka;
+	t_vector3f		kd;
+	t_vector3f		ks;
 	int			sh;
+	float		rc;
 	float		ir;
 }				t_material;
 

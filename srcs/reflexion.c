@@ -39,6 +39,7 @@ t_vector3f	apply_reflexion(t_obj *obj,
 		ray.start = inter.impact;
 		ray.dir = sub_vector3f(ray.dir, mult_vector3f(inter.normal,
 			2.0 * dot_vector3f(ray.dir, inter.normal)));
+		ray.ir = inter.obj->mat.ir;
 		color = div_vector3f(add_vector3f(color, apply_light(rt, &ray, rec_count - 1)), 2.0f);
 	}
 	return (clamp_vector3f(color, 0, 255));

@@ -70,16 +70,34 @@ static	t_vector3f	apply_light_annex(t_obj *obj,
 {
 	t_vector3f 	color;
 	t_inter		inter;
+	double		r0;
+	double		theta;
+	double		n;
+	t_ray		ray_obj;
 
 	inter = get_inters(rt->objs->head, ray);
 	color = create_vector3f(0,0,0);
 	if (inter.obj != NULL)
 	{
-		color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 0.5); // COULEUR DE BASE
+		r0 = powf((ray->ir - inter.obj->mat.ir) / (ray->ir + inter.obj->mat.ir), 2.0);
+		theta = -dot_vector3f(inter.normal, ray->dir);
+		if (ray->ir > inter.obj->mat.ir)
+		{
+			n = (double)ray->ir / (double)inter.obj->mat.ir;
+			n = n * n * (1.0f - (theta * theta));
+			if (n < 1.0)
+				theta = sqrt(1.0 - n);
+		}
+		theta = 1.0f - theta;
+		r0 = r0 + (1.0f - r0) * theta * theta * theta * theta * theta;
+		ray_obj.start = inter.impact;
+		ray_obj.dir = normalize_vector3f(sub_vector3f(obj->pos, inter.impact));
+		if (is_shadow(obj, &inter, rt->objs->head, &ray_obj) != 1)
+			color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 1); // COULEUR DE BASE
 		if (rec_count)
 		{
-			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj, *ray, rec_count, rt), 0.5)); // COULEUR REFLEXION
-			color = add_vector3f(color, mult_vector3f(apply_refraction(obj, *ray, rec_count, rt), 0.5)); // COULEUR refraction
+			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj, *ray, rec_count, rt), (0.33 + (1.0 - 0.33) * r0))); // COULEUR REFLEXION
+			color = add_vector3f(color, mult_vector3f(apply_refraction(obj, *ray, rec_count, rt), 1.0f - (0.33 + (1.0 - 0.33) * r0))); // COULEUR refraction
 		}
 	}
 	return (color);

@@ -43,7 +43,7 @@ t_vector3f			sampling(t_rt 		*rt,
 			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir,
 				vp_point.start));
 			vp_point.ir = 1.0;
-			color = add_vector3f(color, apply_light(rt, &vp_point, 5));
+			color = add_vector3f(color, apply_light(rt, &vp_point, 3));
 		}
 		++inc.y;
 	}

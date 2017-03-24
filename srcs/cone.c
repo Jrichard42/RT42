@@ -25,9 +25,14 @@ static float			inter_cone(t_obj *obj, t_ray *ray)
 	t_vector3f	tmp;
 
 	tmp = sub_vector3f(ray->start, obj->pos);
-	var.a = dot_vector3f(ray->dir, ray->dir) - ((1.0 + tan(CONE->angle) * tan(CONE->angle)) * powf(dot_vector3f(ray->dir, CONE->dir), 2.0));
-	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - ((1.0 + tan(CONE->angle) * tan(CONE->angle)) * (dot_vector3f(ray->dir, CONE->dir) * dot_vector3f(tmp, CONE->dir))));
-	var.c = dot_vector3f(tmp, tmp) - ((1.0 + tan(CONE->angle) * tan(CONE->angle)) * powf(dot_vector3f(tmp, CONE->dir), 2.0) - powf(CONE->angle, 2.0));
+	var.a = dot_vector3f(ray->dir, ray->dir) - ((1.0 + tan(CONE->angle)
+		* tan(CONE->angle)) * powf(dot_vector3f(ray->dir, CONE->dir), 2.0));
+	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - ((1.0 + tan(CONE->angle)
+		* tan(CONE->angle)) * (dot_vector3f(ray->dir, CONE->dir) *
+		dot_vector3f(tmp, CONE->dir))));
+	var.c = dot_vector3f(tmp, tmp) - ((1.0 + tan(CONE->angle)
+		* tan(CONE->angle)) * powf(dot_vector3f(tmp, CONE->dir), 2.0)
+	- powf(CONE->angle, 2.0));
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);
 	if (var.delta < 0)
 		return (NAN);

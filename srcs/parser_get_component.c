@@ -20,19 +20,21 @@ t_material			get_material(t_kvlexer *token)
 	t_material		material;
 	t_kvlexer		*mat_token;
 
-	material.ka = 0.33;
-	material.kd = 0.33;
-	material.ks = 0.33;
+	material.ka = create_vector3f(0.33,0.33,0.33);
+	material.kd = create_vector3f(0.33,0.33,0.33);
+	material.ks = create_vector3f(0.33,0.33,0.33);
 	material.sh = 10;
 	material.ir = 1.0;
+	material.rc = 0;
 	if ((node = ft_lstsearch(token->children->head, &search_key, "MATERIAL")))
 	{
 		mat_token = (t_kvlexer *)node->content;
-		material.ka = get_as_float(mat_token, "AMBIENT");
-		material.kd = get_as_float(mat_token, "DIFFUSE");
-		material.ks = get_as_float(mat_token, "SPECULAR");
+		material.ka = get_as_vector3f(mat_token, "AMBIENT");
+		material.kd = get_as_vector3f(mat_token, "DIFFUSE");
+		material.ks = get_as_vector3f(mat_token, "SPECULAR");
 		material.sh = get_as_float(mat_token, "SHININESS");
 		material.ir = get_as_float(mat_token, "IR");
+		material.rc = get_as_float(mat_token, "RC");
 	}
 	return (material);
 }
