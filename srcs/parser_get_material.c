@@ -15,15 +15,15 @@
 
 static int		modify_material(t_kvlexer *mat_token, t_material *mat)
 {
-	if (!get_as_float(mat_token, "AMBIENT", &(mat->ka)) && (!mat_token->value
+	if (!get_as_vector3f(mat_token, "AMBIENT", &(mat->ka)) && (!mat_token->value
 				|| !mat_token->value[0]))
 		return ((int)ft_error("The MATERIAL should contain either "
 		"a valid name or a field AMBIENT"));
-	if (!get_as_float(mat_token, "DIFFUSE", &(mat->kd)) && (!mat_token->value
+	if (!get_as_vector3f(mat_token, "DIFFUSE", &(mat->kd)) && (!mat_token->value
 				|| !mat_token->value[0]))
 		return ((int)ft_error("The MATERIAL should contain either "
 		"a valid name or a field DIFFUSE"));
-	if (!get_as_float(mat_token, "SPECULAR", &(mat->ks)) && (!mat_token->value
+	if (!get_as_vector3f(mat_token, "SPECULAR", &(mat->ks)) && (!mat_token->value
 				|| !mat_token->value[0]))
 		return ((int)ft_error("The MATERIAL should contain either "
 		"a valid name or a field SPECULAR"));

@@ -26,7 +26,6 @@ typedef	struct	s_obj
 	int			id;
 	int			is_src;
 	int			is_visible;
-	t_vector3f	color;
 	t_light		light;
 	void		*data;
 	float		(*inter)(struct s_obj *, t_ray *);

@@ -105,7 +105,6 @@ static void			base_tetra(t_obj *obj, t_kvlexer *token, t_rt *rt)
 	obj->id = 0;
 	obj->is_src = 0;
 	obj->is_visible = 1;
-	obj->color = create_vector3f(1, 1, 1);
 	//base value tetra	
 	obj->normal = &normal_tetra;
 	obj->inter = &inter_tetra;
@@ -127,7 +126,6 @@ int					create_tetra(t_kvlexer *token, t_rt *rt)
 	if (obj.is_src)
 		obj.light = get_light(token);
 	get_as_int(token, "IS_VISIBLE", &(obj.is_visible));
-	get_as_vector3f(token, "COLOR", &(obj.color));
 	//	TETRA->face = create_tetra_bis(add_vector3f(obj->pos,
 	//				get_as_vector3f(token, "VERTEX0")),
 	//			add_vector3f(obj->pos, get_as_vector3f(token, "VERTEX1")),
@@ -153,8 +151,6 @@ int					create_tetra(t_kvlexer *token, t_rt *rt)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The TETRAEDRE should contain a field IS_VISIBLE"));
-	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
-		return ((int)ft_error("The TETRAEDRE should contain a field COLOR"));
 	if (!get_as_vector3f(token, "VERTEX0", &(vert.v1)) ||
 			!get_as_vector3f(token, "VERTEX1", &(vert.v2)) ||
 			!get_as_vector3f(token, "VERTEX2", &(vert.v3)) ||

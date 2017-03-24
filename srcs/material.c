@@ -25,11 +25,11 @@ static int		create_mat2(t_kvlexer *token, t_rt *rt, t_material *mat)
 {
 	(void)rt;
 	ft_strncpy(mat->name, token->value, 10);
-	if (!get_as_float(token, "AMBIENT", &(mat->ka)))
+	if (!get_as_vector3f(token, "AMBIENT", &(mat->ka)))
 		return ((int)ft_error("The MATERIAL should contain a field AMBIENT"));
-	if (!get_as_float(token, "DIFFUSE", &(mat->kd)))
+	if (!get_as_vector3f(token, "DIFFUSE", &(mat->kd)))
 		return ((int)ft_error("The MATERIAL should contain a field DIFFUSE"));
-	if (!get_as_float(token, "SPECULAR", &(mat->ks)))
+	if (!get_as_vector3f(token, "SPECULAR", &(mat->ks)))
 		return ((int)ft_error("The MATERIAL should contain a field SPECULAR"));
 	if (!get_as_int(token, "SHININESS", &(mat->sh)))
 		return ((int)ft_error("The MATERIAL should contain a field SHININESS"));

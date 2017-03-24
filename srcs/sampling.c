@@ -42,8 +42,8 @@ t_vector3f			sampling(t_rt 		*rt,
 			vp_point.dir = get_viewplanepoint(rt->camera, &pixel);
 			vp_point.dir = normalize_vector3f(sub_vector3f(vp_point.dir,
 				vp_point.start));
-			color = add_vector3f(color, apply_light(rt, &vp_point,
-				get_inters(rt->objs->head, &vp_point)));
+			vp_point.ir = 1.0;
+			color = add_vector3f(color, apply_light(rt, &vp_point, 0));
 		}
 		++inc.y;
 	}

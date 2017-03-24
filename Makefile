@@ -55,6 +55,8 @@ SRC 			= 	main.c \
 					apply_color.c \
 					sampling.c \
 					normal_polygone.c \
+					reflexion.c \
+					refraction.c \
 					
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -g -pthread

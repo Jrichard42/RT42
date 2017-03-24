@@ -70,8 +70,6 @@ static int			create_triangle2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The TRIANGLE should contain a field IS_VISIBLE"));
-	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
-		return ((int)ft_error("The TRIANGLE should contain a field COLOR"));
 	if (!get_as_vector3f(token, "VERTEX0", &(TRIANGLE->vertex[0])) ||
 			!get_as_vector3f(token, "VERTEX1", &(TRIANGLE->vertex[1])) ||
 			!get_as_vector3f(token, "VERTEX2", &(TRIANGLE->vertex[0])))

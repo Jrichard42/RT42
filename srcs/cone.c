@@ -94,8 +94,6 @@ static int			create_cone2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The CONE should contain a field IS_VISIBLE"));
-	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
-		return ((int)ft_error("The CONE should contain a field COLOR"));
 	if (!get_as_float(token, "ANGLE", &(CONE->angle)))
 		return ((int)ft_error("The CONE should contain a field ANGLE"));
 	CONE->angle *= M_PI / 180.0;

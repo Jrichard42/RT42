@@ -111,8 +111,6 @@ static int			create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The BOX should contain a field IS_VISIBLE"));
-	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
-		return ((int)ft_error("The BOX should contain a field COLOR"));
 	if (!get_as_vector3f(token, "DIMENSION", &dimension))
 		return ((int)ft_error("The BOX should contain a field DIMENSION"));
 	BOX->max = add_vector3f(obj->pos, dimension);

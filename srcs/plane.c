@@ -54,8 +54,6 @@ static int			create_plane2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The PLANE should contain a field IS_VISIBLE"));
-	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
-		return ((int)ft_error("The PLANE should contain a field COLOR"));
 	if (!get_as_vector3f(token, "DIR", &(PLANE->dir)))
 		return ((int)ft_error("The PLANE should contain a field DIR"));
 	PLANE->dir = normalize_vector3f(PLANE->dir);

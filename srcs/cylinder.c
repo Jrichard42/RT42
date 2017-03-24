@@ -68,8 +68,6 @@ static int			create_cylinder2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The CYLINDER should contain a field IS_VISIBLE"));
-	if (!get_as_vector3f(token, "COLOR", &(obj->color)))
-		return ((int)ft_error("The CYLINDER should contain a field COLOR"));
 	if (!get_as_float(token, "RADIUS", &(CYLINDER->radius)))
 		return ((int)ft_error("The CYLINDER should contain a field RADIUS"));
 	if (!get_as_vector3f(token, "DIR", &(CYLINDER->dir)))
