@@ -20,8 +20,21 @@
 
 static	t_vector3f	plane_tex(t_obj *self, t_inter inter)
 {
+	t_vector3f		pos;
 	t_vector3f		color;
+	t_vector3f		ua;
+	t_vector3f		va;
+	t_vector3f		uv;
 
+	//pos = sub_vector3f(inter.impact, self->pos);
+	//pos = normalize_vector3f(pos);
+	ua = create_vector3f(self->dir.y, self->dir.z, -self->dir.x);
+	va = cross_vector3f(ua, self->dir);
+	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / self->tex.width);
+	uv.y = dot_vector3f(inter.impact, va) * (1.0f / self->tex.height);
+	uv.z = 0;
+	//uv = normalize_vector3f(uv);
+	color = get_tex_point(self->tex, uv.x, uv.y);
 	return (color);
 }
 
@@ -79,6 +92,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 	obj->color = get_as_vector3f(token, "COLOR");
 	PLANE->dir = normalize_vector3f(PLANE->dir);
 	obj->dir = PLANE->dir;
+	obj->tex = create_texture(1024, 1024, "WOOD");
 	ft_lstadd(&rt->objs, ft_lstnew(obj, sizeof(*obj)));
 	ft_memdel((void **)&obj);
 	return (1);
