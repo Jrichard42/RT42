@@ -25,7 +25,8 @@ int				get_as_vector3f(t_kvlexer *token, char *str, t_vector3f *vec)
 	t_kvlexer	*field;
 	char		*tmp;
 
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (field && field->value && *field->value)
@@ -53,7 +54,8 @@ int				get_as_vector2f(t_kvlexer *token, char *str, t_vector2f *vec)
 	t_kvlexer	*field;
 	char		*tmp;
 
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (field && field->value && *field->value)
@@ -75,7 +77,8 @@ int				get_as_float(t_kvlexer *token, char *str, float *f)
 	t_list		*node;
 	t_kvlexer	*field;
 
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (field && field->value && *field->value)
@@ -90,7 +93,8 @@ int				get_as_double(t_kvlexer *token, char *str, double *d)
 	t_list		*node;
 	t_kvlexer	*field;
 
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (field && field->value && *field->value)

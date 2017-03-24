@@ -13,9 +13,9 @@
 #ifndef REFRACTION_H
 # define REFRACTION_H
 
-#include "rt.h"
-#include "inter.h"
-#include "ray.h"
+# include "rt.h"
+# include "inter.h"
+# include "ray.h"
 
 t_vector3f			apply_refraction(t_obj *obj,
 										t_ray ray,

@@ -17,18 +17,17 @@
 # include "libft.h"
 # include "libft_matrix.h"
 
-typedef struct s_obj t_obj;
+typedef struct s_obj	t_obj;
 
-typedef	struct	s_inter
+typedef	struct			s_inter
 {
-	t_vector3f	impact;
-	t_vector3f	normal;
-	float		distance;
-	t_obj		*obj;
-}				t_inter;
+	t_vector3f			impact;
+	t_vector3f			normal;
+	float				distance;
+	t_obj				*obj;
+}						t_inter;
 
-// void			calcul_inter(t_cl *cl, t_ray *ray, t_obj *obj, t_inter *inter); OPEN CL ICI
-void			calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter);
-t_inter			get_inters(t_list *list, t_ray *ray);
+void					calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter);
+t_inter					get_inters(t_list *list, t_ray *ray);
 
 #endif

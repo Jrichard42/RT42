@@ -19,9 +19,9 @@
 #include "inter.h"
 #include "camera.h"
 
-t_vector3f			sampling(t_rt 		*rt,
-							t_vector2f 	pixel,
-							float 		sampling)
+t_vector3f			sampling(t_rt *rt,
+							t_vector2f pixel,
+							float sampling)
 {
 	t_vector2f		pixel_tmp;
 	t_ray			vp_point;
@@ -30,7 +30,7 @@ t_vector3f			sampling(t_rt 		*rt,
 
 	inc.y = 1;
 	pixel_tmp = pixel;
-	color = create_vector3f(0,0,0);
+	color = create_vector3f(0, 0, 0);
 	while (inc.y <= sampling)
 	{
 		inc.x = 1;

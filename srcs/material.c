@@ -54,7 +54,8 @@ int				create_mat(t_kvlexer *token, t_rt *rt)
 	{
 		if (!create_mat2(token, rt, &mat))
 			return (0);
-		if (rt->materials && (node = ft_lstsearch(rt->materials->head, &search_mat, mat.name)))
+		if (rt->materials && (node = ft_lstsearch(rt->materials->head,
+			&search_mat, mat.name)))
 		{
 			((t_material *)node->content)->ka = mat.ka;
 			((t_material *)node->content)->kd = mat.kd;

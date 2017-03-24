@@ -14,10 +14,9 @@
 #include "plane.h"
 #include "reflexion.h"
 #include "refraction.h"
+#define RECURSION_MAX 5
 
-# define RECURSION_MAX 5
-
-void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
+void					put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
 	unsigned int		pixel_pos;
 	int					int_color;
@@ -32,7 +31,7 @@ void			put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 	}
 }
 
-int				is_shadow(t_obj *obj
+int						is_shadow(t_obj *obj
 									, t_inter *inter,
 									t_list *list,
 									t_ray *ray_obj)
@@ -47,14 +46,14 @@ int				is_shadow(t_obj *obj
 		tmp_obj = ((t_obj *)list->content);
 		if (tmp_obj->is_src != 1)
 		{
-			if(!isnan(tmp = (tmp_obj->inter(tmp_obj, ray_obj))) 
+			if (!isnan(tmp = (tmp_obj->inter(tmp_obj, ray_obj)))
 			&& tmp >= 0.01 && (tmp * tmp) <=
 			squared_length_vector3f(sub_vector3f(obj->pos, inter->impact)))
 			{
 				if (tmp_obj != inter->obj)
 				{
 					shadow = 1;
-					break;
+					break ;
 				}
 			}
 		}
@@ -63,11 +62,11 @@ int				is_shadow(t_obj *obj
 	return (shadow);
 }
 
-static	double		fresnel(t_inter *inter, t_ray *ray)
+static	double			fresnel(t_inter *inter, t_ray *ray)
 {
-	double		r0;
-	double		theta;
-	double		n;
+	double				r0;
+	double				theta;
+	double				n;
 
 	r0 = powf((ray->ir - inter->obj->mat.ir) / (ray->ir +
 		inter->obj->mat.ir), 2.0);
@@ -84,18 +83,18 @@ static	double		fresnel(t_inter *inter, t_ray *ray)
 	return (r0);
 }
 
-static	t_vector3f	apply_light_annex(t_obj *obj,
+static	t_vector3f		apply_light_annex(t_obj *obj,
 										t_ray *ray,
 										int rec_count,
 										t_rt *rt)
 {
-	t_vector3f 	color;
-	t_inter		inter;
-	double		r0;
-	t_ray		ray_obj;
+	t_vector3f			color;
+	t_inter				inter;
+	double				r0;
+	t_ray				ray_obj;
 
 	inter = get_inters(rt->objs->head, ray);
-	color = create_vector3f(0,0,0);
+	color = create_vector3f(0, 0, 0);
 	if (inter.obj != NULL)
 	{
 		r0 = fresnel(&inter, ray);
@@ -114,15 +113,15 @@ static	t_vector3f	apply_light_annex(t_obj *obj,
 	return (color);
 }
 
-t_vector3f			apply_light(t_rt *rt,
-							t_ray *ray,							
-							int rec_count)
+t_vector3f				apply_light(t_rt *rt,
+									t_ray *ray,
+									int rec_count)
 {
 	t_list				*node;
 	t_vector3f			color;
 	t_obj				*obj;
 	t_inter				inter;
-	int 				count_color;
+	int					count_color;
 
 	node = rt->objs->head;
 	count_color = 0;

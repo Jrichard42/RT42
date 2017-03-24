@@ -13,9 +13,9 @@
 #ifndef REFLEXION_H
 # define REFLEXION_H
 
-#include "rt.h"
-#include "inter.h"
-#include "ray.h"
+# include "rt.h"
+# include "inter.h"
+# include "ray.h"
 
 t_vector3f	apply_reflexion(t_obj *obj,
 										t_ray ray,

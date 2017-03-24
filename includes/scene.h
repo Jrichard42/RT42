@@ -15,11 +15,11 @@
 
 # include "scene.h"
 
-typedef struct  s_scene
+typedef struct	s_scene
 {
-	void        *data;
-	void        (*calc)(struct s_scene *scene);
-	void        (*draw)(struct s_scene *scene);
-}               t_scene;
+	void		*data;
+	void		(*calc)(struct s_scene *scene);
+	void		(*draw)(struct s_scene *scene);
+}				t_scene;
 
 #endif

@@ -94,7 +94,7 @@ static t_vector3f		normal_torus(struct s_obj *obj, t_vector3f *impact)
 	return (normal);
 }
 
-static int			create_torus2(t_kvlexer *token, t_rt *rt, t_obj *obj)
+static int				create_torus2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
@@ -118,9 +118,9 @@ static int			create_torus2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	return (1);
 }
 
-int					create_torus(t_kvlexer *token, t_rt *rt)
+int						create_torus(t_kvlexer *token, t_rt *rt)
 {
-	t_obj			obj;
+	t_obj				obj;
 
 	if (!(obj.data = ft_memalloc(sizeof(t_torus))))
 		return (0);

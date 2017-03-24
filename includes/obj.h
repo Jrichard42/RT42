@@ -17,19 +17,19 @@
 # include "material.h"
 # include "light.h"
 
-typedef struct s_light t_light;
+typedef struct s_light	t_light;
 
-typedef	struct	s_obj
+typedef	struct			s_obj
 {
-	t_vector3f	pos;
-	t_material	mat;
-	int			id;
-	int			is_src;
-	int			is_visible;
-	t_light		light;
-	void		*data;
-	float		(*inter)(struct s_obj *, t_ray *);
-	t_vector3f	(*normal)(struct s_obj *, t_vector3f *);
-}				t_obj;
+	t_vector3f			pos;
+	t_material			mat;
+	int					id;
+	int					is_src;
+	int					is_visible;
+	t_light				light;
+	void				*data;
+	float				(*inter)(struct s_obj *, t_ray *);
+	t_vector3f			(*normal)(struct s_obj *, t_vector3f *);
+}						t_obj;
 
 #endif

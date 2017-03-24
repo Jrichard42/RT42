@@ -31,7 +31,7 @@ static t_res	fin(double u, double aa, double bb, double bs)
 		res.x1 = (double)(sqrt(uma) + sqrt(d)) / (double)2 - bs;
 		res.x2 = (double)(sqrt(uma) - sqrt(d)) / (double)2 - bs;
 	}
-	d = uma - (double)4.0 * (-bb / (double)2 / uma * sqrt(uma) + u / (double)2);
+	d = uma - (double)4.0 * (-bb / 2.0f / uma * sqrt(uma) + u / (double)2);
 	if (d >= 0)
 	{
 		res.nb += 2;
@@ -45,13 +45,16 @@ static t_res	delta_negative(t_equ var, t_res res)
 {
 	if (var.p != 0)
 	{
-		var.kos = -var.q / (double)2 / sqrt(-var.p * var.p * var.p / (double)27);
+		var.kos = -var.q / (double)2 /
+		sqrt(-var.p * var.p * var.p / (double)27);
 		var.r = sqrt(-var.p / (double)3);
 	}
 	var.alpha = acos(var.kos);
 	res.x1 = (double)2 * var.r * cos((var.alpha) / (double)3) + var.vt;
-	res.x2 = (double)2 * var.r * cos((var.alpha + (double)2 * M_PI) / (double)3) + var.vt;
-	res.x3 = (double)2 * var.r * cos((var.alpha + (double)2 * (double)2 * M_PI) / (double)3) + var.vt;
+	res.x2 = (double)2 * var.r * cos((var.alpha + (double)2 *
+		M_PI) / (double)3) + var.vt;
+	res.x3 = (double)2 * var.r * cos((var.alpha + (double)2 *
+		(double)2 * M_PI) / (double)3) + var.vt;
 	if (var.r == 0)
 		return (fin(res.x1, var.aa, var.bb, var.bs));
 	else if (res.x1 > var.aa)
@@ -70,11 +73,13 @@ static void		var_init(t_equ *var, t_res *res, double *val)
 	res->x4 = NAN;
 	res->nb = 0;
 	var->bs = val[1] / (double)4 / val[0];
-	var->aa = -(double)3 * val[1] * val[1] / 8 / val[0] / val[0] + val[2] / val[0];
+	var->aa = -(double)3 * val[1] * val[1] / 8 /
+	val[0] / val[0] + val[2] / val[0];
 	var->ma = -var->aa;
 	var->bb = val[1] * val[1] * val[1] / 8 / val[0] / val[0] / val[0] - val[1]
 	* val[2] / 2 / val[0] / val[0] + val[3] / val[0];
-	var->cc = -(double)3 * val[1] * val[1] * val[1] * val[1] / (double)256 / val[0] / val[0]
+	var->cc = -(double)3 * val[1] * val[1] * val[1] * val[1]
+	/ (double)256 / val[0] / val[0]
 	/ val[0] / val[0] + val[2] * val[1] * val[1] / (double)16 / val[0] / val[0]
 	/ val[0] - val[1] * val[3] / (double)4 / val[0] / val[0] + val[4] / val[0];
 	var->mc = -(double)4 * var->cc;
@@ -94,7 +99,8 @@ static void		var_calcul(t_equ *var, double *val)
 	var->p = val[2] / val[0] - val[1] * val[1] / (double)3 / val[0] / val[0];
 	var->q = val[1] * val[1] * val[1] / val[0] / val[0] / val[0] / (double)13.5
 	+ val[3] / val[0] - val[1] * val[2] / (double)3 / val[0] / val[0];
-	var->del = var->q * var->q / (double)4 + var->p * var->p * var->p / (double)27;
+	var->del = var->q * var->q / (double)4 +
+	var->p * var->p * var->p / (double)27;
 }
 
 t_res			equationpoly4(double *val)

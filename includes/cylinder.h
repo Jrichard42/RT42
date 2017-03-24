@@ -20,7 +20,7 @@
 typedef struct	s_cylinder
 {
 	float		radius;
-	t_vector3f 	dir;
+	t_vector3f	dir;
 }				t_cylinder;
 
 int				create_cylinder(t_kvlexer *token, t_rt *rt);

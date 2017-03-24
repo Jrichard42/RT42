@@ -13,8 +13,8 @@
 #ifndef MATERIAL_H
 # define MATERIAL_H
 
-#include "rt.h"
-#include "ft_kvlexer.h"
+# include "rt.h"
+# include "ft_kvlexer.h"
 
 typedef	struct	s_material
 {

@@ -17,7 +17,8 @@ int				get_as_int(t_kvlexer *token, char *str, int *i)
 	t_list		*node;
 	t_kvlexer	*field;
 
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (field && field->value && *field->value)
@@ -32,7 +33,8 @@ int				get_as_string(t_kvlexer *token, char *str, char *string)
 	t_list		*node;
 	t_kvlexer	*field;
 
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, str)))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
 		if (!(string = ft_strdup(field->value)))

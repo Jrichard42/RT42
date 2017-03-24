@@ -107,5 +107,6 @@ t_list			*ft_lstsearch(t_list *lst, int (*f)(t_list *elem, void *data),
 								void *data);
 int				ft_lstsize(t_list *lst);
 void			*ft_error(char *s);
+void			ft_swap(float *a, float *b);
 
 #endif

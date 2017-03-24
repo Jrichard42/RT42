@@ -14,13 +14,12 @@
 #include "plane.h"
 #include "quadratic.h"
 #include "parser.h"
+#define PLANE ((t_plane *)obj->data)
 
-#define	PLANE ((t_plane *)obj->data)
-
-static 	float		inter_plane(t_obj *obj, t_ray *ray)
+static float		inter_plane(t_obj *obj, t_ray *ray)
 {
-	t_quadratic var;
-	t_vector3f	tmp;
+	t_quadratic		var;
+	t_vector3f		tmp;
 
 	if (dot_vector3f(ray->dir, PLANE->dir) != 0.0)
 	{

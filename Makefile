@@ -44,9 +44,6 @@ SRC 			= 	main.c \
 					equationpoly2.c \
 					equationpoly3.c \
 					equationpoly4.c \
-					opencl.c \
-					hashtable.c \
-					vector_cl.c \
 					thread_manager.c \
 					triangle.c \
 					tetraedre.c \
@@ -57,6 +54,7 @@ SRC 			= 	main.c \
 					normal_polygone.c \
 					reflexion.c \
 					refraction.c \
+					light_2.c \
 					
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -g -pthread

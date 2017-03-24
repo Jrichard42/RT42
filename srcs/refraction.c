@@ -16,9 +16,12 @@
 #include "plane.h"
 #include "apply_color.h"
 
-static int			calcul_cos_refraction(t_inter *inter, double *cos1, double *cos2, t_ray inc_tmp) // pour refraction
+static int			calcul_cos_refraction(t_inter *inter,
+											double *cos1,
+											double *cos2,
+											t_ray inc_tmp)
 {
-	t_vector3f	inc;
+	t_vector3f		inc;
 
 	inc = mult_vector3f(inc_tmp.dir, -1.0);
 	*cos1 = dot_vector3f(inc, inter->normal);
@@ -32,12 +35,12 @@ static int			calcul_cos_refraction(t_inter *inter, double *cos1, double *cos2, t
 	return (1);
 }
 
-static	t_vector3f	vector_ref(t_inter *inter, t_ray inc_tmp) // refraction aussi
+static	t_vector3f	vector_ref(t_inter *inter, t_ray inc_tmp)
 {
-	t_vector3f	v_refraction;
-	double		cos1;
-	double		cos2;
-	double		ir_tmp;
+	t_vector3f		v_refraction;
+	double			cos1;
+	double			cos2;
+	double			ir_tmp;
 
 	if (calcul_cos_refraction(inter, &cos1, &cos2, inc_tmp) == -1)
 	{
@@ -66,12 +69,12 @@ t_vector3f			apply_refraction(t_obj *obj,
 										int rec_count,
 										t_rt *rt)
 {
-	t_vector3f	color;
-	t_ray		ray_obj;
-	t_inter 	inter;
-	t_list		*list;
+	t_vector3f		color;
+	t_ray			ray_obj;
+	t_inter			inter;
+	t_list			*list;
 
-	color = create_vector3f(0,0,0);
+	color = create_vector3f(0, 0, 0);
 	list = rt->objs->head;
 	inter = get_inters(list, &ray);
 	if (inter.obj != NULL)
@@ -85,7 +88,8 @@ t_vector3f			apply_refraction(t_obj *obj,
 				ray.dir = vector_ref(&inter, ray);
 				ray.start = inter.impact;
 				ray.ir = inter.obj->mat.ir;
-				color = div_vector3f(add_vector3f(color, apply_light(rt, &ray, rec_count - 1)), 2.0f);
+				color = div_vector3f(add_vector3f(color,
+					apply_light(rt, &ray, rec_count - 1)), 2.0f);
 			}
 	}
 	return (clamp_vector3f(color, 0, 255));

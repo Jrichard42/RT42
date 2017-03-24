@@ -12,7 +12,6 @@
 
 #include "events.h"
 #include "rt.h"
-#include "opencl.h"
 
 static int		loop(t_rt *rt)
 {
@@ -28,18 +27,16 @@ static int		loop(t_rt *rt)
 
 int				main(int argc, char **argv)
 {
-	t_rt		*rt = NULL;
+	t_rt	*rt;
 
+	rt = NULL;
 	if (argc != 2)
 	{
 		ft_putendl("Usage : ./rt scene_file");
 		return (-1);
 	}
 	if ((rt = create_rt(WIN_X, WIN_Y, argv[1])))
-	{
-		//rt->cl = cl_init("./kernels");
 		loop(rt);
-	}
 	destroy_rt(rt);
 	return (0);
 }

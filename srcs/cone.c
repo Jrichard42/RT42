@@ -16,18 +16,22 @@
 #include "parser.h"
 #include "utils.h"
 #include "libft_matrix.h"
-
-#define	CONE ((t_cone *)obj->data)
+#define CONE ((t_cone *)obj->data)
 
 static float			inter_cone(t_obj *obj, t_ray *ray)
 {
-	t_quadratic var;
-	t_vector3f	tmp;
+	t_quadratic			var;
+	t_vector3f			tmp;
 
 	tmp = sub_vector3f(ray->start, obj->pos);
-	var.a = dot_vector3f(ray->dir, ray->dir) - ((1.0 + tan(CONE->angle) * tan(CONE->angle)) * powf(dot_vector3f(ray->dir, CONE->dir), 2.0));
-	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - ((1.0 + tan(CONE->angle) * tan(CONE->angle)) * (dot_vector3f(ray->dir, CONE->dir) * dot_vector3f(tmp, CONE->dir))));
-	var.c = dot_vector3f(tmp, tmp) - ((1.0 + tan(CONE->angle) * tan(CONE->angle)) * powf(dot_vector3f(tmp, CONE->dir), 2.0) - powf(CONE->angle, 2.0));
+	var.a = dot_vector3f(ray->dir, ray->dir) - ((1.0 + tan(CONE->angle)
+		* tan(CONE->angle)) * powf(dot_vector3f(ray->dir, CONE->dir), 2.0));
+	var.b = 2.0 * (dot_vector3f(ray->dir, tmp) - ((1.0 + tan(CONE->angle)
+		* tan(CONE->angle)) * (dot_vector3f(ray->dir, CONE->dir)
+		* dot_vector3f(tmp, CONE->dir))));
+	var.c = dot_vector3f(tmp, tmp) - ((1.0 + tan(CONE->angle)
+		* tan(CONE->angle)) * powf(dot_vector3f(tmp, CONE->dir),
+		2.0) - powf(CONE->angle, 2.0));
 	var.delta = powf(var.b, 2.0) - (4.0 * var.a * var.c);
 	if (var.delta < 0)
 		return (NAN);
@@ -42,17 +46,16 @@ static float			inter_cone(t_obj *obj, t_ray *ray)
 	return (var.result);
 }
 
-static char			validate_direction(t_obj *obj, t_vector3f *io,
+static char				validate_direction(t_obj *obj, t_vector3f *io,
 		t_vector3f *norm, t_vector3f *piv)
 {
-	float			est_tan;
-	float			exp_tan;
+	float				est_tan;
+	float				exp_tan;
 
 	est_tan = norm->length / io->length;
 	exp_tan = tan(CONE->angle);
 	if (!almost_equal_relative(est_tan, exp_tan))
 	{
-
 		*piv = mult_vector3f(CONE->dir,
 				-1.0f * length_vector3f(*io) / cos(CONE->angle));
 		*piv = add_vector3f(*piv, obj->pos);
@@ -61,12 +64,12 @@ static char			validate_direction(t_obj *obj, t_vector3f *io,
 	return (1);
 }
 
-static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
+static t_vector3f		normal_cone(t_obj *obj, t_vector3f *impact)
 {
-	t_vector3f		io;
-	t_vector3f		piv;
-	double			pi;
-	t_vector3f		norm;
+	t_vector3f			io;
+	t_vector3f			piv;
+	double				pi;
+	t_vector3f			norm;
 
 	io = sub_vector3f(*impact, obj->pos);
 	pi = length_vector3f(io) / cos(CONE->angle);
@@ -80,7 +83,7 @@ static t_vector3f	normal_cone(t_obj *obj, t_vector3f *impact)
 	return (normalize_vector3f(norm));
 }
 
-static int			create_cone2(t_kvlexer *token, t_rt *rt, t_obj *obj)
+static int				create_cone2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
@@ -103,9 +106,9 @@ static int			create_cone2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	return (1);
 }
 
-int					create_cone(t_kvlexer *token, t_rt *rt)
+int						create_cone(t_kvlexer *token, t_rt *rt)
 {
-	t_obj			obj;
+	t_obj				obj;
 
 	if (!(obj.data = ft_memalloc(sizeof(t_cone))))
 		return (0);

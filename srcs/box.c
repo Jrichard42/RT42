@@ -11,18 +11,10 @@
 /* ************************************************************************** */
 
 #include "box.h"
+#include "libft.h"
 #define BOX ((t_box *)obj->data)
 #define MAX_DISTANCE_TO_INTERSECTON 1000000
 #define EPS_FOR_NORMAL_DIRECTION 0.005f
-
-static void				ft_swap(float *a, float *b)
-{
-	float tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
 
 static float			calc_dist(t_ray *ray, t_vector3f tmin, t_vector3f tmax)
 {
@@ -95,7 +87,7 @@ static t_vector3f		normal_box(struct s_obj *obj, t_vector3f *impact)
 	return (create_vector3f(0.0, 0.0, 0.0));
 }
 
-static int			create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
+static int				create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	t_vector3f		dimension;
 
@@ -117,7 +109,7 @@ static int			create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	return (1);
 }
 
-int					create_box(t_kvlexer *token, t_rt *rt)
+int						create_box(t_kvlexer *token, t_rt *rt)
 {
 	t_obj			obj;
 

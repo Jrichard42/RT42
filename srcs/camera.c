@@ -1,13 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.c                                           :+:      :+:    :+:   */
+/*   bruit_perlin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 16:37:11 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/23 12:08:34 by jrichard         ###   ########.fr       */
-/*   Updated: 2017/02/25 14:32:08 by jrichard         ###   ########.fr       */
+/*   Created: 2017/03/10 15:26:01 by hpachy            #+#    #+#             */
+/*   Updated: 2017/03/10 15:26:02 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +14,26 @@
 #include "camera.h"
 #include "parser.h"
 
-/*static void	base_camera()
+void		fill_camera(t_rt *rt)
 {
-	//base values for camera
-}*/
+	rt->camera->viewdir = normalize_vector3f(sub_vector3f(rt->camera->
+										lookatpoint, rt->camera->pos));
+	rt->camera->vphalfwidth = tanf((rt->camera->fov / 2.0f) * M_PI / 180.0f);
+	rt->camera->aspectratio = (double)WIN_Y / (double)WIN_X;
+	rt->camera->vphalfheight = rt->camera->vphalfwidth
+								* rt->camera->aspectratio;
+	rt->camera->u = cross_vector3f(rt->camera->viewdir, rt->camera->up);
+	rt->camera->v = cross_vector3f(rt->camera->u, rt->camera->viewdir);
+	rt->camera->u = normalize_vector3f(rt->camera->u);
+	rt->camera->v = normalize_vector3f(rt->camera->v);
+	rt->camera->vpbottomleftpoint = sub_vector3f(rt->camera->lookatpoint,
+		add_vector3f(mult_vector3f(rt->camera->u, rt->camera->vphalfwidth),
+		mult_vector3f(rt->camera->v, rt->camera->vphalfheight)));
+	rt->camera->y_inc_vec = mult_vector3f(
+	rt->camera->v, (2.0f * rt->camera->vphalfheight) / (double)WIN_Y);
+	rt->camera->x_inc_vec = mult_vector3f(
+		rt->camera->u, (2.0f * rt->camera->vphalfwidth) / (double)WIN_X);
+}
 
 int			create_camera(t_kvlexer *token, t_rt *rt)
 {
@@ -31,22 +46,7 @@ int			create_camera(t_kvlexer *token, t_rt *rt)
 		return ((int)ft_error("The CAMERA should contain a field POS"));
 	if (!get_as_vector3f(token, "LOOKAT", &(rt->camera->lookatpoint)))
 		return ((int)ft_error("The CAMERA should contain a field LOOKAT"));
-	rt->camera->viewdir = normalize_vector3f(sub_vector3f(rt->camera->lookatpoint, rt->camera->pos)); // pas besoin de le recalculer
-	rt->camera->vphalfwidth = tanf((rt->camera->fov / 2.0f) * M_PI / 180.0f);
-	rt->camera->aspectratio= (double)WIN_Y / (double)WIN_X;
-	rt->camera->vphalfheight = rt->camera->vphalfwidth * rt->camera->aspectratio;
-	rt->camera->u = cross_vector3f(rt->camera->viewdir, rt->camera->up);
-	rt->camera->v = cross_vector3f(rt->camera->u, rt->camera->viewdir);
-	rt->camera->u = normalize_vector3f(rt->camera->u);
-	rt->camera->v = normalize_vector3f(rt->camera->v);
-	rt->camera->vpbottomleftpoint= sub_vector3f(rt->camera->lookatpoint, add_vector3f(
-		mult_vector3f(rt->camera->u, rt->camera->vphalfwidth),
-		mult_vector3f(rt->camera->v, rt->camera->vphalfheight)));
-	rt->camera->y_inc_vec = mult_vector3f(
-	rt->camera->v, (2.0f * rt->camera->vphalfheight) / (double)WIN_Y);
-
-	rt->camera->x_inc_vec = mult_vector3f(
-		rt->camera->u, (2.0f * rt->camera->vphalfwidth) / (double)WIN_X);
+	fill_camera(rt);
 	return (1);
 }
 

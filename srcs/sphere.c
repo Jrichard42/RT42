@@ -17,16 +17,17 @@
 #include "parser.h"
 #include "libft.h"
 
-#define	SPHERE ((t_sphere *)obj->data)
+#define SPHERE ((t_sphere *)obj->data)
 
 static float		inter_sphere(t_obj *obj, t_ray *ray)
 {
-	t_quadratic var;
-	t_vector3f	tmp;
+	t_quadratic		var;
+	t_vector3f		tmp;
 
 	tmp = sub_vector3f(obj->pos, ray->start);
 	var.a = dot_vector3f(tmp, ray->dir);
-	var.b = var.a * var.a - dot_vector3f(tmp, tmp) + SPHERE->radius * SPHERE->radius;
+	var.b = var.a * var.a - dot_vector3f(tmp, tmp) + SPHERE->radius
+	* SPHERE->radius;
 	if (var.b < 0)
 		return (NAN);
 	var.sol_1 = var.a - sqrt(var.b);
@@ -65,7 +66,7 @@ static int			create_sphere2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 int					create_sphere(t_kvlexer *token, t_rt *rt)
 {
 	t_obj			obj;
-	
+
 	if (!(obj.data = ft_memalloc(sizeof(t_sphere))))
 		return (0);
 	obj.normal = &normal_sphere;

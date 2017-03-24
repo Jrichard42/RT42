@@ -22,7 +22,8 @@ t_light				get_light(t_kvlexer *token)
 	light.color = create_vector3f(255, 255, 255);
 	light.intensity = 10;
 	light.calc_light = &calcul_light;
-	if (token->children && (node = ft_lstsearch(token->children->head, &search_key, "LIGHT")))
+	if (token->children && (node = ft_lstsearch(token->children->head,
+		&search_key, "LIGHT")))
 	{
 		light_token = (t_kvlexer *)node->content;
 		get_as_vector3f(light_token, "COLOR", &(light.color));

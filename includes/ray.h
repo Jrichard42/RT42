@@ -13,9 +13,9 @@
 #ifndef RAY_H
 # define RAY_H
 
-#include "libft_matrix.h"
+# include "libft_matrix.h"
 
-typedef	struct	s_ray 
+typedef	struct	s_ray
 {
 	t_vector3f	start;
 	t_vector3f	dir;

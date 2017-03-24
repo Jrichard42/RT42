@@ -17,20 +17,18 @@
 #include "obj.h"
 #include "inter.h"
 #include "ray.h"
-#include "parser.h"	
+#include "parser.h"
 #include "camera.h"
 #include "sampling.h"
 #include "thread_manager.h"
 
-#define	LIGHT ((t_light *)((t_obj *)save->content)->data)
+#define LIGHT ((t_light *)((t_obj *)save->content)->data)
 #define T_DATA ((t_thread_data *)data)
-//TODO put in .h
-// #include "opencl.h"
 
 void			*render_chunk(void *data)
 {
 	t_vector2f	pixel;
-	t_vector3f  color;
+	t_vector3f	color;
 
 	pixel = create_vector2f(T_DATA->index % WIN_X, T_DATA->index / WIN_X);
 	while (T_DATA->size > 0)
@@ -104,4 +102,3 @@ t_rt			*create_rt(int x, int y, char *name)
 		return (ft_error("Failed to initialize sdl environment"));
 	return (rt);
 }
-
