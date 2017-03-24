@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/24 14:55:25 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 18:06:35 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int						parser_text_mat(t_kvlexer *token, t_rt *rt)
 		if (!ft_strcmp(current_child->key, "MATERIAL\0"))
 			create_mat(current_child, rt);
 		else if (!ft_strcmp(current_child->key, "TEXTURE\0"))
-			;//fill_text();
+			create_tex(current_child, rt);
 		else
 			ft_error("Only materials and textures are allowed in this file");
 		current_node = current_node->next;

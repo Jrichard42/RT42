@@ -6,20 +6,40 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/23 14:00:00 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/23 18:20:01 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:49:02 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "texture.h"
 #include "parser.h"
 
-t_kvlexer			*get_texture(t_kvlexer *token)
+int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 {
-	t_list			*node;
+	t_list		*node;
+	t_kvlexer	*tex_token;	
 
-	if (token->children &&
-			(node = ft_lstsearch(token->children->head,
-				&search_key, "TEXTURE")))
-		return ((t_kvlexer *)node->content);
-	return (NULL);
+	if (token->children && (node = ft_lstsearch(token->children->head,
+					&search_key, "TEXTURE")))
+	{
+		tex_token = (t_kvlexer *)node->content;
+		if (tex_token->value)
+		{
+			if (rt->textures && (node = ft_lstsearch(rt->textures->head,
+							&search_tex, tex_token->value)))
+				*tex = *((t_texture *)node->content);
+			else
+			{
+				ft_putstr("Couldn't find the TEXTURE named ");
+				ft_putendl(tex_token->value);
+				tex_token->value = NULL;
+				return (0);
+			}
+		}
+		else
+		{
+			//parse_tex()
+		}
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 12:49:13 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/24 15:19:58 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:54:35 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,18 @@ int				create_mat(t_kvlexer *token, t_rt *rt)
 		if (rt->materials && (node = ft_lstsearch(rt->materials->head,
 			&search_mat, mat.name)))
 		{
-			((t_material *)node->content)->ka = mat.ka;
-			((t_material *)node->content)->kd = mat.kd;
-			((t_material *)node->content)->ks = mat.ks;
-			((t_material *)node->content)->sh = mat.sh;
-			((t_material *)node->content)->ir = mat.ir;
+
+			*((t_material *)node->content) = mat;
+			//((t_material *)node->content)->ka = mat.ka; //change ??
+			//((t_material *)node->content)->kd = mat.kd;
+			//((t_material *)node->content)->ks = mat.ks;
+			//((t_material *)node->content)->sh = mat.sh;
+			//((t_material *)node->content)->ir = mat.ir;
 		}
 		else
 			ft_lstadd(&rt->materials, ft_lstnew(&mat, sizeof(mat)));
 	}
 	else
-		ft_error("Materials in the material file should have a name");
+		ft_error("Materials in the .mat file should have a name");
 	return (1);
 }

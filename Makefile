@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/23 14:03:18 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/24 17:48:29 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRC 			= 	main.c \
 					parser_get_material.c \
 					parser_get_texture.c \
 					material.c \
+					texture.c \
 					rt.c \
 					utils.c \
 					procedurale.c \
