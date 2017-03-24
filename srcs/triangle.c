@@ -91,6 +91,7 @@ int					create_triangle(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_triangle;
 	obj.inter = &inter_triangle;
+	obj.texture = NULL;
 	if (create_triangle2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

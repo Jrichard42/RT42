@@ -125,6 +125,7 @@ int					create_pyra(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_pyra;
 	obj.inter = &inter_pyra;
+	obj.texture = NULL;
 	if (create_pyra2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

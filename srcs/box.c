@@ -117,6 +117,7 @@ int						create_box(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_box;
 	obj.inter = &inter_box;
+	obj.texture = NULL;
 	if (create_box2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

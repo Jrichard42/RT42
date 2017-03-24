@@ -80,6 +80,7 @@ static int			create_plane2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_as_vector3f(token, "DIR", &(PLANE->dir)))
 		return ((int)ft_error("The PLANE should contain a field DIR"));
 	PLANE->dir = normalize_vector3f(PLANE->dir);
+
 	return (1);
 }
 
@@ -92,6 +93,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_plane;
 	obj.inter = &inter_plane;
 	obj.texture = &plane_tex;
+	obj.tex = create_texture(1024, 1024, "WOOD");
 	if (create_plane2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

@@ -88,6 +88,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_sphere;
 	obj.inter = &inter_sphere;
 	obj.texture = &sphere_tex;
+	obj.tex = create_texture(1024, 1024, "MARBLE");
 	if (create_sphere2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

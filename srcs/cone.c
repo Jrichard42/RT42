@@ -122,7 +122,7 @@ int						create_cone(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_cone;
 	obj.inter = &inter_cone;
-	obj.texture = &cone_tex;
+	obj.texture = NULL;
 	if (create_cone2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else
