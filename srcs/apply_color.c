@@ -63,6 +63,27 @@ int				is_shadow(t_obj *obj
 	return (shadow);
 }
 
+static	double		fresnel(t_inter *inter, t_ray *ray)
+{
+	double		r0;
+	double		theta;
+	double		n;
+
+	r0 = powf((ray->ir - inter->obj->mat.ir) / (ray->ir +
+		inter->obj->mat.ir), 2.0);
+	theta = -dot_vector3f(inter->normal, ray->dir);
+	if (ray->ir > inter->obj->mat.ir)
+	{
+		n = (double)ray->ir / (double)inter->obj->mat.ir;
+		n = n * n * (1.0f - (theta * theta));
+		if (n < 1.0)
+			theta = sqrt(1.0 - n);
+	}
+	theta = 1.0f - theta;
+	r0 = r0 + (1.0f - r0) * theta * theta * theta * theta * theta;
+	return (r0);
+}
+
 static	t_vector3f	apply_light_annex(t_obj *obj,
 										t_ray *ray,
 										int rec_count,
@@ -71,33 +92,23 @@ static	t_vector3f	apply_light_annex(t_obj *obj,
 	t_vector3f 	color;
 	t_inter		inter;
 	double		r0;
-	double		theta;
-	double		n;
 	t_ray		ray_obj;
 
 	inter = get_inters(rt->objs->head, ray);
 	color = create_vector3f(0,0,0);
 	if (inter.obj != NULL)
 	{
-		r0 = powf((ray->ir - inter.obj->mat.ir) / (ray->ir + inter.obj->mat.ir), 2.0);
-		theta = -dot_vector3f(inter.normal, ray->dir);
-		if (ray->ir > inter.obj->mat.ir)
-		{
-			n = (double)ray->ir / (double)inter.obj->mat.ir;
-			n = n * n * (1.0f - (theta * theta));
-			if (n < 1.0)
-				theta = sqrt(1.0 - n);
-		}
-		theta = 1.0f - theta;
-		r0 = r0 + (1.0f - r0) * theta * theta * theta * theta * theta;
+		r0 = fresnel(&inter, ray);
 		ray_obj.start = inter.impact;
 		ray_obj.dir = normalize_vector3f(sub_vector3f(obj->pos, inter.impact));
 		if (is_shadow(obj, &inter, rt->objs->head, &ray_obj) != 1)
-			color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 1); // COULEUR DE BASE
+			color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 1);
 		if (rec_count)
 		{
-			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj, *ray, rec_count, rt), (0.33 + (1.0 - 0.33) * r0))); // COULEUR REFLEXION
-			color = add_vector3f(color, mult_vector3f(apply_refraction(obj, *ray, rec_count, rt), 1.0f - (0.33 + (1.0 - 0.33) * r0))); // COULEUR refraction
+			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj,
+				*ray, rec_count, rt), (1 + (1.0 - 1) * r0)));
+			color = add_vector3f(color, mult_vector3f(apply_refraction(obj,
+				*ray, rec_count, rt), 1.0f - (1 + (1.0 - 1) * r0)));
 		}
 	}
 	return (color);
