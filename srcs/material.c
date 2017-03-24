@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 12:49:13 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/23 14:38:06 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 15:19:58 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ static int		create_mat2(t_kvlexer *token, t_rt *rt, t_material *mat)
 {
 	(void)rt;
 	ft_strncpy(mat->name, token->value, 10);
+	if (ft_strlen(token->value) > 10)
+	{
+		ft_putstr("The MATERIAL name ");
+		ft_putstr(token->value);
+		ft_putstr(" is too long (10 characters max), it will be shortened to ");
+		ft_putendl(mat->name);
+	}
 	if (!get_as_vector3f(token, "AMBIENT", &(mat->ka)))
 		return ((int)ft_error("The MATERIAL should contain a field AMBIENT"));
 	if (!get_as_vector3f(token, "DIFFUSE", &(mat->kd)))

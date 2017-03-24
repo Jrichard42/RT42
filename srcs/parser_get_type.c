@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:07:58 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/23 16:55:35 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 15:06:12 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,13 @@ int				get_as_vector3f(t_kvlexer *token, char *str, t_vector3f *vec)
 			tmp = ft_strchr(field->value, ',');
 			if (tmp && *(++tmp))
 				vec->y = ft_atof(tmp);
+			else
+				return (0);
 			tmp = ft_strchr(tmp, ',');
 			if (tmp && *(++tmp))
 				vec->z = ft_atof(tmp);
+			else
+				return (0);
 			return (1);
 		}
 	}
@@ -58,6 +62,8 @@ int				get_as_vector2f(t_kvlexer *token, char *str, t_vector2f *vec)
 			tmp = ft_strchr(field->value, ',');
 			if (tmp && *(++tmp))
 				vec->y = ft_atof(tmp);
+			else
+				return (0);
 			return (1);
 		}
 	}

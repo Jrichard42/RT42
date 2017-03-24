@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/23 13:57:58 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/23 16:59:15 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 15:20:28 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ int				get_material(t_kvlexer *token, t_rt *rt, t_material *mat)
 					&search_key, "MATERIAL")))
 	{
 		mat_token = (t_kvlexer *)node->content;
-		if (mat_token->value && rt->materials)
+		if (mat_token->value)
 		{
-			if ((node = ft_lstsearch(rt->materials->head,
+			if (rt->materials && (node = ft_lstsearch(rt->materials->head,
 							&search_mat, mat_token->value)))
 				*mat = *((t_material *)node->content);
 			else
@@ -61,6 +61,7 @@ int				get_material(t_kvlexer *token, t_rt *rt, t_material *mat)
 		}
 		if (!modify_material(mat_token, mat))
 			return (0);
+		return (1);
 	}
-	return (1);
+	return (0);
 }
