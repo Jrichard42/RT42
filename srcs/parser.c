@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/24 18:06:35 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/26 16:21:37 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include "ft_kvlexer.h"
 #include "libft.h"
 
-static void				error_parser(char *str, char *type)
+void					error_parser(char *str, char *type)
 {
 	ft_putstr(str);
 	ft_putendl(type);
@@ -56,7 +56,10 @@ int						parser(char *name, t_rt *rt)
 
 	if (!(kvlexer = ft_kvlexer(name)))
 		return ((int)ft_error("Wrong file"));
-	current_child = kvlexer->children->head;
+	if (kvlexer->children)
+		current_child = kvlexer->children->head;
+	else
+		return (0);
 	while (current_child)
 	{
 		check_type((t_kvlexer *)current_child->content, rt);
@@ -78,7 +81,10 @@ int						parser_text_mat(t_kvlexer *token, t_rt *rt)
 
 	if (!(kvlexer = ft_kvlexer(token->value)))
 		return ((int)ft_error("Wrong file"));
-	current_node = kvlexer->children->head;
+	if (kvlexer->children)
+		current_node = kvlexer->children->head;
+	else
+		return (0);
 	while (current_node)
 	{
 		current_child = (t_kvlexer *)current_node->content;

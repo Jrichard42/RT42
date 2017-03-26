@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:10:52 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/24 15:06:37 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/26 16:57:00 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int				get_as_int(t_kvlexer *token, char *str, int *i)
 	return (0);
 }
 
-int				get_as_string(t_kvlexer *token, char *str, char *string)
+int				get_as_string(t_kvlexer *token, char *str, char **string)
 {
 	t_list		*node;
 	t_kvlexer	*field;
@@ -37,9 +37,9 @@ int				get_as_string(t_kvlexer *token, char *str, char *string)
 		&search_key, str)))
 	{
 		field = (t_kvlexer *)node->content;
-		if (!(string = ft_strdup(field->value)))
+		if (!(*string = ft_strdup(field->value)))
 			return (0);
 		return (1);
 	}
-	return (1);
+	return (0);
 }

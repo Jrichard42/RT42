@@ -6,13 +6,26 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/24 18:27:41 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/26 17:43:20 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "texture.h"
 #include "parser.h"
 #include "libft.h"
+
+int	tex_wood(t_kvlexer *token, t_rt *rt, t_texture *tex)
+{
+	printf("Creating tex wood\n");
+}
+int	tex_marble(t_kvlexer *token, t_rt *rt, t_texture *tex)
+{
+	printf("Creating tex marble\n");
+}
+int	tex_sky(t_kvlexer *token, t_rt *rt, t_texture *tex)
+{
+	printf("Creating tex sky\n");
+}
 
 int				search_tex(t_list *node, void *data)
 {
@@ -21,24 +34,33 @@ int				search_tex(t_list *node, void *data)
 	return (0);
 }
 
-static void		check_type()
+static int					check_type(t_kvlexer *token, t_rt *rt, t_texture *tex)
 {
-	static t_ptr_type	ptr_type[12] = {{"SPHERE\0", &create_sphere},
-	int					i;
+	static t_ptr_tex_type	ptr_tex_type[4] = {{"WOOD\0", &tex_wood},
+											{"MARBLE\0", &tex_marble},
+											{"SKY\0", &tex_sky},
+											{"DAMIER\0", &tex_damier}};
+											//{"PERLIN\0", &tex_perlin}};
+	int						i;
+	char					*type;
 
 	i = 0;
-	while (i < 12)
+	type = NULL;
+	if (!get_as_string(token, "TYPE", &type))
+		return ((int)ft_error("The TEXTURE should contain a field TYPE"));
+	while (i < 4)
 	{
-		if (!ft_strcmp(token->key, ptr_type[i].type))
+		if (!ft_strcmp(type, ptr_tex_type[i].type))
 		{
-			if (!ptr_type[i].create(token, rt) && i != 11)
-				error_parser("Unable to create the obj ", token->key);
+			if (!ptr_tex_type[i].create(token, rt, tex))
+				error_parser("Unable to create the texture ", tex->name);
 			break ;
 		}
 		++i;
 	}
-	if (i == 12)
-		error_parser("Unknown obj ", token->key);
+	if (i == 4)
+		error_parser("Unknown texture type ", type);
+	return (1);
 }
 
 static int		create_tex2(t_kvlexer *token, t_rt *rt, t_texture *tex)
@@ -51,10 +73,7 @@ static int		create_tex2(t_kvlexer *token, t_rt *rt, t_texture *tex)
 		ft_putstr(" is too long (10 characters max), it will be shortened to ");
 		ft_putendl(tex->name);
 	}
-	if (WOOD)
-		wood();
-	else if (DAMIER)
-		damier(token, tex);
+	check_type(token, rt, tex);
 	return (1);
 }
 
@@ -65,7 +84,6 @@ int				create_tex(t_kvlexer *token, t_rt *rt)
 
 	if (token->value)
 	{
-		printf("flibili\n");
 		if (rt->textures && (node = ft_lstsearch(rt->textures->head,
 						&search_tex, token->value)))
 		{

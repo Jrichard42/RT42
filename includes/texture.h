@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:18:41 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/24 17:49:33 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/26 17:43:22 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,20 @@
 typedef struct	s_texture
 {
 	char		name[11];
-	t_vector2i	size;
+	int			width;
+	int			height;
 	t_vector3f	**data;
 }				t_texture;
 
+typedef struct	s_ptr_tex_type
+{
+	char		type[10];
+	int			(*create)(t_kvlexer *, t_rt *, t_texture*);
+}				t_ptr_tex_type;
+
 int				create_tex(t_kvlexer *token, t_rt *rt);
 int				search_tex(t_list *node, void *data);
+int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex);
+
 
 #endif
