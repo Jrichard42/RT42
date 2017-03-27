@@ -32,6 +32,19 @@ int tex_perlin(t_kvlexer *token, t_rt *rt, t_texture *tex)
 	printf("Creating tex perlin\n");
 }
 
+t_vector3f		get_tex_point(t_texture tex, float u, float v)
+{
+	t_vector3f	color;
+	int			x;
+	int 		y;
+
+	x = abs((int)(u * tex.width));
+	y = abs((int)(v * tex.height));
+	color = tex.data[y % tex.height][x % tex.width];
+	//color = bilinear_filter(tex, x, y, 8);
+	return (color);
+}
+
 int							search_tex(t_list *node, void *data)
 {
 	if (!ft_strcmp(((t_texture *)node->content)->name, (char *)data))

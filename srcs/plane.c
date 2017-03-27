@@ -14,7 +14,30 @@
 #include "plane.h"
 #include "quadratic.h"
 #include "parser.h"
+#include "inter.h"
+#include "obj.h"
 #define PLANE ((t_plane *)obj->data)
+
+static	t_vector3f	plane_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		pos;
+	t_vector3f		color;
+	t_vector3f		ua;
+	t_vector3f		va;
+	t_vector3f		uv;
+
+	//pos = sub_vector3f(inter.impact, self->pos);
+	//pos = normalize_vector3f(pos);
+	ua = create_vector3f(((t_plane *)self->data)->dir.y,
+			((t_plane *)self->data)->dir.z, -((t_plane *)self->data)->dir.x);
+	va = cross_vector3f(ua, ((t_plane *)self->data)->dir);
+	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / self->tex.width);
+	uv.y = dot_vector3f(inter.impact, va) * (1.0f / self->tex.height);
+	uv.z = 0;
+	//uv = normalize_vector3f(uv);
+	color = get_tex_point(self->tex, uv.x, uv.y);
+	return (color);
+}
 
 static float		inter_plane(t_obj *obj, t_ray *ray)
 {
@@ -67,6 +90,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_plane;
 	obj.inter = &inter_plane;
+	obj.texture = &plane_tex;
 	if (create_plane2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

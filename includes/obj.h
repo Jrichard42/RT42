@@ -16,6 +16,7 @@
 # include "ray.h"
 # include "material.h"
 # include "light.h"
+# include "texture.h"
 
 typedef struct s_light	t_light;
 
@@ -28,8 +29,10 @@ typedef	struct			s_obj
 	int					is_visible;
 	t_light				light;
 	void				*data;
+	t_texture			tex;
 	float				(*inter)(struct s_obj *, t_ray *);
 	t_vector3f			(*normal)(struct s_obj *, t_vector3f *);
+	t_vector3f			(*texture)(struct s_obj *, t_inter);
 }						t_obj;
 
 #endif
