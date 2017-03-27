@@ -61,8 +61,10 @@ int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex)
 	t_vector2f	size_tmp;
 	t_vector3f	case_color_1;
 	t_vector3f	case_color_2;
+	int			y;
 	int			case_size;
 
+	y = 0;
 	if (get_as_vector2f(token, "SIZE", &size_tmp) == 0)
 		return((int)ft_error("The DAMIER should contain a field SIZE"));
 	if (get_as_vector3f(token, "COLOR_1", &case_color_1) == 0)
@@ -73,9 +75,12 @@ int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex)
 		return((int)ft_error("The DAMIER should contain a field CASE_SIZE"));
 	tex->width = size_tmp.x;
 	tex->height = size_tmp.y;
-	if (!(tex->data = ft_memalloc(sizeof(t_vector3f) * (tex->width * tex->height))))
-		return (0);
-	printf("tooto\n");
+	tex->data = malloc(sizeof(t_vector3f *) * tex->height);
+	while (y < tex->height)
+	{
+		tex->data[y] = malloc(sizeof(t_vector3f) * tex->width);
+		y++;
+	}
 	fill_texture_damier(tex, case_size, &case_color_1, &case_color_2);
-	printf("tooto\n");
+	return (1);
 }
