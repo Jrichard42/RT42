@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/24 17:28:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 15:22:53 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,9 @@ static t_vector3f	normal_plane(struct s_obj *obj, t_vector3f *impact)
 static int			create_plane2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	if (!get_material(token, rt, &(obj->mat)))
-		return (0);
+		return ((int)ft_error("The PLANE should contain a field MATERIAL"));
+	if (!get_texture(token, rt, &(obj->tex)))
+		return ((int)ft_error("The PLANE should contain a field TEXTURE"));
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The PLANE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))

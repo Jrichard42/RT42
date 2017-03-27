@@ -12,6 +12,7 @@ SCENE
 		ID=10
 		DIR=0,0,-1
 		MATERIAL=toto
+		TEXTURE=damier
 	LIGHT
 		POS=0,0,-50
 		ID=11
