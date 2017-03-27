@@ -18,41 +18,39 @@
 
 static void		fill_texture_damier(t_texture *tex, int case_size, t_vector3f *color_1, t_vector3f *color_2)
 {
-	int 		count_x;
-	int 		count_y;
-	int 		nb_case_x;
-	int 		nb_case_y;
+	t_vector2i	count;
+	t_vector2i	nb_case;
 	t_vector2i 	tmp_pos;
 
-	count_y = 0;
-	nb_case_x = tex->width / case_size;
-	nb_case_y = tex->height / case_size;
-	tmp_pos.y = 0;
-	while (count_y < nb_case_y)
+	count.y = 0;
+	nb_case.x = tex->width / case_size;
+	nb_case.y = tex->height / case_size;
+	while (count.y < nb_case.y)
 	{
-		count_x = 0;
-		while (count_x < nb_case_x)
+		count.x = 0;
+		while (count.x < nb_case.x)
 		{
+			tmp_pos.y = 0;
 			while (tmp_pos.y < case_size)
 			{
 				tmp_pos.x = 0;
 				while (tmp_pos.x < case_size)
 				{
-					if (count_x % 2 == 0 && count_y % 2 == 0)
-						tex->data[tmp_pos.y + (count_y * case_size)][tmp_pos.x + (count_x * case_size)] = *color_1;
-					else if (count_x % 2 != 0 && count_y % 2 == 0)
-						tex->data[tmp_pos.y + (count_y * case_size)][tmp_pos.x + (count_x * case_size)] = *color_2;
-					else if (count_x % 2 == 0 && count_y % 2 != 0)
-						tex->data[tmp_pos.y + (count_y * case_size)][tmp_pos.x + (count_x * case_size)] = *color_2;
-					else if (count_x % 2 != 0 && count_y % 2 != 0)
-						tex->data[tmp_pos.y + (count_y * case_size)][tmp_pos.x + (count_x * case_size)] = *color_1;
+					if (count.x % 2 == 0 && count.y % 2 == 0)
+						tex->data[tmp_pos.y + (count.y * case_size)][tmp_pos.x + (count.x * case_size)] = *color_1;
+					else if (count.x % 2 != 0 && count.y % 2 == 0)
+						tex->data[tmp_pos.y + (count.y * case_size)][tmp_pos.x + (count.x * case_size)] = *color_2;
+					else if (count.x % 2 == 0 && count.y % 2 != 0)
+						tex->data[tmp_pos.y + (count.y * case_size)][tmp_pos.x + (count.x * case_size)] = *color_2;
+					else if (count.x % 2 != 0 && count.y % 2 != 0)
+						tex->data[tmp_pos.y + (count.y * case_size)][tmp_pos.x + (count.x * case_size)] = *color_1;
 					++tmp_pos.x;
 				}
 				++tmp_pos.y;
 			}
-			++count_x;
+			++count.x;
 		}
-		++count_y;
+		++count.y;
 	}
 }
 
