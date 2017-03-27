@@ -15,21 +15,17 @@
 #include "light.h"
 #include "bruit_perlin.h"
 
-void			rand_noise(double noise[WIN_Y][WIN_X])
+void			rand_noise(double ***noise, t_vector2f size)
 {
 	int		x;
 	int		y;
 
-	y = 0;
-	while (y < WIN_Y)
+	y = -1;
+	while (++y < size.y)
 	{
-		x = 0;
-		while (x < WIN_X)
-		{
-			noise[y][x] = (lrand48() % 32768) / 32768.0;
-			x++;
-		}
-		y++;
+		x = -1;
+		while (++x < size.x)
+			*noise[y][x] = (lrand48() % 32768) / 32768.0;
 	}
 }
 
@@ -75,19 +71,29 @@ double			turbulence(double x,
 	return (128.0 * value / initial_size);
 }
 
-t_vector3f		bruit_perlin(t_vector2f pixel, char *type)
+// t_vector3f		bruit_perlin(t_kvlexer *token, t_rt, *rt, t_texture *tex)
+
+int			bruit_perlin(t_vector2f size, char *type, double ***noise)
 {
 	static	int		marque;
-	static	double	noise[WIN_Y][WIN_X];
 	t_vector3f		color;
+	t_vector2f		point;
 
 	if (marque != 1)
 	{
-		rand_noise(noise);
+		point.y = -1;
+		if (!(*noise = (t_vector3f **)malloc(sizeof(t_vector3f *) * size.y)))
+			return (-1);
+		while (++point.y < size.y)
+		{
+			point.x = 0;
+			if (!(*noise[(int)point.y] = (t_vector3f *)malloc(sizeof(t_vector3f) * size.x)))
+				return (-1);
+			while (point.x < size.x)
+				point.x++;
+		}
+		rand_noise(noise, size);
 		marque = 1;
 	}
-	// if (pixel.x <= 1920 && pixel.y <= 1080)
-	color = select_texture(type, pixel, noise);
-	// cap_light(&color);
-	return (color);
+	return (1);
 }
