@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/26 15:16:37 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/27 13:21:39 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 14:37:32 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,9 @@ int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex)
 		return((int)ft_error("The DAMIER should contain a field CASE_SIZE"));
 	tex->width = size_tmp.x;
 	tex->height = size_tmp.y;
+	if (!(tex->data = ft_memalloc(sizeof(t_vector3f) * (tex->width * tex->height))))
+		return (0);
+	printf("tooto\n");
 	fill_texture_damier(tex, case_size, &case_color_1, &case_color_2);
+	printf("tooto\n");
 }
