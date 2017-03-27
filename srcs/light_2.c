@@ -6,13 +6,12 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 15:12:17 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/24 15:12:18 by abitoun          ###   ########.fr       */
+/*   Updated: 2017/03/27 17:38:01 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inter.h"
 #include "libft.h"
-#include "procedurale.h"
 #include "parser.h"
 
 static float			specular_light(t_obj *obj, t_inter *inter, t_ray *ray)

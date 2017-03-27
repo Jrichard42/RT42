@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/26 16:57:40 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/27 17:37:00 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,6 @@ SRC 			= 	main.c \
 					damier.c \
 					rt.c \
 					utils.c \
-					procedurale.c \
 					torus.c \
 					box.c \
 					equationpoly1.c \
