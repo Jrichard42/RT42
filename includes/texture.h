@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:18:41 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/26 17:43:22 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 13:27:08 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct	s_ptr_tex_type
 
 int				create_tex(t_kvlexer *token, t_rt *rt);
 int				search_tex(t_list *node, void *data);
+int				check_type_tex(t_kvlexer *token, t_rt *rt, t_texture *tex);
 int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex);
 
 

@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/26 17:43:20 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 13:25:54 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,20 +27,26 @@ int	tex_sky(t_kvlexer *token, t_rt *rt, t_texture *tex)
 	printf("Creating tex sky\n");
 }
 
-int				search_tex(t_list *node, void *data)
+int tex_perlin(t_kvlexer *token, t_rt *rt, t_texture *tex)
+{
+	printf("Creating tex perlin\n");
+}
+
+int							search_tex(t_list *node, void *data)
 {
 	if (!ft_strcmp(((t_texture *)node->content)->name, (char *)data))
 		return (1);
 	return (0);
 }
 
-static int					check_type(t_kvlexer *token, t_rt *rt, t_texture *tex)
+int							check_type_tex(t_kvlexer *token, t_rt *rt,
+		t_texture *tex)
 {
-	static t_ptr_tex_type	ptr_tex_type[4] = {{"WOOD\0", &tex_wood},
+	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", &tex_wood},
 											{"MARBLE\0", &tex_marble},
 											{"SKY\0", &tex_sky},
-											{"DAMIER\0", &tex_damier}};
-											//{"PERLIN\0", &tex_perlin}};
+											{"DAMIER\0", &tex_damier},
+											{"PERLIN\0", &tex_perlin}};
 	int						i;
 	char					*type;
 
@@ -48,7 +54,7 @@ static int					check_type(t_kvlexer *token, t_rt *rt, t_texture *tex)
 	type = NULL;
 	if (!get_as_string(token, "TYPE", &type))
 		return ((int)ft_error("The TEXTURE should contain a field TYPE"));
-	while (i < 4)
+	while (i < 5)
 	{
 		if (!ft_strcmp(type, ptr_tex_type[i].type))
 		{
@@ -58,7 +64,7 @@ static int					check_type(t_kvlexer *token, t_rt *rt, t_texture *tex)
 		}
 		++i;
 	}
-	if (i == 4)
+	if (i == 5)
 		error_parser("Unknown texture type ", type);
 	return (1);
 }
@@ -73,7 +79,7 @@ static int		create_tex2(t_kvlexer *token, t_rt *rt, t_texture *tex)
 		ft_putstr(" is too long (10 characters max), it will be shortened to ");
 		ft_putendl(tex->name);
 	}
-	check_type(token, rt, tex);
+	check_type_tex(token, rt, tex);
 	return (1);
 }
 

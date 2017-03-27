@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/23 14:00:00 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/24 17:49:02 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 13:26:16 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 			}
 		}
 		else
-		{
-			//parse_tex()
-		}
+			check_type_tex(token, rt, tex);
 		return (1);
 	}
 	return (0);
