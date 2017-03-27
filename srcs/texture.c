@@ -27,30 +27,6 @@ static t_vector3f			**create_texture_tab(const int w, const int h, const char *t
 	}
 	return (texture);
 }
-static t_vector3f			bilinear_filter(t_tex tex, int x, int y, int fac)
-{
-	t_vector3f				color;
-	int 					i;
-	int 					j;
-
-
-	color = tex.data[y % tex.height][x % tex.width];
-	j = 0;
-	while (j < fac)
-	{
-		i = 0;
-		while (i < fac)
-		{
-			color = add_vector3f(color,
-							tex.data[abs(((y + (j - (fac / 2))) % tex.height))]
-							[abs(((x + (i - (fac / 2))) % tex.width))]);
-			color = div_vector3f(color, 2);
-			++i;
-		}
-		++j;
-	}
-	return (color);
-}
 
 t_tex			create_texture(const int w, const int h, const char *type)
 {
@@ -73,9 +49,15 @@ t_vector3f		get_tex_point(t_tex tex, float u, float v)
 	int			x;
 	int 		y;
 
-	x = abs((int)(u * tex.width));
-	y = abs((int)(v * tex.height));
-	//color = tex.data[y][x];
-	color = bilinear_filter(tex, x, y, 8);
+	if (u < 0.0f)
+		x = (int)(((1.0f - ((int)u - u))) * tex.width);
+	else
+		x = (int)(u * tex.width);
+	if (v < 0.0f)
+		y = (int)(((1.0f - ((int)v - v))) * tex.height);
+	else
+		y = (int)(v * tex.height);
+	color = tex.data[y % tex.height][x % tex.width];
+
 	return (color);
 }
