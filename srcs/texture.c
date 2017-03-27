@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 15:17:30 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 16:27:57 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,11 @@
 #include "parser.h"
 #include "libft.h"
 
-int	tex_wood(t_kvlexer *token, t_rt *rt, t_texture *tex)
+t_vector3f					get_tex_point(t_texture tex, float u, float v)
 {
-	printf("Creating tex wood\n");
-}
-int	tex_marble(t_kvlexer *token, t_rt *rt, t_texture *tex)
-{
-	printf("Creating tex marble\n");
-}
-int	tex_sky(t_kvlexer *token, t_rt *rt, t_texture *tex)
-{
-	printf("Creating tex sky\n");
-}
-
-int tex_perlin(t_kvlexer *token, t_rt *rt, t_texture *tex)
-{
-	printf("Creating tex perlin\n");
-}
-
-t_vector3f		get_tex_point(t_texture tex, float u, float v)
-{
-	t_vector3f	color;
-	int			x;
-	int 		y;
+	t_vector3f				color;
+	int						x;
+	int						y;
 
 	x = abs((int)(u * tex.width));
 	y = abs((int)(v * tex.height));
@@ -55,11 +37,9 @@ int							search_tex(t_list *node, void *data)
 int							check_type_tex(t_kvlexer *token, t_rt *rt,
 		t_texture *tex)
 {
-	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", &tex_wood},
-											{"MARBLE\0", &tex_marble},
-											{"SKY\0", &tex_sky},
-											{"DAMIER\0", &tex_damier},
-											{"PERLIN\0", &tex_perlin}};
+	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", NULL},
+						{"MARBLE\0", NULL}, {"SKY\0", NULL},
+						{"DAMIER\0", &tex_damier}, {"PERLIN\0", NULL}};
 	int						i;
 	char					*type;
 
@@ -72,17 +52,19 @@ int							check_type_tex(t_kvlexer *token, t_rt *rt,
 		if (!ft_strcmp(type, ptr_tex_type[i].type))
 		{
 			if (!ptr_tex_type[i].create(token, rt, tex))
-				error_parser("Unable to create the texture ", tex->name);
-			break ;
+				return (error_parser("Unable to create the texture ",
+							tex->name));
+				break ;
 		}
 		++i;
 	}
 	if (i == 5)
-		error_parser("Unknown texture type ", type);
+		return (error_parser("Unknown texture type ", type));
 	return (1);
 }
 
-static int		create_tex2(t_kvlexer *token, t_rt *rt, t_texture *tex)
+static int					create_tex2(t_kvlexer *token, t_rt *rt,
+		t_texture *tex)
 {
 	ft_strncpy(tex->name, token->value, 10);
 	if (ft_strlen(token->value) > 10)
@@ -96,10 +78,10 @@ static int		create_tex2(t_kvlexer *token, t_rt *rt, t_texture *tex)
 	return (1);
 }
 
-int				create_tex(t_kvlexer *token, t_rt *rt)
+int							create_tex(t_kvlexer *token, t_rt *rt)
 {
-	t_texture	tex;
-	t_list		*node;
+	t_texture				tex;
+	t_list					*node;
 
 	if (token->value)
 	{

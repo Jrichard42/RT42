@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/23 14:00:00 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 15:18:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 16:28:15 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 {
 	t_list		*node;
-	t_kvlexer	*tex_token;	
+	t_kvlexer	*tex_token;
 
 	if (token->children && (node = ft_lstsearch(token->children->head,
 					&search_key, "TEXTURE")))
@@ -36,8 +36,7 @@ int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 			}
 		}
 		else
-			check_type_tex(token, rt, tex);
-		return (1);
+			return (check_type_tex(tex_token, rt, tex));
 	}
 	return (0);
 }

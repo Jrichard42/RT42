@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:32 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 15:14:43 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 16:22:16 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct	s_ptr_type
 }				t_ptr_type;
 
 int				parser(char *name, t_rt *rt);
-void			error_parser(char *str, char *type);
+int				error_parser(char *str, char *type);
 int				parser_text_mat(t_kvlexer *token, t_rt *rt);
 int				search_key(t_list *node, void *data);
 int				get_as_vector3f(t_kvlexer *token, char *str, t_vector3f *vec);

@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 15:15:50 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 16:20:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 #include "ft_kvlexer.h"
 #include "libft.h"
 
-void					error_parser(char *str, char *type)
+int						error_parser(char *str, char *type)
 {
 	ft_putstr(str);
 	ft_putendl(type);
+	return (0);
 }
 
 static void				check_type(t_kvlexer *token, t_rt *rt)
