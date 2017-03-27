@@ -35,7 +35,7 @@ static t_vector3f			bilinear_filter(t_tex tex, int x, int y, int fac)
 
 
 	color = tex.data[y % tex.height][x % tex.width];
-	j = 0;
+	/*j = 0;
 	while (j < fac)
 	{
 		i = 0;
@@ -48,7 +48,7 @@ static t_vector3f			bilinear_filter(t_tex tex, int x, int y, int fac)
 			++i;
 		}
 		++j;
-	}
+	}*/
 	return (color);
 }
 
@@ -73,9 +73,14 @@ t_vector3f		get_tex_point(t_tex tex, float u, float v)
 	int			x;
 	int 		y;
 
-	x = abs((int)(u * tex.width));
-	y = abs((int)(v * tex.height));
-	//color = tex.data[y][x];
+	if (u < 0.0f)
+		x = (int)(((1.0f - ((int)u - u))) * tex.width);
+	else
+		x = (int)(u * tex.width);
+	if (v < 0.0f)
+		y = (int)(((1.0f - ((int)v - v))) * tex.height);
+	else
+		y = (int)(v * tex.height);
 	color = bilinear_filter(tex, x, y, 8);
 	return (color);
 }
