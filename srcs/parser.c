@@ -6,13 +6,14 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/13 16:39:25 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/26 16:21:37 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/27 13:29:38 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 #include "obj_types.h"
 #include "material.h"
+#include "texture.h"
 #include "parser.h"
 #include "ft_kvlexer.h"
 #include "libft.h"
