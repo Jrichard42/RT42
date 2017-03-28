@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/26 15:16:37 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/27 14:37:32 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/28 15:29:15 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void		fill_texture_damier(t_texture *tex, int case_size, t_vector3f *colo
 	}
 }
 
-int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex)
+int				tex_damier(t_kvlexer *token, t_texture *tex)
 {
 	t_vector2f	size_tmp;
 	t_vector3f	case_color_1;

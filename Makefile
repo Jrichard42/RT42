@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/28 15:01:16 by jrichard         ###   ########.fr        #
+#    Updated: 2017/03/28 15:23:21 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME			= rt
 LIBFT			= lib/libft/
 LIBFTMATRIX		= lib/libft_matrix/
 SDL				= sdl/SDL/lib
-SDL_PATH		=$(shell pwd)/sdl/SDL
+SDL_PATH		= $(shell pwd)/sdl/SDL
 
 SRCDIR			= srcs/
 INCDIR			= includes/
@@ -77,7 +77,7 @@ $(NAME): $(OBJ)
 	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm -framework opencl
 
 %.o: $(SRCDIR)%.c
-	gcc -o $@ -c $< $(CFLAGS) -I$(INCDIR) -I$(LIBFT) -I$(LIBFTMATRIX) -I$(SDLINCDIR)
+	gcc -o $@ $(CFLAGS) -c $< -I$(INCDIR) -I$(LIBFT) -I$(LIBFTMATRIX) -I$(SDLINCDIR)
 
 clean:
 	rm -rf $(OBJ)
