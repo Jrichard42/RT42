@@ -46,6 +46,18 @@ int			create_camera(t_kvlexer *token, t_rt *rt)
 		return ((int)ft_error("The CAMERA should contain a field POS"));
 	if (!get_as_vector3f(token, "LOOKAT", &(rt->camera->lookatpoint)))
 		return ((int)ft_error("The CAMERA should contain a field LOOKAT"));
+	if (!get_as_int(token, "SAMPLING", &(rt->camera->sampling)))
+		rt->camera->sampling = 1;
+	if (rt->camera->sampling > 4)
+	{
+		ft_putstr("The sampling value has been resized to 4");
+		rt->camera->sampling = 4;
+	}
+	if (rt->camera->sampling < 1)
+	{
+		ft_putstr("The sampling value has been resized to 1");
+		rt->camera->sampling = 1;
+	}
 	fill_camera(rt);
 	return (1);
 }

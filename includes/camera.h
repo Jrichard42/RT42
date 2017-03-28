@@ -39,6 +39,7 @@ typedef	struct		s_camera
 	int				fov;
 	float			aspectratio;
 	float			n;
+	int				sampling;
 }					t_camera;
 
 int					create_camera(t_kvlexer *token, t_rt *rt);

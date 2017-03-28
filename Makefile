@@ -26,6 +26,7 @@ SRC 			= 	main.c \
 					cylinder.c \
 					light.c \
 					plane.c \
+					paraboloide.c \
 					sphere.c \
 					events.c \
 					parser.c \
@@ -59,10 +60,11 @@ SRC 			= 	main.c \
 					cylinder_mapping.c \
 					bruit_perlin.c \
 					hsl_to_rgb.c \
-					procedural_fonction.c \
 					texture.c \
 					disque.c \
 					fog.c \
+					wood.c
+
 
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -pthread -Ofast

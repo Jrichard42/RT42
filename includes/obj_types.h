@@ -26,5 +26,6 @@
 # include "pyramide.h"
 # include "disque.h"
 # include "fog.h"
+# include "paraboloide.h"
 
 #endif

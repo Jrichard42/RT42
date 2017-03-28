@@ -12,6 +12,7 @@
 
 #include "texture.h"
 #include "parser.h"
+#include "bruit_perlin.h"
 #include "libft.h"
 
 t_vector3f					get_tex_point(t_texture tex, float u, float v)
@@ -32,6 +33,22 @@ t_vector3f					get_tex_point(t_texture tex, float u, float v)
 	return (color);
 }
 
+int							malloc_tex(t_texture *tex)
+{
+	int y;
+
+	y = 0;
+	if (!(tex->data = malloc(sizeof(t_vector3f *) * tex->height)))
+		return (0);
+	while (y < tex->height)
+	{
+		if (!(tex->data[y] = malloc(sizeof(t_vector3f) * tex->width)))
+			return (0);
+		y++;
+	}
+	return (1);
+}
+
 int							search_tex(t_list *node, void *data)
 {
 	if (!ft_strcmp(((t_texture *)node->content)->name, (char *)data))
@@ -43,7 +60,7 @@ int							check_type_tex(t_kvlexer *token, t_texture *tex)
 {
 	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", NULL},
 						{"MARBLE\0", NULL}, {"SKY\0", NULL},
-						{"DAMIER\0", &tex_damier}, {"PERLIN\0", NULL}};
+						{"DAMIER\0", &damier_tex}, {"PERLIN\0", NULL}};
 	int						i;
 	char					*type;
 
@@ -56,14 +73,21 @@ int							check_type_tex(t_kvlexer *token, t_texture *tex)
 		if (!ft_strcmp(type, ptr_tex_type[i].type))
 		{
 			if (!ptr_tex_type[i].create(token, tex))
+			{
 				return (error_parser("Unable to create the texture ",
 							tex->name));
-				break ;
+				ft_strdel(&type);
+			}
+			break ;
 		}
 		++i;
 	}
 	if (i == 5)
+	{
+		ft_strdel(&type);
 		return (error_parser("Unknown texture type ", type));
+	}
+	ft_strdel(&type);
 	return (1);
 }
 

@@ -93,7 +93,7 @@ static void		fill_texture_damier(t_texture *tex, int case_size, t_vector3f *colo
 	}
 }
 
-int				tex_damier(t_kvlexer *token, t_texture *tex)
+int				damier_tex(t_kvlexer *token, t_texture *tex)
 {
 	t_vector2f	size_tmp;
 	t_vector3f	case_color_1;
@@ -113,12 +113,8 @@ int				tex_damier(t_kvlexer *token, t_texture *tex)
 	check_error_damier(&size_tmp, &case_size);
 	tex->width = size_tmp.x;
 	tex->height = size_tmp.y;
-	tex->data = malloc(sizeof(t_vector3f *) * tex->height);
-	while (y < tex->height)
-	{
-		tex->data[y] = malloc(sizeof(t_vector3f) * tex->width);
-		y++;
-	}
+	if (!malloc_tex(tex))
+		return (0);
 	fill_texture_damier(tex, case_size, &case_color_1, &case_color_2);
 	return (1);
 }

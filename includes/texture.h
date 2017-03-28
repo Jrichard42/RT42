@@ -33,7 +33,8 @@ typedef struct	s_ptr_tex_type
 int				create_tex(t_kvlexer *token, t_rt *rt);
 int				search_tex(t_list *node, void *data);
 int				check_type_tex(t_kvlexer *token, t_texture *tex);
-int				tex_damier(t_kvlexer *token, t_texture *tex);
+int				damier_tex(t_kvlexer *token, t_texture *tex);
+int				malloc_tex(t_texture *tex);
 t_vector3f		get_tex_point(t_texture tex, float u, float v);
 
 #endif

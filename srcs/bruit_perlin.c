@@ -15,27 +15,24 @@
 #include "light.h"
 #include "bruit_perlin.h"
 
-void			rand_noise(double noise[WIN_Y][WIN_X])
+void			rand_noise(double ***noise, t_vector2f size)
 {
 	int		x;
 	int		y;
 
-	y = 0;
-	while (y < WIN_Y)
+	y = -1;
+	while (++y < size.y)
 	{
-		x = 0;
-		while (x < WIN_X)
-		{
-			noise[y][x] = (lrand48() % 32768) / 32768.0;
-			x++;
-		}
-		y++;
+		x = -1;
+		while (++x < size.x)
+			(*noise)[y][x] = (lrand48() % 32768) / 32768.0;
 	}
 }
 
 double			smooth_noise(double x,
 								double y,
-								double noise[WIN_Y][WIN_X])
+								double **noise,
+								t_vector2f size)
 {
 	double		fract_x;
 	double		fract_y;
@@ -45,10 +42,10 @@ double			smooth_noise(double x,
 
 	fract_x = x - (int)x;
 	fract_y = y - (int)y;
-	tmp1.x = ((int)x + WIN_X) % WIN_X;
-	tmp1.y = ((int)y + WIN_Y) % WIN_Y;
-	tmp2.x = (tmp1.x + WIN_X - 1) % WIN_X;
-	tmp2.y = (tmp1.y + WIN_Y - 1) % WIN_Y;
+	tmp1.x = ((int)x + (int)size.x) % (int)size.x;
+	tmp1.y = ((int)y + (int)size.y) % (int)size.y;
+	tmp2.x = (tmp1.x + (int)size.x - 1) % (int)size.x;
+	tmp2.y = (tmp1.y + (int)size.y - 1) % (int)size.y;
 	value = 0.0;
 	value += fract_x * fract_y * noise[tmp1.y][tmp1.x];
 	value += (1 - fract_x) * fract_y * noise[tmp1.y][tmp2.x];
@@ -57,10 +54,10 @@ double			smooth_noise(double x,
 	return (value);
 }
 
-double			turbulence(double x,
-							double y,
+double			turbulence(t_vector2f pixel,
 							double size,
-							double noise[WIN_Y][WIN_X])
+							double **noise,
+							t_vector2f size_tex)
 {
 	double		value;
 	double		initial_size;
@@ -69,25 +66,27 @@ double			turbulence(double x,
 	value = 0.0;
 	while (size >= 1)
 	{
-		value += smooth_noise(x / size, y / size, noise) * size;
+		value += smooth_noise(pixel.x / size, pixel.y / size, noise, size_tex) * size;
 		size /= 2.0;
 	}
 	return (128.0 * value / initial_size);
 }
 
-t_vector3f		bruit_perlin(t_vector2f pixel, char *type)
-{
-	static	int		marque;
-	static	double	noise[WIN_Y][WIN_X];
-	t_vector3f		color;
+// t_vector3f		bruit_perlin(t_kvlexer *token, t_rt, *rt, t_texture *tex)
 
-	if (marque != 1)
+int			bruit_perlin(t_vector2f size, double ***noise)
+{
+	int		y;
+
+	y = 0;
+	if (!(*noise = (double **)malloc(sizeof(double *) * size.y)))
+		return (0);
+	while (y < size.y)
 	{
-		rand_noise(noise);
-		marque = 1;
+		if (!((*noise)[y] = (double *)malloc(sizeof(double) * size.x)))
+			return (0);
+		y++;
 	}
-	// if (pixel.x <= 1920 && pixel.y <= 1080)
-	color = select_texture(type, pixel, noise);
-	// cap_light(&color);
-	return (color);
+	rand_noise(noise, size);
+	return (1);
 }
