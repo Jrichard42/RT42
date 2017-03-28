@@ -23,6 +23,7 @@ typedef	struct	s_perlin
 	t_vector3f	color3;
 }				t_perlin;
 
+t_vector3f		bruit_perlin(t_vector2f pixel, char *type);
 unsigned int	marble(t_vector2f pixel, double noise[WIN_Y][WIN_X]);
 unsigned int	wood(t_vector2f pixel, double noise[WIN_Y][WIN_X]);
 t_vector3f		hsl_to_rgb(float h, float s, float l);

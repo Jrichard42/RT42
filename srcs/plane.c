@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/27 16:10:33 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/28 15:07:20 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "quadratic.h"
 #include "parser.h"
 #include "inter.h"
-#include "obj.h"
+
 #define PLANE ((t_plane *)obj->data)
 
 static	t_vector3f	plane_tex(t_obj *self, t_inter inter)
@@ -39,7 +39,7 @@ static	t_vector3f	plane_tex(t_obj *self, t_inter inter)
 	return (color);
 }
 
-static float		inter_plane(t_obj *obj, t_ray *ray)
+static 	float		inter_plane(t_obj *obj, t_ray *ray)
 {
 	t_quadratic		var;
 	t_vector3f		tmp;
@@ -81,6 +81,7 @@ static int			create_plane2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_as_vector3f(token, "DIR", &(PLANE->dir)))
 		return ((int)ft_error("The PLANE should contain a field DIR"));
 	PLANE->dir = normalize_vector3f(PLANE->dir);
+
 	return (1);
 }
 
@@ -100,5 +101,6 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 		free(obj.data);
 		return (0);
 	}
+	//obj->tex = create_texture(1024, 1024, "WOOD");
 	return (1);
 }

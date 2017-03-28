@@ -86,8 +86,8 @@ t_vector3f		bruit_perlin(t_vector2f pixel, char *type)
 		rand_noise(noise);
 		marque = 1;
 	}
-	if (pixel.y <= 1920 && pixel.y <= 1080)
-		color = select_texture(type, pixel, noise);
-	cap_light(&color);
+	// if (pixel.x <= 1920 && pixel.y <= 1080)
+	color = select_texture(type, pixel, noise);
+	// cap_light(&color);
 	return (color);
 }

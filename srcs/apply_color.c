@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:48:35 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/16 15:06:10 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:59:18 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #include "reflexion.h"
 #include "refraction.h"
 #define RECURSION_MAX 5
+#include "apply_color.h"
+#include "bruit_perlin.h"
 
 void					put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
@@ -102,6 +104,7 @@ static	t_vector3f		apply_light_annex(t_obj *obj,
 		ray_obj.dir = normalize_vector3f(sub_vector3f(obj->pos, inter.impact));
 		if (is_shadow(obj, &inter, rt->objs->head, &ray_obj) != 1)
 			color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 1);
+
 		if (rec_count)
 		{
 			if (inter.obj->mat.reflect != 0)
@@ -112,6 +115,7 @@ static	t_vector3f		apply_light_annex(t_obj *obj,
 				*ray, rec_count, rt), (inter.obj->mat.refract + (1.0 - inter.obj->mat.refract) * r0)));
 		}
 	}
+	// faudrais voir pour la mettre ici
 	return (color);
 }
 

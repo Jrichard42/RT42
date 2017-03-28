@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 16:27:57 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/28 15:14:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,4 +108,7 @@ int							create_tex(t_kvlexer *token, t_rt *rt)
 	else
 		ft_error("Textures in the .mat file should have a name");
 	return (1);
+}
+		tex.data = NULL;
+	return (tex);
 }

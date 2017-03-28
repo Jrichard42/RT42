@@ -128,6 +128,7 @@ int						create_torus(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_torus;
 	obj.inter = &inter_torus;
+	obj.texture = NULL;
 	if (create_torus2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

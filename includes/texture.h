@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:18:41 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/27 15:14:01 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/28 15:04:33 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ int				search_tex(t_list *node, void *data);
 int				check_type_tex(t_kvlexer *token, t_rt *rt, t_texture *tex);
 int				tex_damier(t_kvlexer *token, t_rt *rt, t_texture *tex);
 t_vector3f		get_tex_point(t_texture tex, float u, float v);
-
 
 #endif

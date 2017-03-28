@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/23 15:16:12 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/24 17:50:21 by dbreton          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,14 @@
 #include "obj.h"
 #include "parser.h"
 #include "libft.h"
-#define CYLINDER ((t_cylinder *)obj->data)
+#define	CYLINDER ((t_cylinder *)obj->data)
 
-static float		inter_cylinder(t_obj *obj, t_ray *ray)
+static	t_vector3f	cyl_tex(t_obj *self, t_inter inter)
+{
+	return (create_vector3f(0, 0, 0));
+}
+
+static 	float		inter_cylinder(t_obj *obj, t_ray *ray)
 {
 	t_quadratic		var;
 	t_vector3f		tmp;
@@ -89,6 +94,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_cylinder;
 	obj.inter = &inter_cylinder;
+	obj.texture = NULL;
 	if (create_cylinder2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

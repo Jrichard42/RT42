@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/27 14:56:14 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/28 15:07:52 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 		free(obj.data);
 		return (0);
 	}
+	//obj->tex = create_texture(840, 840, "WOOD");
 	return (1);
 }
