@@ -20,6 +20,13 @@
 
 # define DIST_MAX 9999999.9f
 
+typedef struct		s_fog
+{
+	float			type;
+	float			distance;
+	t_vector3f		color;
+}					t_fog;
+
 typedef struct s_camera	t_camera;
 
 typedef struct		s_env
@@ -41,6 +48,7 @@ typedef	struct		s_rt
 	t_dlist			*objs;
 	t_dlist			*materials;
 	t_dlist			*textures;
+	t_fog			*fog;
 }					t_rt;
 
 t_rt				*create_rt(int x, int y, char *name);

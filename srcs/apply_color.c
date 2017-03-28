@@ -17,6 +17,7 @@
 #define RECURSION_MAX 5
 #include "apply_color.h"
 #include "bruit_perlin.h"
+#include "fog.h"
 
 void					put_in_image(t_rt *rt, int x, int y, t_vector3f *color)
 {
@@ -145,5 +146,6 @@ t_vector3f				apply_light(t_rt *rt,
 		node = node->next;
 	}
 	color = div_vector3f(color, count_color);
+	color = fog(rt, &inter, color);
 	return (clamp_vector3f(color, 0, 255));
 }

@@ -24,5 +24,7 @@
 # include "triangle.h"
 # include "tetraedre.h"
 # include "pyramide.h"
+# include "disque.h"
+# include "fog.h"
 
 #endif

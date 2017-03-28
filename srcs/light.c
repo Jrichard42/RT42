@@ -13,6 +13,7 @@
 #include "light.h"
 #include "inter.h"
 #include "libft.h"
+#include "obj.h"
 #include "parser.h"
 
 t_vector3f				calcul_light(t_obj *obj, t_ray *ray, t_inter *inter)

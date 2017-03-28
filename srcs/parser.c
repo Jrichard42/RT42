@@ -27,27 +27,28 @@ int						error_parser(char *str, char *type)
 
 static void				check_type(t_kvlexer *token, t_rt *rt)
 {
-	static t_ptr_type	ptr_type[12] = {{"SPHERE\0", &create_sphere},
+	static t_ptr_type	ptr_type[14] = {{"SPHERE\0", &create_sphere},
 			{"LIGHT\0", &create_light}, {"CAMERA\0", &create_camera},
 			{"PLANE\0", &create_plane}, {"CYLINDER\0", &create_cylinder},
 			{"TORUS\0", &create_torus}, {"TRIANGLE\0", &create_triangle},
 			{"TETRAEDRE\0", &create_tetra}, {"PYRAMIDE\0", &create_pyra},
 			{"BOX\0", &create_box}, {"CONE\0", &create_cone},
+			{"FOG\0", &create_fog}, {"DISK\0", &create_disque},
 			{"INCLUDE\0", &parser_text_mat}};
 	int					i;
 
 	i = 0;
-	while (i < 12)
+	while (i < 14)
 	{
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
-			if (!ptr_type[i].create(token, rt) && i != 11)
+			if (!ptr_type[i].create(token, rt) && i != 13)
 				error_parser("Unable to create the obj ", token->key);
 			break ;
 		}
 		++i;
 	}
-	if (i == 12)
+	if (i == 14)
 		error_parser("Unknown obj ", token->key);
 }
 

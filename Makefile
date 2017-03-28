@@ -61,6 +61,8 @@ SRC 			= 	main.c \
 					hsl_to_rgb.c \
 					procedural_fonction.c \
 					texture.c \
+					disque.c \
+					fog.c \
 
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -pthread -Ofast
