@@ -24,6 +24,8 @@ typedef	struct	s_material
 	t_vector3f	ks;
 	int			sh;
 	float		ir;
+	float		reflect;
+	float		refract;
 }				t_material;
 
 int				create_mat(t_kvlexer *token, t_rt *rt);

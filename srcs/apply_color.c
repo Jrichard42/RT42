@@ -104,10 +104,12 @@ static	t_vector3f		apply_light_annex(t_obj *obj,
 			color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 1);
 		if (rec_count)
 		{
+			if (inter.obj->mat.reflect != 0)
 			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj,
-				*ray, rec_count, rt), (1 + (1.0 - 1) * r0)));
+				*ray, rec_count, rt), (inter.obj->mat.reflect + (1.0 - inter.obj->mat.reflect) * r0)));
+			if (inter.obj->mat.refract != 0)
 			color = add_vector3f(color, mult_vector3f(apply_refraction(obj,
-				*ray, rec_count, rt), 1.0f - (1 + (1.0 - 1) * r0)));
+				*ray, rec_count, rt), (inter.obj->mat.refract + (1.0 - inter.obj->mat.refract) * r0)));
 		}
 	}
 	return (color);

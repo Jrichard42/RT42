@@ -39,7 +39,6 @@ SRC 			= 	main.c \
 					damier.c \
 					rt.c \
 					utils.c \
-					procedurale.c \
 					torus.c \
 					box.c \
 					equationpoly1.c \
@@ -59,7 +58,7 @@ SRC 			= 	main.c \
 					light_2.c \
 					
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -g -pthread
+CFLAGS			= -Wall -Wextra -pthread -O3
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 

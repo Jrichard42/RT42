@@ -15,9 +15,24 @@
 #include "sphere.h"
 #include "quadratic.h"
 #include "parser.h"
+#include "inter.h"
 #include "libft.h"
 
 #define SPHERE ((t_sphere *)obj->data)
+
+static	t_vector3f	sphere_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+	t_vector3f		pos;
+	t_vector3f		uv;
+
+	pos = sub_vector3f(inter.obj->pos, inter.impact);
+	pos = normalize_vector3f(pos);
+	uv.x = asinf(pos.x) / M_PI + 0.5f;
+	uv.y = asinf(pos.y) / M_PI + 0.5f;
+	color = get_tex_point(self->tex, uv.x, uv.y);
+	return (color);
+}
 
 static float		inter_sphere(t_obj *obj, t_ray *ray)
 {
@@ -48,6 +63,8 @@ static int			create_sphere2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
+	if (!get_texture(token, rt, &(obj->tex)))
+		obj->texture = NULL;
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The SPHERE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -71,6 +88,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_sphere;
 	obj.inter = &inter_sphere;
+	obj.texture = &sphere_tex;
 	if (create_sphere2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

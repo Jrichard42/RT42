@@ -42,6 +42,10 @@ static int		create_mat2(t_kvlexer *token, t_rt *rt, t_material *mat)
 		return ((int)ft_error("The MATERIAL should contain a field SHININESS"));
 	if (!get_as_float(token, "IR", &(mat->ir)))
 		return ((int)ft_error("The MATERIAL should contain a field IR"));
+	if (!get_as_float(token, "REFLECT", &(mat->reflect)))
+		return ((int)ft_error("The MATERIAL should contain a field REFLECT"));
+	if (!get_as_float(token, "REFRACT", &(mat->refract)))
+		return ((int)ft_error("The MATERIAL should contain a field REFRACT"));
 	return (1);
 }
 

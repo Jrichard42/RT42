@@ -18,6 +18,8 @@
 # include "libft.h"
 # include "libft_matrix.h"
 
+# define DIST_MAX 9999999.9f
+
 typedef struct s_camera	t_camera;
 
 typedef struct		s_env

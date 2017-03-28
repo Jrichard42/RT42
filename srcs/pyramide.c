@@ -95,6 +95,8 @@ static int			create_pyra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
+	if (!get_texture(token, rt, &(obj->tex)))
+		obj->texture = NULL;
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The PYRAMIDE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))

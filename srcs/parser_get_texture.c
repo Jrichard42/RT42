@@ -34,6 +34,7 @@ int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 				tex_token->value = NULL;
 				return (0);
 			}
+			return (1);
 		}
 		else
 			return (check_type_tex(tex_token, rt, tex));

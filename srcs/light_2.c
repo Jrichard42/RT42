@@ -12,7 +12,6 @@
 
 #include "inter.h"
 #include "libft.h"
-#include "procedurale.h"
 #include "parser.h"
 
 static float			specular_light(t_obj *obj, t_inter *inter, t_ray *ray)

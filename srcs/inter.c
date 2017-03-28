@@ -21,7 +21,7 @@ void				calcul_inter(t_ray *ray, t_obj *obj, t_inter *inter)
 
 	tmp = obj->inter(obj, ray);
 	if (!isnan(tmp) && tmp > 0.01 && (tmp < inter->distance
-		|| isnan(inter->distance)))
+		|| isnan(inter->distance)) && tmp < DIST_MAX)
 	{
 		inter->distance = tmp;
 		inter->impact = add_vector3f(ray->start,
