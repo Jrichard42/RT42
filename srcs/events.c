@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include <SDL2/SDL.h>
+#include "events.h"
 
-int				check_events(void)
+int				check_events(t_rt *rt)
 {
 	SDL_Event	event;
 
@@ -20,6 +21,20 @@ int				check_events(void)
 	{
 		if (event.type == SDL_QUIT)
 			return (0);
+		else if (event.type == SDL_KEYDOWN)
+		{
+			if (event.key.keysym.sym == SDLK_UP)
+			{
+				//rt->camera->pos.x += 1.0f;
+				//rt->camera->pos.y += 1.0f;
+				rt->camera->pos.z -= 0.01f;
+				//rt->camera->lookatpoint.x += 1.0f;
+				//rt->camera->lookatpoint.y += 1.0f;
+				rt->camera->lookatpoint.z -= 0.01f;
+				refresh_rt(rt);
+			}
+
+		}
 	}
 	return (1);
 }

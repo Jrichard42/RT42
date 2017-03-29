@@ -12,7 +12,8 @@
 
 #ifndef EVENTS_H
 # define EVENTS_H
+#include "rt.h"
 
-int	check_events(void);
+int	check_events(t_rt *rt);
 
 #endif

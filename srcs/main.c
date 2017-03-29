@@ -18,7 +18,7 @@ static int		loop(t_rt *rt)
 	refresh_rt(rt);
 	while (1)
 	{
-		if (!check_events())
+		if (!check_events(rt))
 			return (0);
 		render_rt(rt);
 	}
