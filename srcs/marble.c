@@ -12,7 +12,7 @@
 
 #include "bruit_perlin.h"
 
-static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
+static	void	check_error_marble_annex(t_vector2f *size_tmp)
 {
 	if (size_tmp->x < 10)
 	{
@@ -34,6 +34,10 @@ static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
 		size_tmp->y = 2000;
 		ft_putstr("The Y_SIZE are superior to 2000\n");
 	}
+}
+
+static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
+{
 	if (marble->turb.x < 1 || marble->turb.x > 1000)
 		marble->turb.x = 5;
 	if (marble->turb.y < 1 || marble->turb.y > 1000)
@@ -42,6 +46,7 @@ static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
 		marble->period.x = 10;
 	if (marble->period.y < 1 || marble->period.y > 1000)
 		marble->period.y = 64;
+	check_error_marble_annex(size_tmp);
 }
 
 unsigned int	marble2(t_vector2f pixel, double ***noise, t_marble marble, t_vector2f size)

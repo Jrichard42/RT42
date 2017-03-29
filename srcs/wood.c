@@ -13,7 +13,7 @@
 #include "bruit_perlin.h"
 #include "texture.h"
 
-static	void	check_error_wood(t_vector2f *size_tmp, t_vector3f *modif_wood)
+static	void	check_error_wood_annex(t_vector2f *size_tmp)
 {
 	if (size_tmp->x < 10)
 	{
@@ -35,6 +35,11 @@ static	void	check_error_wood(t_vector2f *size_tmp, t_vector3f *modif_wood)
 		size_tmp->y = 2000;
 		ft_putstr("The Y_SIZE are superior to 2000\n");
 	}
+}
+
+static	void	check_error_wood(t_vector2f *size_tmp, t_vector3f *modif_wood)
+{
+	check_error_wood_annex(size_tmp);
 	if (modif_wood->x < 1 || modif_wood->x > 100)
 		modif_wood->x = 12;
 	if (modif_wood->y < 1 || modif_wood->y > 100)
