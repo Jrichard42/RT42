@@ -34,13 +34,13 @@ static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
 		size_tmp->y = 2000;
 		ft_putstr("The Y_SIZE are superior to 2000\n");
 	}
-	if (marble->turb.x < 1 || marble->turb.x > 100)
+	if (marble->turb.x < 1 || marble->turb.x > 1000)
 		marble->turb.x = 5;
-	if (marble->turb.y < 1 || marble->turb.y > 100)
+	if (marble->turb.y < 1 || marble->turb.y > 1000)
 		marble->turb.y = 10;
-	if (marble->period.x < 1 || marble->period.x > 100)
+	if (marble->period.x < 1 || marble->period.x > 1000)
 		marble->period.x = 10;
-	if (marble->period.y < 1 || marble->period.y > 100)
+	if (marble->period.y < 1 || marble->period.y > 1000)
 		marble->period.y = 64;
 }
 
