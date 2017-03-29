@@ -39,13 +39,8 @@ typedef	struct	s_marble
 }				t_marble;
 
 int				bruit_perlin(t_vector2f size, double ***noise);
-unsigned int	marble(t_vector2f pixel, double noise[WIN_Y][WIN_X]);
-int				wood_tex(t_kvlexer *token, t_texture *tex);
-int				marble_tex(t_kvlexer *token, t_texture *tex);
 t_vector3f		hsl_to_rgb(float h, float s, float l);
 float			color_hsl(float tmp_color, float tmp1, float tmp2);
-t_vector3f		select_texture(char *type, t_vector2f pixel,
-							double noise[WIN_Y][WIN_X]);
 double			turbulence(t_vector2f pixel,
 							double size,
 							double **noise,

@@ -58,8 +58,8 @@ int							search_tex(t_list *node, void *data)
 
 int							check_type_tex(t_kvlexer *token, t_texture *tex)
 {
-	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", NULL},
-						{"MARBLE\0", NULL}, {"SKY\0", NULL},
+	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", &wood_tex},
+						{"MARBLE\0", &marble_tex}, {"SKY\0", &sky_tex},
 						{"DAMIER\0", &damier_tex}, {"PERLIN\0", NULL}};
 	int						i;
 	char					*type;

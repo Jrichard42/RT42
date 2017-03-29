@@ -23,9 +23,9 @@ static void		check_error_damier_annex(t_vector2f *size_tmp)
 		size_tmp->y = 10;
 		ft_putstr("The X_SIZE are inferior to 10\n");
 	}
-	if (size_tmp->y > 1000)
+	if (size_tmp->y > 2000)
 	{
-		size_tmp->y = 1000;
+		size_tmp->y = 2000;
 		ft_putstr("The X_SIZE are superior to 10\n");
 	}
 }

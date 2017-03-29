@@ -63,7 +63,9 @@ SRC 			= 	main.c \
 					texture.c \
 					disque.c \
 					fog.c \
-					wood.c
+					wood.c \
+					marble.c \
+					sky.c
 
 
 OBJ				= $(SRC:.c=.o)
