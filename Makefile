@@ -37,6 +37,7 @@ SRC 			= 	main.c \
 					parser_get_texture.c \
 					material.c \
 					texture.c \
+					texture_shape.c \
 					damier.c \
 					rt.c \
 					utils.c \
@@ -52,6 +53,7 @@ SRC 			= 	main.c \
 					pyramide.c \
 					inter.c \
 					apply_color.c \
+					apply_color_2.c \
 					sampling.c \
 					normal_polygone.c \
 					reflexion.c \

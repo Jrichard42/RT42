@@ -22,13 +22,13 @@ t_vector3f					get_tex_point(t_texture tex, float u, float v)
 	int						y;
 
 	if (u < 0.0f)
-        x = (int)(((1.0f - ((long int)u - u))) * tex.width);
-    else
-        x = (int)(u * tex.width);
-    if (v < 0.0f)
-        y = (int)(((1.0f - ((long int)v - v))) * tex.height);
-    else
-        y = (int)(v * tex.height);
+		x = (int)(((1.0f - ((long int)u - u))) * tex.width);
+	else
+		x = (int)(u * tex.width);
+	if (v < 0.0f)
+		y = (int)(((1.0f - ((long int)v - v))) * tex.height);
+	else
+		y = (int)(v * tex.height);
 	color = tex.data[y % tex.height][x % tex.width];
 	return (color);
 }

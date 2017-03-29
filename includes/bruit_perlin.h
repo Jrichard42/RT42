@@ -12,18 +12,17 @@
 
 #ifndef BRUIT_PERLIN_H
 # define BRUIT_PERLIN_H
-#include <math.h>
-#include <stdlib.h>
-#include "texture.h"
-#include "equation.h"
-#include "rt.h"
-#include "obj.h"
-#include "ft_kvlexer.h"
-#include "parser.h"
-#include "libft.h"
-#include "light.h"
-#include "libft_matrix.h"
-
+# include <math.h>
+# include <stdlib.h>
+# include "texture.h"
+# include "equation.h"
+# include "rt.h"
+# include "obj.h"
+# include "ft_kvlexer.h"
+# include "parser.h"
+# include "libft.h"
+# include "light.h"
+# include "libft_matrix.h"
 
 typedef	struct	s_perlin
 {

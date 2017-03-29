@@ -19,16 +19,18 @@ static int		modify_material_2(t_kvlexer *mat_token, t_material *mat)
 				|| !mat_token->value[0]))
 		return ((int)ft_error("The MATERIAL should contain either "
 		"a valid name or a field IR"));
-	if (!get_as_float(mat_token, "REFLECT", &(mat->reflect)) && (!mat_token->value
+	if (!get_as_float(mat_token, "REFLECT", &(mat->reflect))
+			&& (!mat_token->value
 				|| !mat_token->value[0]))
 		return ((int)ft_error("The MATERIAL should contain either "
 		"a valid name or a field REFLECT"));
-	if (!get_as_float(mat_token, "REFRACT", &(mat->refract)) && (!mat_token->value
+	if (!get_as_float(mat_token, "REFRACT", &(mat->refract))
+			&& (!mat_token->value
 				|| !mat_token->value[0]))
 		return ((int)ft_error("The MATERIAL should contain either "
 		"a valid name or a field REFRACT"));
 	return (1);
-}		
+}
 
 static int		modify_material(t_kvlexer *mat_token, t_material *mat)
 {

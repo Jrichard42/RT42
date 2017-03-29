@@ -15,10 +15,10 @@
 #include "light.h"
 #include "bruit_perlin.h"
 
-void			rand_noise(double ***noise, t_vector2f size)
+void				rand_noise(double ***noise, t_vector2f size)
 {
-	int		x;
-	int		y;
+	int				x;
+	int				y;
 
 	y = -1;
 	while (++y < size.y)
@@ -29,16 +29,16 @@ void			rand_noise(double ***noise, t_vector2f size)
 	}
 }
 
-double			smooth_noise(double x,
+double				smooth_noise(double x,
 								double y,
 								double **noise,
 								t_vector2f size)
 {
-	double		fract_x;
-	double		fract_y;
-	t_vector2i	tmp1;
-	t_vector2i	tmp2;
-	double		value;
+	double			fract_x;
+	double			fract_y;
+	t_vector2i		tmp1;
+	t_vector2i		tmp2;
+	double			value;
 
 	fract_x = x - (int)x;
 	fract_y = y - (int)y;
@@ -54,29 +54,28 @@ double			smooth_noise(double x,
 	return (value);
 }
 
-double			turbulence(t_vector2f pixel,
+double				turbulence(t_vector2f pixel,
 							double size,
 							double **noise,
 							t_vector2f size_tex)
 {
-	double		value;
-	double		initial_size;
+	double			value;
+	double			initial_size;
 
 	initial_size = size;
 	value = 0.0;
 	while (size >= 1)
 	{
-		value += smooth_noise(pixel.x / size, pixel.y / size, noise, size_tex) * size;
+		value += smooth_noise(pixel.x / size, pixel.y
+			/ size, noise, size_tex) * size;
 		size /= 2.0;
 	}
 	return (128.0 * value / initial_size);
 }
 
-// t_vector3f		bruit_perlin(t_kvlexer *token, t_rt, *rt, t_texture *tex)
-
-int			bruit_perlin(t_vector2f size, double ***noise)
+int					bruit_perlin(t_vector2f size, double ***noise)
 {
-	int		y;
+	int				y;
 
 	y = 0;
 	if (!(*noise = (double **)malloc(sizeof(double *) * size.y)))

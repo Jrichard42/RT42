@@ -13,7 +13,7 @@
 #include "bruit_perlin.h"
 #include "texture.h"
 
-static	void	check_error_sky(t_vector2f *size_tmp, float	*sky)
+static	void		check_error_sky(t_vector2f *size_tmp, float *sky)
 {
 	if (size_tmp->x < 10)
 	{
@@ -39,7 +39,10 @@ static	void	check_error_sky(t_vector2f *size_tmp, float	*sky)
 		*sky = 64;
 }
 
-static	int		sky_tableau(t_vector2f size, t_vector3f ***texture, float modif_sky, double **noise)
+static	int			sky_tableau(t_vector2f size,
+								t_vector3f ***texture,
+								float modif_sky,
+								double **noise)
 {
 	t_vector2f	point;
 	t_vector3f	color;
@@ -61,7 +64,7 @@ static	int		sky_tableau(t_vector2f size, t_vector3f ***texture, float modif_sky,
 	return (1);
 }
 
-int			sky_tex(t_kvlexer *token, t_texture *tex)
+int					sky_tex(t_kvlexer *token, t_texture *tex)
 {
 	double			**noise;
 	t_vector2f		size;

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   paraboloide.h                                      :+:      :+:    :+:   */
+/*   texture_shape.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/24 17:20:17 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/24 17:20:17 by hpachy           ###   ########.fr       */
+/*   Created: 2017/03/29 18:48:35 by abitoun           #+#    #+#             */
+/*   Updated: 2017/03/29 18:48:36 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARABOLOIDE_H
-# define PARABOLOIDE_H
+#ifndef TEXTURE_SHAPE_H
+# define TEXTURE_SHAPE_H
 
-# include "equation.h"
 # include "rt.h"
-# include "obj.h"
 # include "ft_kvlexer.h"
-# include "parser.h"
-# include "libft.h"
 
-typedef struct	s_paraboloide
-{
-	t_vector3f	dir;
-	float		curve;
-}				t_paraboloide;
-
-int				create_paraboloide(t_kvlexer *token, t_rt *rt);
+t_vector3f			plane_tex(t_obj *obj, t_inter inter);
+t_vector3f			cone_tex(t_obj *self, t_inter inter);
+t_vector3f			sphere_tex(t_obj *self, t_inter inter);
 
 #endif

@@ -25,7 +25,9 @@ t_vector3f				calcul_light(t_obj *obj, t_ray *ray, t_inter *inter)
 	color_return = mult_vector3f(mult_by_vector3f(obj->light.color,
 		coeffs), obj->light.intensity);
 	if (inter->obj->texture != NULL)
-		color_return = div_vector3f(add_vector3f(color_return, mult_vector3f(mult_by_vector3f(inter->obj->texture(inter->obj, *inter), coeffs), obj->light.intensity)), 2.0);
+		color_return = div_vector3f(add_vector3f(color_return,
+			mult_vector3f(mult_by_vector3f(inter->obj->texture(inter->obj,
+				*inter), coeffs), obj->light.intensity)), 2.0);
 	return (color_return);
 }
 

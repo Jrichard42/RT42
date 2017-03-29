@@ -51,7 +51,8 @@ static t_vector3f	normal_paraboloide(struct s_obj *obj, t_vector3f *impact)
 	normal = normalize_vector3f(sub_vector3f(
 		sub_vector3f(*impact, obj->pos),
 		mult_vector3f(PARABOLOIDE->dir, dot_vector3f(
-		sub_vector3f(*impact, obj->pos), PARABOLOIDE->dir) + PARABOLOIDE->curve)));
+		sub_vector3f(*impact, obj->pos),
+			PARABOLOIDE->dir) + PARABOLOIDE->curve)));
 	return (normal);
 }
 

@@ -106,14 +106,14 @@ static int			create_pyra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (obj->is_src)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
-		return ((int)ft_error("The PYRAMIDE should contain a field IS_VISIBLE"));
+		return ((int)ft_error("The PYRAMIDE should contain IS_VISIBLE"));
 	if (!get_as_vector3f(token, "SOMMET", &(vert.sommet)))
 		return ((int)ft_error("The PYRAMIDE should contain a field SOMMET"));
 	if (!get_as_vector3f(token, "VERTEX0", &(vert.v1)) ||
 			!get_as_vector3f(token, "VERTEX1", &(vert.v2)) ||
 			!get_as_vector3f(token, "VERTEX2", &(vert.v3)) ||
 			!get_as_vector3f(token, "VERTEX3", &(vert.v4)))
-		return ((int)ft_error("The TRIANGLE should contain 4 fields VERTEX0-3"));
+		return ((int)ft_error("The TRIANGLE should contain 4 fields VERTEX"));
 	PYRA->face = create_pyra_bis(&vert);
 	calc_normal_pyra(PYRA);
 	return (1);

@@ -94,29 +94,25 @@ static	t_vector3f		apply_light_annex(t_obj *obj,
 	t_vector3f			color;
 	t_inter				inter;
 	double				r0;
-	t_ray				ray_obj;
 
 	inter = get_inters(rt->objs->head, ray);
 	color = create_vector3f(0, 0, 0);
 	if (inter.obj != NULL)
 	{
 		r0 = fresnel(&inter, ray);
-		ray_obj.start = inter.impact;
-		ray_obj.dir = normalize_vector3f(sub_vector3f(obj->pos, inter.impact));
-		if (is_shadow(obj, &inter, rt->objs->head, &ray_obj) != 1)
-			color = mult_vector3f(obj->light.calc_light(obj, ray, &inter), 1);
-
+		color = apply_color_2_annex(&inter, obj, ray, rt);
 		if (rec_count)
 		{
 			if (inter.obj->mat.reflect != 0)
-			color = add_vector3f(color, mult_vector3f(apply_reflexion(obj,
-				*ray, rec_count, rt), (inter.obj->mat.reflect + (1.0 - inter.obj->mat.reflect) * r0)));
+				color = add_vector3f(color, mult_vector3f(apply_reflexion(obj,
+					*ray, rec_count, rt), (inter.obj->mat.reflect +
+						(1.0 - inter.obj->mat.reflect) * r0)));
 			if (inter.obj->mat.refract != 0)
-			color = add_vector3f(color, mult_vector3f(apply_refraction(obj,
-				*ray, rec_count, rt), (inter.obj->mat.refract + (1.0 - inter.obj->mat.refract) * r0)));
+				color = add_vector3f(color, mult_vector3f(apply_refraction(obj,
+					*ray, rec_count, rt), (inter.obj->mat.refract +
+						(1.0 - inter.obj->mat.refract) * r0)));
 		}
 	}
-	// faudrais voir pour la mettre ici
 	return (color);
 }
 

@@ -15,26 +15,11 @@
 #include "quadratic.h"
 #include "parser.h"
 #include "inter.h"
+#include "texture_shape.h"
 
 #define PLANE ((t_plane *)obj->data)
 
-static	t_vector3f	plane_tex(t_obj *obj, t_inter inter)
-{
-	t_vector3f		color;
-	t_vector3f		ua;
-	t_vector3f		va;
-	t_vector3f		uv;
-
-	ua = create_vector3f(PLANE->dir.y, PLANE->dir.z, -PLANE->dir.x);
-	va = cross_vector3f(ua, PLANE->dir);
-	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / obj->tex.width);
-	uv.y = dot_vector3f(inter.impact, va) * (1.0f / obj->tex.height);
-	uv.z = 0;
-	color = get_tex_point(obj->tex, uv.x, uv.y);
-	return (color);
-}
-
-static 	float		inter_plane(t_obj *obj, t_ray *ray)
+static	float		inter_plane(t_obj *obj, t_ray *ray)
 {
 	t_quadratic		var;
 	t_vector3f		tmp;
@@ -76,7 +61,6 @@ static int			create_plane2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_as_vector3f(token, "DIR", &(PLANE->dir)))
 		return ((int)ft_error("The PLANE should contain a field DIR"));
 	PLANE->dir = normalize_vector3f(PLANE->dir);
-
 	return (1);
 }
 

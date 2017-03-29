@@ -12,7 +12,7 @@
 
 #include "bruit_perlin.h"
 
-static	void	check_error_marble_annex(t_vector2f *size_tmp)
+static	void		check_error_marble_annex(t_vector2f *size_tmp)
 {
 	if (size_tmp->x < 10)
 	{
@@ -36,7 +36,7 @@ static	void	check_error_marble_annex(t_vector2f *size_tmp)
 	}
 }
 
-static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
+static	void		check_error_marble(t_vector2f *size_tmp, t_marble *marble)
 {
 	if (marble->turb.x < 1 || marble->turb.x > 1000)
 		marble->turb.x = 5;
@@ -49,14 +49,14 @@ static	void	check_error_marble(t_vector2f *size_tmp, t_marble *marble)
 	check_error_marble_annex(size_tmp);
 }
 
-unsigned int	marble2(t_vector2f pixel, double ***noise, t_marble marble, t_vector2f size)
+unsigned int		marble2(t_vector2f pixel,
+							double ***noise,
+							t_marble marble,
+							t_vector2f size)
 {
-	double		xyvalue;
-	double		sinevalue;
+	double			xyvalue;
+	double			sinevalue;
 
-	// marble.period = periode (x et y)
-	// marble.turb.x = turbpower
-	// marble.turb.y = turbsize 
 	if (pixel.y <= size.y && pixel.y <= size.x)
 	{
 		xyvalue = (pixel.x * marble.period.x / size.x + pixel.y *
@@ -68,10 +68,13 @@ unsigned int	marble2(t_vector2f pixel, double ***noise, t_marble marble, t_vecto
 	return (0);
 }
 
-static	int		marble_tableau(t_vector2f size, t_vector3f ***texture, t_marble marble, double **noise)
+static	int			marble_tableau(t_vector2f size,
+									t_vector3f ***texture,
+									t_marble marble,
+									double **noise)
 {
-	t_vector2f	point;
-	t_vector3f	color;
+	t_vector2f		point;
+	t_vector3f		color;
 
 	point.y = -1;
 	while (++point.y < size.y)
@@ -88,7 +91,7 @@ static	int		marble_tableau(t_vector2f size, t_vector3f ***texture, t_marble marb
 	return (1);
 }
 
-int			marble_tex(t_kvlexer *token, t_texture *tex)
+int					marble_tex(t_kvlexer *token, t_texture *tex)
 {
 	double			**noise;
 	t_vector2f		size;
