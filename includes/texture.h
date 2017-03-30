@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:18:41 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 17:42:03 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:14:44 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ int				damier_tex(t_kvlexer *token, t_texture *tex);
 int				marble_tex(t_kvlexer *token, t_texture *tex);
 int				sky_tex(t_kvlexer *token, t_texture *tex);
 int				wood_tex(t_kvlexer *token, t_texture *tex);
-t_vector3f		get_tex_point(t_texture tex, float u, float v);
+t_vector3f		get_tex_point(t_texture *tex, float u, float v);
 
 #endif

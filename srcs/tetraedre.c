@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 17:11:11 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/30 15:24:17 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:10:40 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,8 @@ static t_triangle	*create_tetra_bis(t_vector3f v1, t_vector3f v2,
 
 static int			create_tetra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
-	t_vector3f vert[4];
+	t_vector3f		vert[4];
+
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
@@ -129,7 +130,6 @@ static int			create_tetra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	vert[3] = add_vector3f(obj->pos, vert[3]);
 	TETRA->face = create_tetra_bis(vert[0], vert[1], vert[2], vert[3]);
 	calc_normal_tetra(TETRA);
-
 	return (1);
 }
 
@@ -142,6 +142,8 @@ int					create_tetra(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_tetra;
 	obj.inter = &inter_tetra;
 	obj.texture = NULL;
+	obj.destroy = NULL;//here
+	obj.tex = NULL;
 	if (create_tetra2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

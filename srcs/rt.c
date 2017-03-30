@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:57:55 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 17:38:50 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:45:09 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ void			del_obj(void *data, size_t size)
 
 	(void)size;
 	obj = (t_obj *)data;
-	if (obj->tex.data)
-		del_tex(obj->texture, 0);
 	if (obj->destroy)
 		obj->destroy(obj);
-	ft_memdel(&obj->data);
+	ft_memdel(&(obj->data));
+	ft_memdel(&data);
 }
 
 void			refresh_rt(t_rt *rt)
@@ -91,7 +90,6 @@ void			destroy_rt(t_rt *rt)
 		ft_lstdel(&rt->materials, &del_mat);
 		ft_lstdel(&rt->textures, &del_tex);
 		ft_lstdel(&rt->objs, &del_obj);
-		// free the data structure
 	}
 }
 
@@ -104,7 +102,7 @@ t_rt			*create_rt(int x, int y, char *name)
 	rt->env.size = create_vector2f(x, y);
 	if (!parser(name, rt))
 		return (NULL);
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+/*	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (ft_error("Failed to launch sdl"));
 	rt->env.win = SDL_CreateWindow("RT", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
@@ -117,5 +115,5 @@ t_rt			*create_rt(int x, int y, char *name)
 			x + 1, y + 1);
 	if (!(rt->env.win && rt->env.text && rt->env.rend))
 		return (ft_error("Failed to initialize sdl environment"));
-	return (rt);
+*/	return (rt);
 }

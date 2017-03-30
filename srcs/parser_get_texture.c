@@ -6,14 +6,14 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/23 14:00:00 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/30 17:41:19 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:35:16 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "texture.h"
 #include "parser.h"
 
-int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
+int				get_texture(t_kvlexer *token, t_rt *rt, t_texture **tex)
 {
 	t_list		*node;
 	t_kvlexer	*tex_token;
@@ -26,7 +26,7 @@ int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 		{
 			if (rt->textures && (node = ft_lstsearch(rt->textures->head,
 							&search_tex, tex_token->value)))
-				*tex = *((t_texture *)node->content);
+				*tex = ((t_texture *)node->content);
 			else
 			{
 				ft_putstr("Couldn't find the TEXTURE named ");
@@ -36,8 +36,7 @@ int				get_texture(t_kvlexer *token, t_rt *rt, t_texture *tex)
 			}
 			return (1);
 		}
-		else
-			return (check_type_tex(tex_token, tex));
+		return ((int)ft_error("The TEXTURE should have a value"));
 	}
 	return (0);
 }

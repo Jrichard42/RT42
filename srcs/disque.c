@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/28 15:07:48 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/30 15:58:11 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:20:12 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,19 @@
 
 #define DISK ((t_disque *)obj->data)
 
-static	t_vector3f	disque_tex(t_obj *self, t_inter inter)
+static	t_vector3f	disque_tex(t_obj *obj, t_inter inter)
 {
 	t_vector3f		color;
 	t_vector3f		ua;
 	t_vector3f		va;
 	t_vector3f		uv;
 
-	ua = create_vector3f(((t_disque *)self->data)->dir.y,
-			((t_disque *)self->data)->dir.z, -((t_disque *)self->data)->dir.x);
-	va = cross_vector3f(ua, ((t_disque *)self->data)->dir);
-	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / self->tex.width);
-	uv.y = dot_vector3f(inter.impact, va) * (1.0f / self->tex.height);
+	ua = create_vector3f(DISK->dir.y, DISK->dir.z, -DISK->dir.x);
+	va = cross_vector3f(ua, DISK->dir);
+	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / obj->tex->width);
+	uv.y = dot_vector3f(inter.impact, va) * (1.0f / obj->tex->height);
 	uv.z = 0;
-	color = get_tex_point(self->tex, uv.x, uv.y);
+	color = get_tex_point(obj->tex, uv.x, uv.y);
 	return (color);
 }
 
@@ -67,10 +66,7 @@ static int			create_disque2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
-	{
-		obj->tex.data = NULL;
 		obj->texture = NULL;
-	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The DISK should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -99,6 +95,7 @@ int					create_disque(t_kvlexer *token, t_rt *rt)
 	obj.inter = &inter_disque;
 	obj.texture = &disque_tex;
 	obj.destroy = NULL;
+	obj.tex = NULL;
 	if (create_disque2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

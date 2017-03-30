@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 17:19:58 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/30 15:59:01 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:09:20 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ static int			create_paraboloide2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
-	{
-		obj->tex.data = NULL;
 		obj->texture = NULL;
-	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The PARABOLOIDE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -90,7 +87,9 @@ int					create_paraboloide(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_paraboloide;
 	obj.inter = &inter_paraboloide;
+	obj.texture = NULL;
 	obj.destroy = NULL;
+	obj.tex = NULL;
 	if (create_paraboloide2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

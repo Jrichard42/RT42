@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 14:14:50 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 14:14:51 by abitoun          ###   ########.fr       */
+/*   Updated: 2017/03/30 18:55:14 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ int					create_cube_troue(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_cube_troue;
 	obj.inter = &inter_cube_troue;
+	obj.texture = NULL;
+	obj.destroy = NULL;
+	obj.tex = NULL;
 	if (create_cube_troue2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

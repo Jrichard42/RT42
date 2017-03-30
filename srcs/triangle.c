@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 16:51:50 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/30 16:00:07 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:11:15 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,7 @@ static int			create_triangle2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
-	{
-		obj->tex.data = NULL;
 		obj->texture = NULL;
-	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The TRIANGLE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -98,6 +95,7 @@ int					create_triangle(t_kvlexer *token, t_rt *rt)
 	obj.inter = &inter_triangle;
 	obj.texture = NULL;
 	obj.destroy = NULL;
+	obj.tex = NULL;
 	if (create_triangle2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

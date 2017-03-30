@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/29 18:48:12 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 14:40:38 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:13:47 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ t_vector3f			plane_tex(t_obj *obj, t_inter inter)
 
 	ua = create_vector3f(PLANE->dir.y, PLANE->dir.z, -PLANE->dir.x);
 	va = cross_vector3f(ua, PLANE->dir);
-	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / obj->tex.width);
-	uv.y = dot_vector3f(inter.impact, va) * (1.0f / obj->tex.height);
+	uv.x = dot_vector3f(inter.impact, ua) * (1.0f / obj->tex->width);
+	uv.y = dot_vector3f(inter.impact, va) * (1.0f / obj->tex->height);
 	uv.z = 0;
 	color = get_tex_point(obj->tex, uv.x, uv.y);
 	return (color);

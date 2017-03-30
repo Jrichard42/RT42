@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:26:17 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/30 16:12:46 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 19:37:12 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int				main(int argc, char **argv)
 		return (-1);
 	}
 	if ((rt = create_rt(WIN_X, WIN_Y, argv[1])))
-		loop(rt);
+;//		loop(rt);
 	destroy_rt(rt);
 	return (0);
 }
