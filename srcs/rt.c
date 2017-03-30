@@ -6,7 +6,11 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:57:55 by abitoun           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/03/30 19:45:09 by jrichard         ###   ########.fr       */
+=======
+/*   Updated: 2017/03/30 17:38:50 by jrichard         ###   ########.fr       */
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +56,18 @@ void			del_obj(void *data, size_t size)
 
 	(void)size;
 	obj = (t_obj *)data;
+<<<<<<< HEAD
 	if (obj->destroy)
 		obj->destroy(obj);
 	ft_memdel(&(obj->data));
 	ft_memdel(&data);
+=======
+	if (obj->tex.data)
+		del_tex(obj->texture, 0);
+	if (obj->destroy)
+		obj->destroy(obj);
+	ft_memdel(&obj->data);
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 }
 
 void			refresh_rt(t_rt *rt)
@@ -90,6 +102,10 @@ void			destroy_rt(t_rt *rt)
 		ft_lstdel(&rt->materials, &del_mat);
 		ft_lstdel(&rt->textures, &del_tex);
 		ft_lstdel(&rt->objs, &del_obj);
+<<<<<<< HEAD
+=======
+		// free the data structure
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 	}
 }
 

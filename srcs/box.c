@@ -6,7 +6,11 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 13:35:51 by jqueyrou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/03/30 18:52:19 by jrichard         ###   ########.fr       */
+=======
+/*   Updated: 2017/03/30 15:57:04 by jrichard         ###   ########.fr       */
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +98,10 @@ static int				create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
+	{
+		obj->tex.data = NULL;
 		obj->texture = NULL;
+	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The BOX should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -122,7 +129,10 @@ int						create_box(t_kvlexer *token, t_rt *rt)
 	obj.inter = &inter_box;
 	obj.texture = NULL;
 	obj.destroy = NULL;
+<<<<<<< HEAD
 	obj.tex = NULL;
+=======
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 	if (create_box2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

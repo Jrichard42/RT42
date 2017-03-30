@@ -6,7 +6,11 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/28 15:07:48 by jqueyrou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2017/03/30 19:20:12 by jrichard         ###   ########.fr       */
+=======
+/*   Updated: 2017/03/30 15:58:11 by jrichard         ###   ########.fr       */
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +70,10 @@ static int			create_disque2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
+	{
+		obj->tex.data = NULL;
 		obj->texture = NULL;
+	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The DISK should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -95,7 +102,10 @@ int					create_disque(t_kvlexer *token, t_rt *rt)
 	obj.inter = &inter_disque;
 	obj.texture = &disque_tex;
 	obj.destroy = NULL;
+<<<<<<< HEAD
 	obj.tex = NULL;
+=======
+>>>>>>> 506c03b7047b32355bce118244c4f099c0e18cbd
 	if (create_disque2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else
