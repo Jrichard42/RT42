@@ -72,6 +72,7 @@ SRC 			= 	main.c \
 					cut_cylinder.c \
 					cut_cone.c \
 					cut_sphere.c \
+					cube_troue.c \
 
 
 OBJ				= $(SRC:.c=.o)

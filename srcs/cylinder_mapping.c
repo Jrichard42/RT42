@@ -17,13 +17,13 @@
 #include "obj.h"
 #include "inter.h"
 
-t_vector3f			cylinder_mapping(t_inter inter_obj, t_vector3f **texture)
-{
-	t_vector3f		color;
-	t_vector3f		pos;
-	t_vector3f		uv;
+//t_vector3f			cylinder_mapping(t_inter inter_obj, t_vector3f **texture)
+//{
+	// t_vector3f		color; ici
+	// t_vector3f		pos; ici
+	// t_vector3f		uv; ici
 
-	pos = sub_vector3f(inter_obj.obj->pos, inter_obj.impact);
+	//pos = sub_vector3f(inter_obj.obj->pos, inter_obj.impact);ici
 /*	if (pos.z != 0.0f)
 	{
 		uv.x = pos.x / pos.z;
@@ -31,14 +31,14 @@ t_vector3f			cylinder_mapping(t_inter inter_obj, t_vector3f **texture)
 	}
 	else
 	{*/
-		uv.x = pos.x;
-		uv.y = pos.y;
+		//uv.x = pos.x; ici
+		//uv.y = pos.y; ici
 	//}
-	uv.x = fabsf(uv.x);
-	uv.y = fabsf(uv.y);
+	//uv.x = fabsf(uv.x); ici
+	//uv.y = fabsf(uv.y); ici
 	//printf("%f|%f\n", inter_obj.impact.x, inter_obj.impact.y);
 	//color = texture[(int)(abs(inter_obj.impact.y - inter_obj.obj->pos.y))][(int)abs((inter_obj.impact.x - inter_obj.obj->pos.x))];
-	color = texture[(int)uv.y % 1079][(int)uv.x % 1919];
+	//color = texture[(int)uv.y % 1079][(int)uv.x % 1919]; ici
 	// printf("color %f|%f|%f\n", color.x, color.y, color.z);
-	return (color);
-}
+	//return (color); ici
+//}

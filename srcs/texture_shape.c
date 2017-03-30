@@ -47,10 +47,15 @@ t_vector3f			sphere_tex(t_obj *self, t_inter inter)
 	return (color);
 }
 
-t_vector3f			cone_tex(t_obj *self, t_inter inter)
-{
-	t_vector3f		color;
+// t_vector3f			cone_tex(t_obj *self, t_inter inter)
+// {
+// 	t_vector3f		color;
 
-	color = create_vector3f(0, 0, 0);
-	return (color);
-}
+// 	color = create_vector3f(0, 0, 0);
+// 	return (color);
+// }
+
+// t_vector3f	cyl_tex(t_obj *self, t_inter inter)
+// {
+// 	return (create_vector3f(0, 0, 0));
+// }
