@@ -13,30 +13,6 @@
 #include "torus.h"
 #define TORUS ((t_torus *)obj->data)
 
-static float			resolution(double *eq)
-{
-	double	inter;
-	t_res	res;
-
-	res = equationpoly4(eq);
-	inter = NAN;
-	if (!isnan(res.x1))
-		inter = res.x1;
-	if (((!isnan(res.x2) && res.x2 < inter) || (!isnan(res.x2) &&
-					isnan(inter))))
-		inter = res.x2;
-	if (((!isnan(res.x3) && res.x3 < inter) || (!isnan(res.x3) &&
-					isnan(inter))))
-		inter = res.x3;
-	if (((!isnan(res.x4) && res.x4 < inter) || (!isnan(res.x4) &&
-					isnan(inter))))
-		inter = res.x4;
-	if (inter < 0)
-		inter = NAN;
-	free(eq);
-	return (inter);
-}
-
 static double			*calc_eq(t_var_torus var, float center_to_ray_dot_dir)
 {
 	double *eq;

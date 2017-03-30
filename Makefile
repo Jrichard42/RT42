@@ -37,11 +37,13 @@ SRC 			= 	main.c \
 					parser_get_texture.c \
 					material.c \
 					texture.c \
+					texture_2.c \
 					texture_shape.c \
 					damier.c \
 					rt.c \
 					utils.c \
 					torus.c \
+					torus_2.c \
 					box.c \
 					equationpoly1.c \
 					equationpoly2.c \
@@ -50,7 +52,9 @@ SRC 			= 	main.c \
 					thread_manager.c \
 					triangle.c \
 					tetraedre.c \
+					tetraedre_2.c \
 					pyramide.c \
+					pyramide_2.c \
 					inter.c \
 					apply_color.c \
 					apply_color_2.c \

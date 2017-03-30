@@ -24,10 +24,10 @@ void				free_tab(double **noise, t_vector2f size)
 		while (point.y <= size.y)
 		{
 			if (noise[(int)point.y])
-				free (noise[(int)point.y]);
+				free(noise[(int)point.y]);
 			point.y++;
 		}
-		free (noise);
+		free(noise);
 	}
 }
 

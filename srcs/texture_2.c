@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   half_sphere.h                                      :+:      :+:    :+:   */
+/*   texture_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/30 20:03:35 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 20:03:39 by abitoun          ###   ########.fr       */
+/*   Created: 2017/03/30 19:49:27 by abitoun           #+#    #+#             */
+/*   Updated: 2017/03/30 19:49:28 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef HALF_SPHERE_H
-# define HALF_SPHERE_H
+#include "texture.h"
+#include "parser.h"
+#include "bruit_perlin.h"
+#include "libft.h"
 
-# include "rt.h"
-# include "obj.h"
-# include "ft_kvlexer.h"
-
-typedef struct	s_half_sphere
+int							malloc_tex(t_texture *tex)
 {
-	float		radius;
-	float		reflexion;
-	t_vector3f	dir;
-}				t_half_sphere;
+	int y;
 
-int				create_half_sphere(t_kvlexer *token, t_rt *rt);
-
-#endif
+	y = 0;
+	if (!(tex->data = malloc(sizeof(t_vector3f *) * tex->height)))
+		return (0);
+	while (y < tex->height)
+	{
+		if (!(tex->data[y] = malloc(sizeof(t_vector3f) * tex->width)))
+			return (0);
+		y++;
+	}
+	return (1);
+}

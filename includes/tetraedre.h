@@ -27,5 +27,9 @@ typedef struct	s_tetra
 }				t_tetra;
 int				create_tetra(t_kvlexer *token, t_rt *rt);
 void			calc_normal_tetra(t_tetra *tetra);
+float			inter_triangles(t_triangle *t, t_ray *ray);
+int				create_tetra3(t_kvlexer *token, t_obj *obj);
+t_triangle		*create_tetra_bis(t_vector3f v1, t_vector3f v2,
+					t_vector3f v3, t_vector3f v4);
 
 #endif

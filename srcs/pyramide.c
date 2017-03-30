@@ -14,27 +14,6 @@
 #define PYRA ((t_pyra *)obj->data)
 #define FLOAT_ZERO 0.0001f
 
-static float		inter_pyra(t_obj *obj, t_ray *ray)
-{
-	float	inter;
-	float	tmp;
-	int		i;
-
-	inter = NAN;
-	i = 0;
-	while (i < 6)
-	{
-		tmp = inter_triangles(&PYRA->face[i], ray);
-		if (((!isnan(tmp) && tmp < inter) || (!isnan(tmp) &&
-						isnan(inter))))
-			inter = tmp;
-		i++;
-	}
-	if (inter < 0)
-		inter = NAN;
-	return (inter);
-}
-
 int					if_touch(t_triangle *t, t_vector3f *impact)
 {
 	float d;
@@ -93,18 +72,7 @@ static int			create_pyra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 {
 	t_vertex		vert;
 
-	if (!get_material(token, rt, &(obj->mat)))
-		return (0);
-	if (!get_texture(token, rt, &(obj->tex)))
-		obj->texture = NULL;
-	if (!get_as_vector3f(token, "POS", &(obj->pos)))
-		return ((int)ft_error("The PYRAMIDE should contain a field POS"));
-	if (!get_as_int(token, "ID", &(obj->id)))
-		return ((int)ft_error("The PYRAMIDE should contain a field ID"));
-	if (!get_as_int(token, "IS_SRC", &(obj->is_src)))
-		return ((int)ft_error("The PYRAMIDE should contain a field IS_SRC"));
-	if (obj->is_src)
-		obj->light = get_light(token);
+	create_pyra3(token, rt, obj);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
 		return ((int)ft_error("The PYRAMIDE should contain IS_VISIBLE"));
 	if (!get_as_vector3f(token, "SOMMET", &(vert.sommet)))
@@ -113,7 +81,8 @@ static int			create_pyra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 			!get_as_vector3f(token, "VERTEX1", &(vert.v2)) ||
 			!get_as_vector3f(token, "VERTEX2", &(vert.v3)) ||
 			!get_as_vector3f(token, "VERTEX3", &(vert.v4)))
-		return ((int)ft_error("The PYRAMIDE should contain 4 fields VERTEX0-3"));
+		return ((int)ft_error("The PYRAMIDE should contain"
+		" 4 fields VERTEX0-3"));
 	vert.sommet = add_vector3f(obj->pos, vert.sommet);
 	vert.v4 = add_vector3f(obj->pos, vert.v4);
 	vert.v1 = add_vector3f(obj->pos, vert.v1);

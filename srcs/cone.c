@@ -19,14 +19,6 @@
 #include "cut.h"
 #define CONE ((t_cone *)obj->data)
 
-static	t_vector3f		cone_tex(t_obj *self, t_inter inter)
-{
-	t_vector3f		color;
-
-	color = create_vector3f(0, 0, 0);
-	return (color);
-}
-
 static float			inter_cone(t_obj *obj, t_ray *ray)
 {
 	t_quadratic			var;

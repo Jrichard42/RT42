@@ -33,22 +33,6 @@ t_vector3f					get_tex_point(t_texture tex, float u, float v)
 	return (color);
 }
 
-int							malloc_tex(t_texture *tex)
-{
-	int y;
-
-	y = 0;
-	if (!(tex->data = malloc(sizeof(t_vector3f *) * tex->height)))
-		return (0);
-	while (y < tex->height)
-	{
-		if (!(tex->data[y] = malloc(sizeof(t_vector3f) * tex->width)))
-			return (0);
-		y++;
-	}
-	return (1);
-}
-
 int							search_tex(t_list *node, void *data)
 {
 	if (!ft_strcmp(((t_texture *)node->content)->name, (char *)data))

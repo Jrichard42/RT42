@@ -14,7 +14,7 @@
 # define UTILS_H
 
 # ifndef FLT_EPSILON
-#  define FLT_EPSILON 14.99E-02F
+#  define FLT_EPSILON 25.99E-01F
 # endif
 
 char		almost_equal_relative(float a, float b);

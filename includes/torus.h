@@ -42,5 +42,6 @@ typedef struct	s_var_torus
 }				t_var_torus;
 
 int				create_torus(t_kvlexer *token, t_rt *rt);
+float			resolution(double *eq);
 
 #endif

@@ -80,7 +80,8 @@ static int			create_half_sphere2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (obj->is_src)
 		obj->light = get_light(token);
 	if (!get_as_int(token, "IS_VISIBLE", &(obj->is_visible)))
-		return ((int)ft_error("The HALF_SPHERE should contain a field IS_VISIBLE"));
+		return ((int)ft_error("The HALF_SPHERE should contain a "
+		"field IS_VISIBLE"));
 	if (!get_as_float(token, "RADIUS", &(SPHERE->radius)))
 		return ((int)ft_error("The HALF_SPHERE should contain a field RADIUS"));
 	if (!get_as_vector3f(token, "DIR", &(SPHERE->dir)))
