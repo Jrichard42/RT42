@@ -39,13 +39,13 @@ static	void		check_error_marble_annex(t_vector2f *size_tmp)
 static	void		check_error_marble(t_vector2f *size_tmp, t_marble *marble)
 {
 	if (marble->turb.x < 1 || marble->turb.x > 1000)
-		marble->turb.x = 5;
+		marble->turb.x = 10;
 	if (marble->turb.y < 1 || marble->turb.y > 1000)
-		marble->turb.y = 10;
+		marble->turb.y = 64;
 	if (marble->period.x < 1 || marble->period.x > 1000)
-		marble->period.x = 10;
+		marble->period.x = 5;
 	if (marble->period.y < 1 || marble->period.y > 1000)
-		marble->period.y = 64;
+		marble->period.y = 10;
 	check_error_marble_annex(size_tmp);
 }
 
