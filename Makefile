@@ -23,7 +23,9 @@ SDLINCDIR		= sdl/SDL/include
 SRC 			= 	main.c \
 					camera.c \
 					cone.c \
+					cone_2.c \
 					cylinder.c \
+					cylinder_2.c \
 					light.c \
 					plane.c \
 					paraboloide.c \
@@ -38,7 +40,6 @@ SRC 			= 	main.c \
 					material.c \
 					texture.c \
 					texture_2.c \
-					texture_shape.c \
 					damier.c \
 					rt.c \
 					utils.c \

@@ -17,9 +17,22 @@
 #include "parser.h"
 #include "inter.h"
 #include "libft.h"
-#include "texture_shape.h"
 
 #define SPHERE ((t_sphere *)obj->data)
+
+static	t_vector3f	sphere_tex(t_obj *self, t_inter inter)
+{
+	t_vector3f		color;
+	t_vector3f		pos;
+	t_vector3f		uv;
+
+	pos = sub_vector3f(inter.obj->pos, inter.impact);
+	pos = normalize_vector3f(pos);
+	uv.x = asinf(pos.x) / M_PI + 0.5f;
+	uv.y = asinf(pos.y) / M_PI + 0.5f;
+	color = get_tex_point(self->tex, uv.x, uv.y);
+	return (color);
+}
 
 static float		inter_sphere(t_obj *obj, t_ray *ray)
 {
