@@ -67,7 +67,11 @@ SRC 			= 	main.c \
 					fog.c \
 					wood.c \
 					marble.c \
-					sky.c
+					sky.c \
+					half_sphere.c \
+					cut_cylinder.c \
+					cut_cone.c \
+					cut_sphere.c \
 
 
 OBJ				= $(SRC:.c=.o)

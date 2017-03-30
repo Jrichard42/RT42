@@ -27,5 +27,6 @@
 # include "disque.h"
 # include "fog.h"
 # include "paraboloide.h"
+# include "half_sphere.h"
 
 #endif

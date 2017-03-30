@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   camera.h                                           :+:      :+:    :+:   */
+/*   cut.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/09 13:20:46 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/19 09:38:06 by jrichard         ###   ########.fr       */
+/*   Created: 2017/03/30 14:07:10 by jqueyrou          #+#    #+#             */
+/*   Updated: 2017/03/30 14:07:13 by jqueyrou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CONE_H
-# define CONE_H
-
+#ifndef CUT_H
+# define CUT_H
+# include "quadratic.h"
 # include "rt.h"
 # include "obj.h"
-# include "quadratic.h"
-# include "ft_kvlexer.h"
 
-typedef struct	s_cone
-{
-	float		angle;
-	t_vector3f	dir;
-	float		h;
-	float		radius;
-}				t_cone;
-
-int				create_cone(t_kvlexer *token, t_rt *rt);
+float	cut_cylinder(t_obj *obj, t_ray *ray, t_quadratic *var);
+float	cut_cone(t_obj *obj, t_ray *ray, t_quadratic *var);
+float	cut_sphere(t_obj *obj, t_ray *ray, t_quadratic *var);
 
 #endif
