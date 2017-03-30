@@ -57,15 +57,18 @@ static t_vector3f	normal_cylinder(struct s_obj *obj, t_vector3f *impact)
 	t_vector3f		tmp;
 	float			d;
 
-	d = dot_vector3f(CYLINDER->dir, obj->pos);
-	if (((dot_vector3f(*impact, CYLINDER->dir) - d) < 0.0005f)
-			&& ((dot_vector3f(*impact, CYLINDER->dir) - d) > -0.0005f))
-		return (mult_vector3f(CYLINDER->dir, -1));
-	d = dot_vector3f(CYLINDER->dir, add_vector3f(obj->pos,
-		mult_vector3f(CYLINDER->dir, CYLINDER->h)));
-	if (((dot_vector3f(*impact, CYLINDER->dir) - d) < 0.0005f)
-			&& ((dot_vector3f(*impact, CYLINDER->dir) - d) > -0.0005f))
-		return (CYLINDER->dir);
+	if (CYLINDER->h)
+	{
+		d = dot_vector3f(CYLINDER->dir, obj->pos);
+		if (((dot_vector3f(*impact, CYLINDER->dir) - d) < 0.0005f)
+				&& ((dot_vector3f(*impact, CYLINDER->dir) - d) > -0.0005f))
+			return (mult_vector3f(CYLINDER->dir, -1));
+		d = dot_vector3f(CYLINDER->dir, add_vector3f(obj->pos,
+			mult_vector3f(CYLINDER->dir, CYLINDER->h)));
+		if (((dot_vector3f(*impact, CYLINDER->dir) - d) < 0.0005f)
+				&& ((dot_vector3f(*impact, CYLINDER->dir) - d) > -0.0005f))
+			return (CYLINDER->dir);
+	}
 	tmp = sub_vector3f(*impact, obj->pos);
 	tmp = mult_vector3f(CYLINDER->dir, dot_vector3f(tmp, CYLINDER->dir));
 	tmp = add_vector3f(tmp, obj->pos);

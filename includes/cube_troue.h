@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   texture_shape.h                                    :+:      :+:    :+:   */
+/*   cube_troue.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/03/29 18:48:35 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/29 18:48:36 by abitoun          ###   ########.fr       */
+/*   Created: 2017/03/30 14:15:26 by abitoun           #+#    #+#             */
+/*   Updated: 2017/03/30 14:15:27 by abitoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEXTURE_SHAPE_H
-# define TEXTURE_SHAPE_H
+#ifndef CUBE_TROUE_H
+# define CUBE_TROUE_H
 
 # include "rt.h"
+# include "obj.h"
 # include "ft_kvlexer.h"
 
-t_vector3f			plane_tex(t_obj *obj, t_inter inter);
-t_vector3f			cone_tex(t_obj *self, t_inter inter);
-t_vector3f			sphere_tex(t_obj *self, t_inter inter);
-t_vector3f			cyl_tex(t_obj *self, t_inter inter);
+typedef	struct	s_cube_troue
+{
+	float		circle;
+}				t_cube_troue;
+
+int				create_cube_troue(t_kvlexer *token, t_rt *rt);
 
 #endif

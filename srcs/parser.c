@@ -27,7 +27,7 @@ int						error_parser(char *str, char *type)
 
 static void				check_type(t_kvlexer *token, t_rt *rt)
 {
-	static t_ptr_type	ptr_type[16] = {{"SPHERE\0", &create_sphere},
+	static t_ptr_type	ptr_type[17] = {{"SPHERE\0", &create_sphere},
 			{"LIGHT\0", &create_light}, {"CAMERA\0", &create_camera},
 			{"PLANE\0", &create_plane}, {"CYLINDER\0", &create_cylinder},
 			{"TORUS\0", &create_torus}, {"TRIANGLE\0", &create_triangle},
@@ -35,21 +35,21 @@ static void				check_type(t_kvlexer *token, t_rt *rt)
 			{"BOX\0", &create_box}, {"CONE\0", &create_cone},
 			{"FOG\0", &create_fog}, {"DISK\0", &create_disque},
 			{"PARA\0", &create_paraboloide}, {"HSPHERE\0", &create_half_sphere},
-			{"INCLUDE\0", &parser_text_mat}};
+			{"CUBE\0", &create_cube_troue}, {"INCLUDE\0", &parser_text_mat}};
 	int					i;
 
 	i = 0;
-	while (i < 16)
+	while (i < 17)
 	{
 		if (!ft_strcmp(token->key, ptr_type[i].type))
 		{
-			if (!ptr_type[i].create(token, rt) && i != 15)
+			if (!ptr_type[i].create(token, rt) && i != 16)
 				error_parser("Unable to create the obj ", token->key);
 			break ;
 		}
 		++i;
 	}
-	if (i == 16)
+	if (i == 17)
 		error_parser("Unknown obj ", token->key);
 }
 
