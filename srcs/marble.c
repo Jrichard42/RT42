@@ -112,5 +112,6 @@ int					marble_tex(t_kvlexer *token, t_texture *tex)
 		return (0);
 	if (!marble_tableau(size, &tex->data, marble, noise))
 		return (0);
+	free_tab(noise, size);
 	return (1);
 }

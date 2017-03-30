@@ -39,6 +39,7 @@ typedef	struct	s_marble
 
 int				bruit_perlin(t_vector2f size, double ***noise);
 t_vector3f		hsl_to_rgb(float h, float s, float l);
+void			free_tab(double **noise, t_vector2f size);
 float			color_hsl(float tmp_color, float tmp1, float tmp2);
 double			turbulence(t_vector2f pixel,
 							double size,

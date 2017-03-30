@@ -83,5 +83,6 @@ int					sky_tex(t_kvlexer *token, t_texture *tex)
 		return (0);
 	if (!sky_tableau(size, &tex->data, modif_sky, noise))
 		return (0);
+	free_tab(noise, size);
 	return (1);
 }

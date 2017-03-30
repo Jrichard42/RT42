@@ -15,6 +15,22 @@
 #include "light.h"
 #include "bruit_perlin.h"
 
+void				free_tab(double **noise, t_vector2f size)
+{
+	t_vector2f		point;
+
+	if (noise)
+	{
+		while (point.y <= size.y)
+		{
+			if (noise[(int)point.y])
+				free (noise[(int)point.y]);
+			point.y++;
+		}
+		free (noise);
+	}
+}
+
 void				rand_noise(double ***noise, t_vector2f size)
 {
 	int				x;

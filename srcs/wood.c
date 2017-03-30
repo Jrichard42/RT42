@@ -113,5 +113,6 @@ int					wood_tex(t_kvlexer *token, t_texture *tex)
 		return (0);
 	if (!wood_tableau(size, &tex->data, modif_wood, noise))
 		return (0);
+	free_tab(noise, size);
 	return (1);
 }
