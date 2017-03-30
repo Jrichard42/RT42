@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 15:18:41 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/28 15:30:46 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 17:42:03 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,18 @@ typedef struct	s_texture
 typedef struct	s_ptr_tex_type
 {
 	char		type[10];
-	int			(*create)(t_kvlexer *, t_texture*);
+	int			(*create)(t_kvlexer*, t_texture*);
 }				t_ptr_tex_type;
 
 int				create_tex(t_kvlexer *token, t_rt *rt);
 int				search_tex(t_list *node, void *data);
+int				malloc_tex(t_texture *tex);
+void			del_tex(void *data, size_t size);
 int				check_type_tex(t_kvlexer *token, t_texture *tex);
 int				damier_tex(t_kvlexer *token, t_texture *tex);
 int				marble_tex(t_kvlexer *token, t_texture *tex);
 int				sky_tex(t_kvlexer *token, t_texture *tex);
 int				wood_tex(t_kvlexer *token, t_texture *tex);
-int				malloc_tex(t_texture *tex);
 t_vector3f		get_tex_point(t_texture tex, float u, float v);
 
 #endif

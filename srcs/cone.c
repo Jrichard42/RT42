@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/28 15:26:20 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 17:46:47 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ static int				create_cone2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
+	{
+		obj->tex.data = NULL;
 		obj->texture = NULL;
+	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The CONE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -136,6 +139,7 @@ int						create_cone(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_cone;
 	obj.inter = &inter_cone;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_cone2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

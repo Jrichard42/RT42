@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 12:48:18 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 15:14:13 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 17:40:32 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,6 @@ typedef	struct	s_material
 
 int				create_mat(t_kvlexer *token, t_rt *rt);
 int				search_mat(t_list *node, void *data);
+void			del_mat(void *data, size_t size);
 
 #endif

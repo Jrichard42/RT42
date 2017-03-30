@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/28 15:34:17 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 17:40:02 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,23 @@ int							malloc_tex(t_texture *tex)
 	return (1);
 }
 
+void						del_tex(void *data, size_t size)
+{
+	int						y;
+	t_texture				*tex;
+
+	y = 0;
+	(void)size;
+	tex = (t_texture *)data;
+	while (y < tex->height)
+	{
+		ft_memdel((void **)(&(tex->data[y])));
+		++y;
+	}
+	ft_memdel((void **)(&tex->data));
+	tex->data = NULL;
+}
+
 int							search_tex(t_list *node, void *data)
 {
 	if (!ft_strcmp(((t_texture *)node->content)->name, (char *)data))
@@ -74,9 +91,9 @@ int							check_type_tex(t_kvlexer *token, t_texture *tex)
 		{
 			if (!ptr_tex_type[i].create(token, tex))
 			{
+				ft_strdel(&type);
 				return (error_parser("Unable to create the texture ",
 							tex->name));
-				ft_strdel(&type);
 			}
 			break ;
 		}
