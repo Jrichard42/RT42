@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/28 15:07:52 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 17:45:07 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ static int			create_sphere2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 	if (!get_material(token, rt, &(obj->mat)))
 		return (0);
 	if (!get_texture(token, rt, &(obj->tex)))
+	{
+		obj->tex = NULL;
 		obj->texture = NULL;
+	}
 	if (!get_as_vector3f(token, "POS", &(obj->pos)))
 		return ((int)ft_error("The SPHERE should contain a field POS"));
 	if (!get_as_int(token, "ID", &(obj->id)))
@@ -76,6 +79,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_sphere;
 	obj.inter = &inter_sphere;
 	obj.texture = &sphere_tex;
+	obj.destroy = NULL;
 	if (create_sphere2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

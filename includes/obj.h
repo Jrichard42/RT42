@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 13:42:45 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/28 15:21:55 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 17:42:17 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef	struct			s_obj
 {
 	t_vector3f			pos;
 	t_material			mat;
-	t_texture			tex;
+	t_texture			*tex;
 	int					id;
 	int					is_src;
 	int					is_visible;
@@ -34,6 +34,7 @@ typedef	struct			s_obj
 	float				(*inter)(struct s_obj *, t_ray *);
 	t_vector3f			(*normal)(struct s_obj *, t_vector3f *);
 	t_vector3f			(*texture)(struct s_obj *, t_inter);
+	void				(*destroy)(struct s_obj *);
 }						t_obj;
 
 #endif
