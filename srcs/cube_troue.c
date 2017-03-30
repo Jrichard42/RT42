@@ -18,7 +18,6 @@
 #include "inter.h"
 #include "libft.h"
 #include "torus.h"
-#include "texture_shape.h"
 #include "cube_troue.h"
 #include "equation.h"
 
