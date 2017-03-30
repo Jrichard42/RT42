@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 14:51:08 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/30 14:51:09 by jqueyrou         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:12:03 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int					create_half_sphere(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_half_sphere;
 	obj.inter = &inter_half_sphere;
 	obj.texture = &half_sphere_tex;
+	obj.destroy = NULL;
 	if (create_half_sphere2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

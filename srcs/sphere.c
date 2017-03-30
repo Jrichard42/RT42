@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/28 15:07:52 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:13:07 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int					create_sphere(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_sphere;
 	obj.inter = &inter_sphere;
 	obj.texture = &sphere_tex;
+	obj.destroy = NULL;
 	if (create_sphere2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

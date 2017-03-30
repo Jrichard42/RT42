@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:57:55 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/28 15:40:05 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:15:15 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,18 @@ void			*render_chunk(void *data)
 	return (NULL);
 }
 
+static void		del_obj(void *data, size_t size)
+{
+	t_obj		*obj;
+
+	(void)size;
+	obj = (t_obj *)data;
+	if (obj->destroy)
+		obj->destroy(obj);
+	ft_memdel(&(obj->data));
+	ft_memdel(&data);
+}
+
 void			refresh_rt(t_rt *rt)
 {
 	Uint32	size_pic;
@@ -73,7 +85,10 @@ void			destroy_rt(t_rt *rt)
 		rt->env.rend ? SDL_DestroyRenderer(rt->env.rend) : 0;
 		rt->env.win ? SDL_DestroyWindow(rt->env.win) : 0;
 		SDL_Quit();
-		rt->camera ? free(rt->camera) : 0;
+		ft_memdel((void **)(&rt->camera));
+		//ft_lstdel(&rt->materials, &del_material);
+		//ft_lstdel(&rt->textures, &del_texture);
+		ft_lstdel(&rt->objs, &del_obj);
 		// free the data structure
 	}
 }

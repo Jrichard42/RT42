@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 16:51:50 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/23 15:18:54 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:13:33 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int					create_triangle(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_triangle;
 	obj.inter = &inter_triangle;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_triangle2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 13:35:51 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/24 12:46:16 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:11:09 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int						create_box(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_box;
 	obj.inter = &inter_box;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_box2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

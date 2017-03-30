@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 13:48:33 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/28 15:20:55 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:15:28 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ int						create_light(t_kvlexer *token, t_rt *rt)
 {
 	t_obj				obj;
 
+	obj.data = NULL;
 	obj.normal = NULL;
 	obj.inter = NULL;
+	obj.destroy = NULL;
 	if (create_light2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

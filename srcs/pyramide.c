@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/08 17:18:19 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/23 15:17:54 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:12:59 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ int					create_pyra(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_pyra;
 	obj.inter = &inter_pyra;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_pyra2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

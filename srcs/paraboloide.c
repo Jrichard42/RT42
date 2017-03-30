@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 17:19:58 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/24 17:19:59 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/03/30 20:12:34 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int					create_paraboloide(t_kvlexer *token, t_rt *rt)
 		return (0);
 	obj.normal = &normal_paraboloide;
 	obj.inter = &inter_paraboloide;
+	obj.destroy = NULL;
 	if (create_paraboloide2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

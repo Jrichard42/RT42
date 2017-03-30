@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/28 15:07:48 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/28 15:07:58 by jqueyrou         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:11:43 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int					create_disque(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_disque;
 	obj.inter = &inter_disque;
 	obj.texture = &disque_tex;
+	obj.destroy = NULL;
 	if (create_disque2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

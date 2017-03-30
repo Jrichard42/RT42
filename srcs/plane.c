@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/28 15:26:06 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:12:48 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int					create_plane(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_plane;
 	obj.inter = &inter_plane;
 	obj.texture = &plane_tex;
+	obj.destroy = NULL;
 	if (create_plane2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

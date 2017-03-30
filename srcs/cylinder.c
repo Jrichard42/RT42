@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/24 17:50:21 by dbreton          ###   ########.fr       */
+/*   Updated: 2017/03/30 20:11:35 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_cylinder;
 	obj.inter = &inter_cylinder;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_cylinder2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

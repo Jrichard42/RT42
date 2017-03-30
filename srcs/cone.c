@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/09 16:29:48 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/28 15:26:20 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:11:18 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int						create_cone(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_cone;
 	obj.inter = &inter_cone;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_cone2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

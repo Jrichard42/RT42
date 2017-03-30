@@ -6,7 +6,7 @@
 /*   By: jqueyrou <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/02 13:35:40 by jqueyrou          #+#    #+#             */
-/*   Updated: 2017/03/23 15:18:32 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/30 20:13:26 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int						create_torus(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_torus;
 	obj.inter = &inter_torus;
 	obj.texture = NULL;
+	obj.destroy = NULL;
 	if (create_torus2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else
