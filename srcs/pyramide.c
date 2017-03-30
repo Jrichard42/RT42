@@ -113,7 +113,12 @@ static int			create_pyra2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 			!get_as_vector3f(token, "VERTEX1", &(vert.v2)) ||
 			!get_as_vector3f(token, "VERTEX2", &(vert.v3)) ||
 			!get_as_vector3f(token, "VERTEX3", &(vert.v4)))
-		return ((int)ft_error("The TRIANGLE should contain 4 fields VERTEX"));
+		return ((int)ft_error("The PYRAMIDE should contain 4 fields VERTEX0-3"));
+	vert.sommet = add_vector3f(obj->pos, vert.sommet);
+	vert.v4 = add_vector3f(obj->pos, vert.v4);
+	vert.v1 = add_vector3f(obj->pos, vert.v1);
+	vert.v2 = add_vector3f(obj->pos, vert.v2);
+	vert.v3 = add_vector3f(obj->pos, vert.v3);
 	PYRA->face = create_pyra_bis(&vert);
 	calc_normal_pyra(PYRA);
 	return (1);

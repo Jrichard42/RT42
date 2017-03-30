@@ -107,6 +107,7 @@ static int				create_box2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		return ((int)ft_error("The BOX should contain a field IS_VISIBLE"));
 	if (!get_as_vector3f(token, "DIMENSION", &dimension))
 		return ((int)ft_error("The BOX should contain a field DIMENSION"));
+	BOX->min = obj->pos;
 	BOX->max = add_vector3f(obj->pos, dimension);
 	return (1);
 }

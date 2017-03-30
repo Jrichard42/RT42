@@ -75,7 +75,7 @@ static int			create_triangle2(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		"a field IS_VISIBLE"));
 	if (!get_as_vector3f(token, "VERTEX0", &(TRIANGLE->vertex[0])) ||
 			!get_as_vector3f(token, "VERTEX1", &(TRIANGLE->vertex[1])) ||
-			!get_as_vector3f(token, "VERTEX2", &(TRIANGLE->vertex[0])))
+			!get_as_vector3f(token, "VERTEX2", &(TRIANGLE->vertex[2])))
 		return ((int)ft_error("The TRIANGLE should contain "
 		"3 fields VERTEX0-2"));
 	TRIANGLE->vertex[0] = add_vector3f(obj->pos, TRIANGLE->vertex[0]);

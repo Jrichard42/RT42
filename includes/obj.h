@@ -34,6 +34,7 @@ typedef	struct			s_obj
 	float				(*inter)(struct s_obj *, t_ray *);
 	t_vector3f			(*normal)(struct s_obj *, t_vector3f *);
 	t_vector3f			(*texture)(struct s_obj *, t_inter);
+	void				(*destroy)(struct s_obj *);
 }						t_obj;
 
 #endif
