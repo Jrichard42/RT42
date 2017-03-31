@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 19:41:19 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 20:10:11 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/31 15:43:22 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,5 @@ int			create_pyra3(t_kvlexer *token, t_rt *rt, t_obj *obj)
 
 void		destroy_pyra(struct s_obj *obj)
 {
-	int i;
-
-	i = 0;
-	while (i < 6)
-		ft_memdel(&PYRA->face[i++]);
+	ft_memdel((void **)(&(PYRA->face)));
 }

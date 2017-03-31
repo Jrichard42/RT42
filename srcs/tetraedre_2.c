@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/30 19:53:46 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 20:09:18 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/31 15:31:12 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,5 @@ int					create_tetra3(t_kvlexer *token, t_obj *obj)
 
 void				destroy_tetra(struct s_obj *obj)
 {
-	int i;
-
-	i = 0;
-	while (i < 4)
-		ft_memdel(&TETRA->face[i++]);
+	ft_memdel((void **)(&(TETRA->face)));
 }
