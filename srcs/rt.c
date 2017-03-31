@@ -102,7 +102,7 @@ t_rt			*create_rt(int x, int y, char *name)
 	rt->env.size = create_vector2f(x, y);
 	if (!parser(name, rt))
 		return (NULL);
-/*	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (ft_error("Failed to launch sdl"));
 	rt->env.win = SDL_CreateWindow("RT", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
@@ -114,6 +114,6 @@ t_rt			*create_rt(int x, int y, char *name)
 			SDL_TEXTUREACCESS_STREAMING,
 			x + 1, y + 1);
 	if (!(rt->env.win && rt->env.text && rt->env.rend))
-		return (ft_error("Failed to initialize sdl environment"));*/
+		return (ft_error("Failed to initialize sdl environment"));
 	return (rt);
 }
