@@ -79,5 +79,5 @@ int				get_material(t_kvlexer *token, t_rt *rt, t_material *mat)
 			return (0);
 		return (1);
 	}
-	return (2);
+	return ((int)ft_error("The object should contain a field MATERIAL"));
 }
