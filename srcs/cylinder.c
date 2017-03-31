@@ -18,11 +18,6 @@
 #include "cut.h"
 #define CYLINDER ((t_cylinder *)obj->data)
 
-static	t_vector3f	cyl_tex(t_obj *self, t_inter inter)
-{
-	return (create_vector3f(0, 0, 0));
-}
-
 static float		inter_cylinder(t_obj *obj, t_ray *ray)
 {
 	t_quadratic		var;
