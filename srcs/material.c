@@ -6,13 +6,19 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 12:49:13 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/27 15:18:59 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/31 15:34:50 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "material.h"
 #include "parser.h"
 #include "libft.h"
+
+void			del_material(void *data, size_t size)
+{
+	(void)size;
+	ft_memdel((void **)&data);
+}
 
 int				search_mat(t_list *node, void *data)
 {
@@ -60,14 +66,7 @@ int				create_mat(t_kvlexer *token, t_rt *rt)
 			return (0);
 		if (rt->materials && (node = ft_lstsearch(rt->materials->head,
 			&search_mat, mat.name)))
-		{
 			*((t_material *)node->content) = mat;
-			//((t_material *)node->content)->ka = mat.ka; //change ??
-			//((t_material *)node->content)->kd = mat.kd;
-			//((t_material *)node->content)->ks = mat.ks;
-			//((t_material *)node->content)->sh = mat.sh;
-			//((t_material *)node->content)->ir = mat.ir;
-		}
 		else
 			ft_lstadd(&rt->materials, ft_lstnew(&mat, sizeof(mat)));
 	}

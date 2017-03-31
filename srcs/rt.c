@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:57:55 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/30 20:15:15 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/31 15:41:26 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void			destroy_rt(t_rt *rt)
 		rt->env.win ? SDL_DestroyWindow(rt->env.win) : 0;
 		SDL_Quit();
 		ft_memdel((void **)(&rt->camera));
-		//ft_lstdel(&rt->materials, &del_material);
+		ft_lstdel(&rt->materials, &del_material);
 		//ft_lstdel(&rt->textures, &del_texture);
 		ft_lstdel(&rt->objs, &del_obj);
 		// free the data structure
