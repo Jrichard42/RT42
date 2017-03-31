@@ -59,6 +59,7 @@ int						create_light(t_kvlexer *token, t_rt *rt)
 	obj.normal = NULL;
 	obj.inter = NULL;
 	obj.destroy = NULL;
+	obj.texture = NULL;
 	if (create_light2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

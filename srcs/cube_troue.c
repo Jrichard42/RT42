@@ -17,11 +17,34 @@
 #include "parser.h"
 #include "inter.h"
 #include "libft.h"
-#include "torus.h"
 #include "cube_troue.h"
 #include "equation.h"
 
 #define CUBE_TROUE ((t_cube_troue *)obj->data)
+
+static float		resolution(double *eq)
+{
+	double	inter;
+	t_res	res;
+
+	res = equationpoly4(eq);
+	inter = NAN;
+	if (!isnan(res.x1))
+		inter = res.x1;
+	if (((!isnan(res.x2) && res.x2 < inter) || (!isnan(res.x2) &&
+					isnan(inter))))
+		inter = res.x2;
+	if (((!isnan(res.x3) && res.x3 < inter) || (!isnan(res.x3) &&
+					isnan(inter))))
+		inter = res.x3;
+	if (((!isnan(res.x4) && res.x4 < inter) || (!isnan(res.x4) &&
+					isnan(inter))))
+		inter = res.x4;
+	if (inter < 0)
+		inter = NAN;
+	return (inter);
+}
+
 
 static float		inter_cube_troue(t_obj *obj, t_ray *ray)
 {

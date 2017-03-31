@@ -81,7 +81,7 @@ SCENE
 		IS_VISIBLE=1
 		ANGLE=20
 		HAUTEUR=5
-		DIR=0,1,0
+		DIR=0,-1,0
 		MATERIAL=plane
 	CYLINDER=sphere
 		POS=-5,-10,-15
