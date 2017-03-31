@@ -47,7 +47,8 @@ int						is_shadow(t_obj *obj
 	while (list)
 	{
 		tmp_obj = ((t_obj *)list->content);
-		if (tmp_obj->is_src != 1)
+		if (tmp_obj->is_src != 1 && tmp_obj->inter != NULL
+			&& tmp_obj->normal != NULL)
 		{
 			if (!isnan(tmp = (tmp_obj->inter(tmp_obj, ray_obj)))
 			&& tmp >= 0.01 && (tmp * tmp) <=
