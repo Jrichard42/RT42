@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/28 15:34:17 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/31 17:35:42 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ int							check_type_tex(t_kvlexer *token, t_texture *tex)
 		{
 			if (!ptr_tex_type[i].create(token, tex))
 			{
+				ft_strdel(&type);
 				return (error_parser("Unable to create the texture ",
 							tex->name));
-				ft_strdel(&type);
 			}
 			break ;
 		}

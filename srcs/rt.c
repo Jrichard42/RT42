@@ -6,7 +6,7 @@
 /*   By: abitoun <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/09 14:57:55 by abitoun           #+#    #+#             */
-/*   Updated: 2017/03/31 15:41:26 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/03/31 17:35:37 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void			destroy_rt(t_rt *rt)
 		SDL_Quit();
 		ft_memdel((void **)(&rt->camera));
 		ft_lstdel(&rt->materials, &del_material);
-		//ft_lstdel(&rt->textures, &del_texture);
+		ft_lstdel(&rt->textures, &del_tex);
 		ft_lstdel(&rt->objs, &del_obj);
 		// free the data structure
 	}
@@ -102,7 +102,7 @@ t_rt			*create_rt(int x, int y, char *name)
 	rt->env.size = create_vector2f(x, y);
 	if (!parser(name, rt))
 		return (NULL);
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+/*	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 		return (ft_error("Failed to launch sdl"));
 	rt->env.win = SDL_CreateWindow("RT", SDL_WINDOWPOS_UNDEFINED,
 			SDL_WINDOWPOS_UNDEFINED,
@@ -114,6 +114,6 @@ t_rt			*create_rt(int x, int y, char *name)
 			SDL_TEXTUREACCESS_STREAMING,
 			x + 1, y + 1);
 	if (!(rt->env.win && rt->env.text && rt->env.rend))
-		return (ft_error("Failed to initialize sdl environment"));
+		return (ft_error("Failed to initialize sdl environment"));*/
 	return (rt);
 }
