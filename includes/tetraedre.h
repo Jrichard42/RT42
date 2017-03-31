@@ -31,5 +31,6 @@ float			inter_triangles(t_triangle *t, t_ray *ray);
 int				create_tetra3(t_kvlexer *token, t_obj *obj);
 t_triangle		*create_tetra_bis(t_vector3f v1, t_vector3f v2,
 					t_vector3f v3, t_vector3f v4);
+void			destroy_tetra(struct s_obj *obj);
 
 #endif

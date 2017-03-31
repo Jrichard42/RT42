@@ -51,3 +51,12 @@ int			create_pyra3(t_kvlexer *token, t_rt *rt, t_obj *obj)
 		obj->light = get_light(token);
 	return (1);
 }
+
+void		destroy_pyra(struct s_obj *obj)
+{
+	int i;
+
+	i = 0;
+	while (i < 6)
+		ft_memdel(&PYRA->face[i++]);
+}

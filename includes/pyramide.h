@@ -38,5 +38,6 @@ int				create_pyra(t_kvlexer *token, t_rt *rt);
 float			inter_pyra(t_obj *obj, t_ray *ray);
 void			calc_normal_pyra(t_pyra *pyra);
 int				create_pyra3(t_kvlexer *token, t_rt *rt, t_obj *obj);
+void			destroy_pyra(struct s_obj *obj);
 
 #endif

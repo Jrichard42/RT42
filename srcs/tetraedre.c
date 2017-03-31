@@ -100,7 +100,7 @@ int					create_tetra(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_tetra;
 	obj.inter = &inter_tetra;
 	obj.texture = NULL;
-	obj.destroy = NULL;
+	obj.destroy = &destroy_tetra;
 	if (create_tetra2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else

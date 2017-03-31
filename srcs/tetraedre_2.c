@@ -61,3 +61,12 @@ int					create_tetra3(t_kvlexer *token, t_obj *obj)
 	calc_normal_tetra(TETRA);
 	return (1);
 }
+
+void				destroy_tetra(struct s_obj *obj)
+{
+	int i;
+
+	i = 0;
+	while (i < 4)
+		ft_memdel(&TETRA->face[i++]);
+}
