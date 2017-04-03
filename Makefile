@@ -79,7 +79,7 @@ SRC 			= 	main.c \
 
 
 OBJ				= $(SRC:.c=.o)
-CFLAGS			= -Wall -Wextra -pthread -Ofast
+CFLAGS			= -Wall -Wextra -Werror -pthread -Ofast
 
 all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
 
@@ -90,10 +90,10 @@ $(LIBFTMATRIX):
 	@$(MAKE) -C $@
 
 $(NAME): $(OBJ)
-	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm -framework opencl
+	gcc -o $@ $^ -L$(LIBFT) -L$(LIBFTMATRIX) -L$(SDL) -lft -lft_matrix -lSDL2 -lm
 
 %.o: $(SRCDIR)%.c
-	gcc -o $@ $(CFLAGS) -c $< -I$(INCDIR) -I$(LIBFT) -I$(LIBFTMATRIX) -I$(SDLINCDIR)
+	gcc $(CFLAGS) -o $@ -c $< -I$(INCDIR) -I$(LIBFT) -I$(LIBFTMATRIX) -I$(SDLINCDIR)
 
 clean:
 	rm -rf $(OBJ)

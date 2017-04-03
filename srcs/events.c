@@ -20,6 +20,11 @@ int				check_events(void)
 	{
 		if (event.type == SDL_QUIT)
 			return (0);
+		else if (event.type == SDL_KEYDOWN)
+		{
+			if (event.key.keysym.sym == SDLK_ESCAPE)
+				return (0);
+		}
 	}
 	return (1);
 }
