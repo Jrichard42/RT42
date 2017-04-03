@@ -64,7 +64,6 @@ SRC 			= 	main.c \
 					reflexion.c \
 					refraction.c \
 					light_2.c \
-					cylinder_mapping.c \
 					bruit_perlin.c \
 					hsl_to_rgb.c \
 					texture.c \
