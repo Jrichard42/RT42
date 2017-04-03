@@ -106,6 +106,7 @@ int					create_cylinder(t_kvlexer *token, t_rt *rt)
 	obj.normal = &normal_cylinder;
 	obj.inter = &inter_cylinder;
 	obj.texture = &cyl_tex;
+	obj.destroy = NULL;
 	if (create_cylinder2(token, rt, &obj))
 		ft_lstadd(&rt->objs, ft_lstnew(&obj, sizeof(obj)));
 	else
