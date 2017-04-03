@@ -22,7 +22,7 @@
 
 #define CUBE_TROUE ((t_cube_troue *)obj->data)
 
-static float		resolution(double *eq)
+static	float		resolution(double *eq)
 {
 	double	inter;
 	t_res	res;
@@ -44,7 +44,6 @@ static float		resolution(double *eq)
 		inter = NAN;
 	return (inter);
 }
-
 
 static float		inter_cube_troue(t_obj *obj, t_ray *ray)
 {

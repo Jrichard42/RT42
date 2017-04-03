@@ -89,7 +89,6 @@ void			destroy_rt(t_rt *rt)
 		ft_lstdel(&rt->materials, &del_material);
 		ft_lstdel(&rt->textures, &del_tex);
 		ft_lstdel(&rt->objs, &del_obj);
-		// free the data structure
 	}
 }
 

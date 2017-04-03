@@ -33,7 +33,7 @@ void			del_tex(void *data, size_t size)
 
 int				malloc_tex(t_texture *tex)
 {
-	int 		y;
+	int			y;
 
 	y = 0;
 	if (!(tex->data = malloc(sizeof(t_vector3f *) * tex->height)))
