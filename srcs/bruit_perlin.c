@@ -6,7 +6,7 @@
 /*   By: hpachy <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/10 15:26:01 by hpachy            #+#    #+#             */
-/*   Updated: 2017/03/10 15:26:02 by hpachy           ###   ########.fr       */
+/*   Updated: 2017/04/03 14:22:09 by hpachy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,10 @@
 #include "light.h"
 #include "bruit_perlin.h"
 
-void free_tab(double **noise, t_vector2f size)
+void				free_tab(double **noise, t_vector2f size)
 {
 	t_vector2f point;
+
 	if (noise)
 	{
 		point.y = 0;
@@ -27,7 +28,7 @@ void free_tab(double **noise, t_vector2f size)
 				free(noise[(int)point.y]);
 			point.y++;
 		}
-	free(noise);
+		free(noise);
 	}
 }
 
@@ -46,9 +47,9 @@ void				rand_noise(double ***noise, t_vector2f size)
 }
 
 double				smooth_noise(double x,
-								double y,
-								double **noise,
-								t_vector2f size)
+		double y,
+		double **noise,
+		t_vector2f size)
 {
 	double			fract_x;
 	double			fract_y;
@@ -71,9 +72,9 @@ double				smooth_noise(double x,
 }
 
 double				turbulence(t_vector2f pixel,
-							double size,
-							double **noise,
-							t_vector2f size_tex)
+		double size,
+		double **noise,
+		t_vector2f size_tex)
 {
 	double			value;
 	double			initial_size;
@@ -83,7 +84,7 @@ double				turbulence(t_vector2f pixel,
 	while (size >= 1)
 	{
 		value += smooth_noise(pixel.x / size, pixel.y
-			/ size, noise, size_tex) * size;
+				/ size, noise, size_tex) * size;
 		size /= 2.0;
 	}
 	return (128.0 * value / initial_size);
