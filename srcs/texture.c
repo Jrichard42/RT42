@@ -85,8 +85,7 @@ static int					create_tex2(t_kvlexer *token, t_texture *tex)
 		ft_putstr(" is too long (10 characters max), it will be shortened to ");
 		ft_putendl(tex->name);
 	}
-	check_type_tex(token, tex);
-	return (1);
+	return (check_type_tex(token, tex));
 }
 
 int							create_tex(t_kvlexer *token, t_rt *rt)

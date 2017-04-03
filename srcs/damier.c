@@ -106,13 +106,13 @@ int				damier_tex(t_kvlexer *token, t_texture *tex)
 	int			case_size;
 
 	y = 0;
-	if (get_as_vector2f(token, "SIZE", &size_tmp) == 0)
+	if (!get_as_vector2f(token, "SIZE", &size_tmp))
 		return ((int)ft_error("The DAMIER should contain a field SIZE"));
-	if (get_as_vector3f(token, "COLOR_1", &case_color[0]) == 0)
+	if (!get_as_vector3f(token, "COLOR_1", &case_color[0]))
 		return ((int)ft_error("The DAMIER should contain a field COLOR_1"));
-	if (get_as_vector3f(token, "COLOR_2", &case_color[1]) == 0)
+	if (!get_as_vector3f(token, "COLOR_2", &case_color[1]))
 		return ((int)ft_error("The DAMIER should contain a field COLOR_2"));
-	if (get_as_int(token, "CASE_SIZE", &case_size) == 0)
+	if (!get_as_int(token, "CASE_SIZE", &case_size))
 		return ((int)ft_error("The DAMIER should contain a field CASE_SIZE"));
 	check_error_damier(&size_tmp, &case_size);
 	tex->width = size_tmp.x;
