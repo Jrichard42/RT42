@@ -6,7 +6,7 @@
 /*   By: jrichard <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/24 16:28:56 by jrichard          #+#    #+#             */
-/*   Updated: 2017/03/31 17:35:42 by jrichard         ###   ########.fr       */
+/*   Updated: 2017/04/03 14:39:10 by jrichard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,6 @@
 #include "bruit_perlin.h"
 #include "libft.h"
 
-t_vector3f					get_tex_point(t_texture tex, float u, float v)
-{
-	t_vector3f				color;
-	int						x;
-	int						y;
-
-	if (u < 0.0f)
-		x = (int)(((1.0f - ((long int)u - u))) * tex.width);
-	else
-		x = (int)(u * tex.width);
-	if (v < 0.0f)
-		y = (int)(((1.0f - ((long int)v - v))) * tex.height);
-	else
-		y = (int)(v * tex.height);
-	color = tex.data[y % tex.height][x % tex.width];
-	return (color);
-}
-
 int							search_tex(t_list *node, void *data)
 {
 	if (!ft_strcmp(((t_texture *)node->content)->name, (char *)data))
@@ -40,11 +22,18 @@ int							search_tex(t_list *node, void *data)
 	return (0);
 }
 
+static int					error_type_tex(char *type, char *error,
+		char *error2)
+{
+	ft_strdel(&type);
+	return (error_parser(error, error2));
+}
+
 int							check_type_tex(t_kvlexer *token, t_texture *tex)
 {
-	static t_ptr_tex_type	ptr_tex_type[5] = {{"WOOD\0", &wood_tex},
-						{"MARBLE\0", &marble_tex}, {"SKY\0", &sky_tex},
-						{"DAMIER\0", &damier_tex}, {"PERLIN\0", NULL}};
+	static t_ptr_tex_type	ptr_tex_type[4] = {{"WOOD\0", &wood_tex},
+		{"MARBLE\0", &marble_tex}, {"SKY\0", &sky_tex},
+		{"DAMIER\0", &damier_tex}};
 	int						i;
 	char					*type;
 
@@ -52,25 +41,19 @@ int							check_type_tex(t_kvlexer *token, t_texture *tex)
 	type = NULL;
 	if (!get_as_string(token, "TYPE", &type))
 		return ((int)ft_error("The TEXTURE should contain a field TYPE"));
-	while (i < 5)
+	while (i < 4)
 	{
 		if (!ft_strcmp(type, ptr_tex_type[i].type))
 		{
 			if (!ptr_tex_type[i].create(token, tex))
-			{
-				ft_strdel(&type);
-				return (error_parser("Unable to create the texture ",
-							tex->name));
-			}
-			break ;
+				return (error_type_tex(type,
+				"Unable to create the texture ", tex->name));
+				break ;
 		}
 		++i;
 	}
-	if (i == 5)
-	{
-		ft_strdel(&type);
-		return (error_parser("Unknown texture type ", type));
-	}
+	if (i == 4)
+		return (error_type_tex(type, "Unable texture type ", type));
 	ft_strdel(&type);
 	return (1);
 }
