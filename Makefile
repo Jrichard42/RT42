@@ -6,7 +6,7 @@
 #    By: jrichard <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/14 16:32:32 by jrichard          #+#    #+#              #
-#    Updated: 2017/03/28 15:23:21 by jrichard         ###   ########.fr        #
+#    Updated: 2017/04/03 17:35:36 by jrichard         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ SRC 			= 	main.c \
 OBJ				= $(SRC:.c=.o)
 CFLAGS			= -Wall -Wextra -Werror -pthread -Ofast
 
-all: $(LIBFT) $(LIBFTMATRIX) $(NAME)
+all: $(SDL) $(LIBFT) $(LIBFTMATRIX) $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -C $@
@@ -107,13 +107,10 @@ fclean: clean
 
 re: fclean all
 
-sdl :
-	echo $(SDL_PATH)
+$(SDL) :
 	cd sdl/SDL2-2.0.5; \
 		./configure --prefix=$(SDL_PATH) &&	make && make install
 
 .PHONY: $(LIBFT)
 
 .PHONY: $(LIBFTMATRIX)
-
-.PHONY: sdl
