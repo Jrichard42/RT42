@@ -12,6 +12,8 @@
 
 #ifndef APPLY_COLOR_H
 # define APPLY_COLOR_H
+# include "rt.h"
+# include "obj.h"
 
 int					get_color_value(t_vector3f c);
 void				put_in_image(t_rt *rt, int x, int y, t_vector3f *color);

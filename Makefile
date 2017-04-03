@@ -40,6 +40,7 @@ SRC 			= 	main.c \
 					texture_2.c \
 					damier.c \
 					rt.c \
+					rt2.c\
 					utils.c \
 					torus.c \
 					torus_2.c \
