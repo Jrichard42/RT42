@@ -20,4 +20,3 @@ typedef struct	s_vector2i
 }				t_vector2i;
 
 #endif
-
