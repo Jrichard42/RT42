@@ -67,7 +67,7 @@ static t_vector3f	normal_cylinder(struct s_obj *obj, t_vector3f *impact)
 {
 	t_vector3f		tmp;
 	float			d;
- 
+
 	if (CYLINDER->h)
 	{
 		d = dot_vector3f(CYLINDER->dir, obj->pos);
