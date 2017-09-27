@@ -15,3 +15,7 @@ This is a simple raytracer created for a 42 school project using SDL2. Made by a
 ./rt scene_file.rt
 
 # Screenshots
+
+![alt text](https://raw.githubusercontent.com/Jrichard42/RT42/master/RT_001.jpg)
+
+![alt text](https://raw.githubusercontent.com/Jrichard42/RT42/master/RT_002.jpg)
